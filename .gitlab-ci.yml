@@ -5,7 +5,7 @@ before_script:
     - apt-get install -y ruby-dev
     - gem install dpl
 
-stages:          # List of stages for jobs, and their order of execution
+stages:    
   - build
   - test
   - deploy
