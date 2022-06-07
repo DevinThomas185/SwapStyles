@@ -1,3 +1,9 @@
+image: node:latest
+
+before_script:
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
 
 stages:          # List of stages for jobs, and their order of execution
   - build
@@ -26,5 +32,6 @@ lint-test-job:   # This job also runs in the test stage.
 
 deploy-job:      # This job runs in the deploy stage.
   stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
+  image: ruby:latest
   script:
         - dpl --provider=heroku --app=drp36 --api-key=a2753fd8-f496-4ea2-8d21-70bb7f258c14
