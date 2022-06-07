@@ -34,4 +34,5 @@ deploy-job:      # This job runs in the deploy stage.
   stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
   image: ruby:latest
   script:
+        - cd frontend
         - dpl --provider=heroku --app=drp36 --api-key=a2753fd8-f496-4ea2-8d21-70bb7f258c14
