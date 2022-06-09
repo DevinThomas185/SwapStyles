@@ -3,7 +3,9 @@
     "start": "node server/index.js",
     "heroku-postbuild": "cd server && npm install && cd ../client && npm install && npm run build"
   },
-  "dependencies": {},
+  "dependencies": {
+    "pg": "^8.7.3"
+  },
   "engines": {
     "node": "18.2.0",
     "npm": "8.5.5"
