@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react"
 import CreateEvent from "./Components/CreateEvent"
-import Listing from "./Components/Listing"
+import Listing from "./Components/ProductListing"
 import Event from "./Components/Event"
+import NavigationBar from "./Components/NavigationBar"
+import { BrowserRoyer as Router, Switch, Route, Link } from "react-router-dom"
 
 function App() {
   const [text, setText] = useState("")
@@ -21,11 +23,8 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Hello World!</h1>
-      {/* <p>Backend says... {text}</p>
-      <CreateEvent />
-      <Listing /> */}
-      <Event />
+      <NavigationBar />
+      {/* <p>Backend says... {text}</p>*/}
     </div>
   );
 }
