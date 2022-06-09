@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Map from "./Map";
 
-class Listing extends Component {
+class ProductListing extends Component {
 
     render() {
         return (
@@ -36,4 +36,4 @@ class Listing extends Component {
 
 }
 
-export default Listing
+export default ProductListing
