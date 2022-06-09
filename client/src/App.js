@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import CreateEvent from "./Components/CreateEvent"
 import Listing from "./Components/Listing"
+import Event from "./Components/Event"
 
 function App() {
   const [text, setText] = useState("")
@@ -21,9 +22,10 @@ function App() {
   return (
     <div className="App">
       <h1>Hello World!</h1>
-      <p>Backend says... {text}</p>
+      {/* <p>Backend says... {text}</p>
       <CreateEvent />
-      <Listing />
+      <Listing /> */}
+      <Event />
     </div>
   );
 }
