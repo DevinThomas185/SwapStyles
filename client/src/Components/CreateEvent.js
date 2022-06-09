@@ -42,25 +42,8 @@ class CreateEvent extends React.Component {
         };
         fetch('/addEvent', request);
         
-
         alert(`Event: ${this.state.event.name} has been created`);
     }
-
-    queryBackend() {
-        const request = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                name: this.state.event.name,
-                description: this.state.event.description,
-                date: this.state.event.date,
-                starttime: this.state.event.starttime,
-                endtime: this.state.event.endtime,
-                location: this.state.event.location
-             })
-        };
-        fetch("/api", request);
-      }
 
     render() {
         return (

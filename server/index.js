@@ -19,12 +19,11 @@ app.get('/api', (req, res) => {
 })
 
 
-
-
 app.post('/addEvent', (req, res) => {
-  console.log(req.body);
-  pool.query(`INSERT INTO events(Name, Description, Date, StartTime, EndTime, Location) VALUES($1,$2,$3,$4,$5,$6)`,
-  [req.body.name, req.body.description, req.body.date, req.body.starttime, req.body.endtime, req.body.location], (err, res) => {
+  console.log("HAJKSDFHLKAJSDHF KASDF");
+  console.log(req.body); //VALUES($1,$2,$3,$4,$5,$6)
+  pool.query(`INSERT INTO events(Name, Description, Date, StartTime, EndTime, Location) VALUES('test1','test2','test3','test4','test5','test6')`,
+  (err, res) => {
     if (err) {
         console.log("Error - Failed to insert data into Users");
         console.log(err);
