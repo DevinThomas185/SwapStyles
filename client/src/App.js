@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
 import CreateEvent from "./Components/CreateEvent"
+import Map from "./Components/Map"
 
 function App() {
   const [text, setText] = useState("")
@@ -22,6 +23,7 @@ function App() {
       <h1>Hello World!</h1>
       <p>Backend says... {text}</p>
       <CreateEvent />
+      <Map />
     </div>
   );
 }
