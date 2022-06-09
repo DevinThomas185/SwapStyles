@@ -22,10 +22,10 @@ function App() {
   return (
     <div className="App">
       <h1>Hello World!</h1>
-      {/* <p>Backend says... {text}</p>
+      {/* <p>Backend says... {text}</p> */}
       <CreateEvent />
-      <Listing /> */}
-      <Event />
+      {/* <Listing /> */}
+      {/* <Event /> */}
     </div>
   );
 }
