@@ -19,21 +19,21 @@ app.get('/api', (req, res) => {
 })
 
 
-app.post('/addEvent', (req, res) => {
-  console.log("HAJKSDFHLKAJSDHF KASDF");
-  console.log(req.body); //VALUES($1,$2,$3,$4,$5,$6)
-  pool.query(`INSERT INTO events(Name, Description, Date, StartTime, EndTime, Location) VALUES('test1','test2','test3','test4','test5','test6')`,
-  (err, res) => {
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.post('/addEvent', function(req, res) {
+  pool.query(`INSERT INTO events(Name, Description, Date, StartTime, EndTime, Location)VALUES($1,$2,$3,$4,$5,$6)`,
+  [req.body.name, req.body.description, req.body.date, req.body.starttime, req.body.endtime, req.body.location], (err, res) => {
     if (err) {
-        console.log("Error - Failed to insert data into Users");
+        console.log("Error - Failed to insert data into Events");
         console.log(err);
-        res.status(500).send('err');
     } else {
-      res.status(200).send('Inserted to database');
+      console.log("Query Processed");
+      console.log(req.body.name);
     }
   });
-})
-
+});
 
 // serve react app from root
 if (process.env.NODE_ENV === "production") {
