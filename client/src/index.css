@@ -26,3 +26,56 @@ code {
   margin-left: 50px;
   margin-top: 30px;
 }
+
+.home-container {
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "EventF EventF EventF EventF EventC EventC"
+    "EventF EventF EventF EventF EventC EventC"
+    "ClothesL ClothesL ClothesF ClothesF ClothesF ClothesF"
+    "ClothesL ClothesL ClothesF ClothesF ClothesF ClothesF";
+}
+
+.EventC {
+  grid-area: EventC;
+  background-color: coral;
+}
+
+.EventF {
+  grid-area: EventF;
+  background-image: url('../public/event.png');
+  opacity: 50%;
+}
+
+.ClothesF {
+  grid-area: ClothesF;
+  background-image: url('../public/clothesrack.png');
+  background-blend-mode: darken;
+  opacity: 50%;
+}
+
+.ClothesL {
+  grid-area: ClothesL;
+  background-color: darkmagenta;
+}
+
+.home-font {
+  font-family: "Arial Black", Gadget, sans-serif;
+  font-size: 36px;
+  letter-spacing: 2px;
+  word-spacing: 2px;
+  color: #FFFFFF;
+  font-weight: normal;
+  text-decoration: none;
+  font-style: normal;
+  font-variant: normal;
+  text-transform: none;
+  vertical-align: middle;
+  text-align: center;
+}
