@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react"
 
-const backend = 'http://localhost:5000/api'
-
 function App() {
   const [text, setText] = useState("")
   useEffect(() => {
@@ -9,7 +7,7 @@ function App() {
   }, [])
 
   function queryBackend() {
-    fetch(backend)
+    fetch("/api")
       .then(response => {
         return response.text();
       })
