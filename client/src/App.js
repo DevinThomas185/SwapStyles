@@ -21,7 +21,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Hello World!</h1>
+      <h1>Fashion Swap!!</h1>
       {/* <p>Backend says... {text}</p> */}
       <CreateEvent />
       {/* <Listing /> */}
