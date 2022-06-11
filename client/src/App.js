@@ -3,6 +3,7 @@ import CreateEvent from "./Components/CreateEvent"
 import Listing from "./Components/ProductListing"
 import Event from "./Components/Event"
 import NavigationBar from "./Components/NavigationBar"
+import OnlineShop from "./Components/OnlineShop"
 import { BrowserRoyer as Router, Switch, Route, Link } from "react-router-dom"
 
 function App() {
@@ -23,8 +24,8 @@ function App() {
 
   return (
     <div className="App">
-      <NavigationBar />
-      {/* <p>Backend says... {text}</p>*/}
+      <OnlineShop />
+      {/* <NavigationBar /> */}
     </div>
   );
 }
