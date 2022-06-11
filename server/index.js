@@ -12,7 +12,7 @@ app.get('/api', (req, res) => {
 
 
 app.get('api/user/balance', (req, res) => {
-  res.status(200).send(1);
+  res.status(200).send("1");
 })
 
 
