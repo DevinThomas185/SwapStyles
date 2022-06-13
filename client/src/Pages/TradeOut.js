@@ -9,7 +9,9 @@ import InputGroup from 'react-bootstrap/InputGroup';
 
 
 function TradeOut() {
-    const [item, setItem] = React.useState({});
+    const [item, setItem] = React.useState({
+        condition: 50,
+    });
     const [validated, setValidated] = React.useState(false);
 
     const handleSubmit = (event) => {
