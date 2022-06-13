@@ -84,14 +84,14 @@ function TradeOut() {
                 </Form.Group>
                 <Form.Group controlId="validationCustom04" as={Col}>
                     <Form.Label>Age</Form.Label>
-                    <InputGroup>
+                    <InputGroup hasValidation>
                         <Form.Control
                             required
                             type="number"
                             max={10}
                             min={0}
-                            class="form-control" 
-                            aria-label="Amount (to the nearest dollar)" 
+                            class="form-control"
+                            aria-describedby="inputGroupPrepend"
                             onChange={
                                 (event) => setItem({
                                     ...item,
@@ -99,8 +99,7 @@ function TradeOut() {
                                 })
                             }
                         />
-                        <InputGroup.Text>Years</InputGroup.Text>
-                        <Form.Control.Feedback>A number!</Form.Control.Feedback>
+                        <InputGroup.Text id="inputGroupPrepend">Year(s)</InputGroup.Text>
                         <Form.Control.Feedback type="invalid">Please provide an age.</Form.Control.Feedback>
                     </InputGroup>
                 </Form.Group>
