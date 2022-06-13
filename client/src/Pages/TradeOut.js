@@ -4,136 +4,143 @@ import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
+import Badge from 'react-bootstrap/Badge';
+import InputGroup from 'react-bootstrap/InputGroup';
 
-class TradeOut extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            validated: false,
-            item: {
-                title: '',
-                description: '',
-                image: '',
-                age: '',
-                condition: 50,
-            }
-        };
-        this.setTitle = this.setTitle.bind(this);
-        this.setDescription = this.setDescription.bind(this);
-        this.setImage = this.setImage.bind(this);
-        this.setAge = this.setAge.bind(this);
-        this.setCondition = this.setCondition.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
 
-    setTitle(event) {
-        this.setState({
-            item: {
-                title: event.target.value
-            }
-        });
-    }
 
-    setDescription(event) {
-        this.setState({
-            item: {
-                description: event.target.value
-            }
-        });
-    }
+function TradeOut() {
+    const [item, setItem] = React.useState('');
+    const [validated, setValidated] = React.useState(false);
 
-    setImage(event) {
-        this.setState({
-            item: {
-                image: event.target.value
-            }
-        });
-    }
 
-    setAge(event) {
-        this.setState({
-            item: {
-                age: event.target.value
-            }
-        });
-    }
-
-    setCondition(event) {
-        this.setState({
-            item: {
-                condition: event.target.value
-            }
-        });
-    }
-
-    handleSubmit(event) {
+    const handleSubmit = (event) => {
         const form = event.currentTarget;
         if (form.checkValidity() === false) {
             event.preventDefault();
             event.stopPropagation();
         }
+
+        setValidated(true);
     }
 
-    render() {
-        return (
-            <Form>
-                <Form.Group className="mb-3" controlId="formBasicText">
-                    <FloatingLabel label="Name of Item" className="mb-3">
-                        <Form.Control type="text" placeholder="Enter Title" onChange={this.setTitle} required/>
-                        <Form.Control.Feedback type="invalid">
-                            Please provide a title.
-                        </Form.Control.Feedback>
+    return (
+        <Form noValidate validated={validated} onSubmit={handleSubmit}>
+            <Row className="mb-3">
+                <Form.Group controlId="validationCustom01" as={Col}>
+                    <FloatingLabel label="Name of Item">
+                        <Form.Control 
+                            required
+                            type="text" 
+                            placeholder="Enter Title" 
+                            onChange={
+                                (event) => setItem({
+                                    ...item,
+                                    title: event.target.value
+                                })
+                            }
+                        />
+                        <Form.Control.Feedback>Cool Title!</Form.Control.Feedback>
+                        <Form.Control.Feedback type="invalid">Please provide a title.</Form.Control.Feedback>
                     </FloatingLabel>
                 </Form.Group>
+            </Row>
 
-                <Form.Group className="mb-3" controlId="formBasicDesc">
-                    <FloatingLabel label="Description" className="mb-3">
-                        <Form.Control type="text" placeholder="Enter Description" onChange={this.setDescription} required/>
-                        <Form.Control.Feedback type="invalid">
-                            Please provide a description.
-                        </Form.Control.Feedback>
+            <Row className="mb-3">
+                <Form.Group controlId="validationCustom02" as={Col}>
+                    <FloatingLabel label="Description">
+                        <Form.Control 
+                            required
+                            type="text"
+                            placeholder="Enter Description"
+                            onChange={
+                                (event) => setItem({
+                                    ...item,
+                                    description: event.target.value
+                                })
+                            } 
+                        />
+                        <Form.Control.Feedback>Nice Description!</Form.Control.Feedback>
+                        <Form.Control.Feedback type="invalid">Please provide a description.</Form.Control.Feedback>
                     </FloatingLabel>
                 </Form.Group>
+            </Row>
 
-                <Row>
-                    <Col lg={8}>
-                        <Form.Group className='mb-3' controlId="formBasicFile">
-                            <Form.Label>Upload Image</Form.Label>
-                            <Form.Control type="file" onChange={this.setImage} required />
-                            <Form.Control.Feedback type="invalid">
-                                Please provide an image.
-                            </Form.Control.Feedback>
-                        </Form.Group>
-                    </Col>
-                    <Col>
-                        <Form.Group className='mb-3' controlId="formBasicSelect">
-                            <Form.Label>Age</Form.Label>
-                            <Form.Select aria-label="Default select example" onChange={this.setAge} required>
-                                <option>New</option>
-                                <option value="1">0 - 1 Years</option>
-                                <option value="2">1 - 2 Years</option>
-                                <option value="3">2 - 3 Years</option>
-                                <option value="4">3 - 5 Years</option>
-                                <option value="5">5 - 10 Years</option>
-                                <option value="6">10+ Years</option>
-                            </Form.Select>
-                        </Form.Group>
-                    </Col>
-                </Row>
-                
-                <Form.Group className='mb-3'>
+            <Row className="mb-3">
+                <Form.Group controlId="validationCustom03" as={Col} lg={8}>
+                    <Form.Label>Upload Image</Form.Label>
+                    <Form.Control 
+                        required
+                        type="file"
+                        onChange={
+                            (event) => setItem({
+                                ...item,
+                                image: event.target.value
+                            })
+                        }
+                    />
+                    <Form.Control.Feedback>Great Image!</Form.Control.Feedback>
+                    <Form.Control.Feedback type="invalid">Please provide an image.</Form.Control.Feedback>
+                </Form.Group>
+                <Form.Group controlId="validationCustom04" as={Col}>
+                    <Form.Label>Age</Form.Label>
+                    <InputGroup>
+                        <Form.Control
+                            required
+                            type="number"
+                            max={10}
+                            min={0}
+                            class="form-control" 
+                            aria-label="Amount (to the nearest dollar)" 
+                            onChange={
+                                (event) => setItem({
+                                    ...item,
+                                    age: event.target.value
+                                })
+                            }
+                        />
+                        <InputGroup.Text>Years</InputGroup.Text>
+                        <Form.Control.Feedback>A number!</Form.Control.Feedback>
+                        <Form.Control.Feedback type="invalid">Please provide an age.</Form.Control.Feedback>
+                    </InputGroup>
+                </Form.Group>
+            </Row>
+            <Row className="mb-3">
+                <Form.Group controlId="validationCustom05" as={Col}>
                     <Form.Label>Condition</Form.Label>
-                    <Form.Range onChange={this.setCondition}/>
+                    <Row>
+                        <Col lg={1}>
+                            <Badge pill bg="danger"> 
+                                Poor
+                            </Badge>
+                        </Col>
+                        <Col>
+                            <Form.Range onChange={
+                                (event) => {
+                                    setItem({
+                                        ...item,
+                                        condition: event.target.value
+                                    });
+                                }
+                            }/>
+                        </Col>
+                        <Col lg={1}>
+                            <Badge pill bg="success">
+                                Excellent
+                            </Badge>
+                        </Col>
+                    </Row>
                 </Form.Group>
-
-                <Form.Group className='mb-3'>
+            </Row>
+            <Row className="mb-3">
+                <Form.Group as={Col}>
                     <Button variant="primary" type="submit">
-                        Submit
+                            Submit
                     </Button>
                 </Form.Group>
-            </Form>
-        );
-    }
+            </Row>
+        </Form>
+    );
 }
 
 export default TradeOut;
