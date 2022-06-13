@@ -3,6 +3,7 @@ import Product from './Product';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/esm/Container';
 import Row from 'react-bootstrap/Row';
+import SearchBar from './SearchBar';
 
 
 class Shop extends React.Component {
@@ -53,15 +54,16 @@ class Shop extends React.Component {
     render() {
         return (
             <div>
+                <SearchBar></SearchBar>
                 <Container>
                     <Row>
                         {this.state.products.map(item => (
                             <React.Fragment key={item.id}>
                                 <Col>
-                                    <Product product={item}/>
+                                    <Product product={item} />
                                 </Col>
                             </React.Fragment>
-                            ))}
+                        ))}
                     </Row>
                 </Container>
             </div>
