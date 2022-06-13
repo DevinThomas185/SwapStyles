@@ -9,7 +9,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 
 
 function TradeOut() {
-    const [item, setItem] = React.useState('');
+    const [item, setItem] = React.useState({});
     const [validated, setValidated] = React.useState(false);
 
     const handleSubmit = (event) => {
@@ -23,16 +23,16 @@ function TradeOut() {
 
         setValidated(true);
 
-        console.log(this.state.item.title);
+        console.log(item.title);
         const request = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                title: this.state.item.title,
-                description: this.state.item.description,
-                image: this.state.item.image,
-                age: this.state.item.age,
-                condition: this.state.item.condition
+                title: item.title,
+                description: item.description,
+                image: item.image,
+                age: item.age,
+                condition: item.condition
              })
         };
         
@@ -54,7 +54,8 @@ function TradeOut() {
                     <FloatingLabel label="Name of Item">
                         <Form.Control 
                             required
-                            type="text" 
+                            type="text"
+                            name="title" 
                             placeholder="Enter Title" 
                             onChange={handleChange}
                         />
@@ -70,6 +71,7 @@ function TradeOut() {
                         <Form.Control 
                             required
                             type="text"
+                            name='description'
                             placeholder="Enter Description"
                             onChange={handleChange} 
                         />
@@ -96,9 +98,10 @@ function TradeOut() {
                         <Form.Control
                             required
                             type="number"
+                            name='age'
                             max={10}
                             min={0}
-                            class="form-control"
+                            className="form-control"
                             aria-describedby="inputGroupPrepend"
                             onChange={handleChange}
                         />
@@ -117,14 +120,17 @@ function TradeOut() {
                             </Badge>
                         </Col>
                         <Col>
-                            <Form.Range onChange={
-                                (event) => {
-                                    setItem({
-                                        ...item,
-                                        condition: event.target.value
-                                    });
+                            <Form.Range
+                                name='condition'
+                                onChange={
+                                    (event) => {
+                                        setItem({
+                                            ...item,
+                                            condition: event.target.value
+                                        });
+                                    }
                                 }
-                            }/>
+                            />
                         </Col>
                         <Col lg={1}>
                             <Badge pill bg="success">
