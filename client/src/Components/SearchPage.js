@@ -14,7 +14,7 @@ function SearchPage() {
     const [data, setData] = useState([]);
 
     async function getProducts() {
-        const res = await fetch(`api/findProducts?q=${query}`);
+        const res = await fetch(`api/getProducts?q=${query}`);
         const data = await res.json();
         setData(data)
     }
