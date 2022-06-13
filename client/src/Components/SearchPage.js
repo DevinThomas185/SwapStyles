@@ -1,22 +1,54 @@
 import React, { useState } from 'react';
-import Product from './Product';
-import Col from 'react-bootstrap/Col';
-import Container from 'react-bootstrap/esm/Container';
-import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 
 
-function SearchPage() {
+function SearchPage(props) {
 
     const [query, setQuery] = useState("");
-    const [data, setData] = useState([]);
 
     async function getProducts() {
-        const res = await fetch(`api/getProducts?q=${query}`);
-        const data = await res.json();
-        setData(data)
+        // const res = await fetch(`api/getProducts?q=${query}`);
+        // const data = await res.json();
+        props.setProducts([
+            {
+                id: 1,
+                name: "Product 1",
+                description: "This is a product",
+                image: "https://picsum.photos/200/300/?random",
+                seller: "Adam",
+                age: "10",
+                condition: "50"
+            },
+            {
+                id: 2,
+                name: "Product 2",
+                description: "This is a product",
+                image: "https://picsum.photos/200/300/?random",
+                seller: "Devin",
+                age: "10",
+                condition: "50"
+            },
+            {
+                id: 3,
+                name: "Product 3",
+                description: "This is a product",
+                image: "https://picsum.photos/200/300/?random",
+                seller: "Raaif",
+                age: "10",
+                condition: "50"
+            },
+            {
+                id: 4,
+                name: "Product 4",
+                description: "This is a product",
+                image: "https://picsum.photos/200/300/?random",
+                seller: "Josh",
+                age: "10",
+                condition: "50"
+            },
+        ]);
     }
 
     return (
@@ -32,17 +64,6 @@ function SearchPage() {
                     Search
                 </Button>
             </InputGroup>
-            <Container>
-                <Row>
-                    {data.map(item => (
-                        <React.Fragment key={item.id}>
-                            <Col>
-                                <Product product={item} />
-                            </Col>
-                        </React.Fragment>
-                    ))}
-                </Row>
-            </Container>
         </div>
     );
 
