@@ -40,7 +40,26 @@ app.post('/api/addProduct', function(clothing, res) {
   console.log(image);
   console.log(age);
   console.log(condition);
+
+  pool.query(`INSERT INTO products(Title, Description, Age, Condition)VALUES($1,$2,$3,$4)`,
+  [title, description, age, condition,], (err, res) => {
+    if (err) {
+        console.log("Error - Failed to insert data into Products");
+        console.log(err);
+    } else {
+      console.log("Query Processed");
+    }
+  });
 })
+
+
+// serve react app from root
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.resolve(__dirname, "../client/build")));
+  app.get("*", function (req, res) {
+    res.sendFile(path.resolve(__dirname, "../client/build", "index.html"))
+  });
+}
 
 app.listen(port, () => {
   console.log(`App running on port ${port}.`)
