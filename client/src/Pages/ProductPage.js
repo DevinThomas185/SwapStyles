@@ -3,6 +3,7 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Form from 'react-bootstrap/Form';
 
 class ProductPage extends React.Component {
     constructor(props) {
@@ -13,7 +14,9 @@ class ProductPage extends React.Component {
                 name: "Product 1",
                 description: "This is a product",
                 image: "https://picsum.photos/200/300/?random",
-                seller: "Adam"
+                seller: "Adam",
+                age: "10",
+                condition: "50"
             }
         };
     }
@@ -35,14 +38,31 @@ class ProductPage extends React.Component {
                             <Card.Text>
                                 {this.state.product.description}
                             </Card.Text>
-                            <Button variant="primary" align="center" href="/product/1">Trade In</Button>
+                            <Card>
+                                <Card.Body>
+                                    <Card.Text>
+                                        Age: {this.state.product.age}
+                                    </Card.Text>
+                                    <Card.Text>
+                                        Condition:
+                                        <Form.Range disabled value={this.state.product.condition}/>
+                                    </Card.Text>
+                                </Card.Body>
+                            </Card>
                         </Col>
                     </Row>
                 </Card.Body>
                 <Card.Footer>
-                    <Card.Text>
-                        From: {this.state.product.seller}
-                    </Card.Text>
+                    <Row>
+                        <Col>
+                            <Card.Text>
+                                From: {this.state.product.seller}
+                            </Card.Text>
+                        </Col>
+                        <Col lg={2}>
+                            <Button variant="primary" align="center" href="/product/1">Trade In</Button>
+                        </Col>
+                    </Row>
                 </Card.Footer>
             </Card>
         );
