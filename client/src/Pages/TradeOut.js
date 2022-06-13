@@ -3,6 +3,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import FloatingLabel from 'react-bootstrap/FloatingLabel';
 
 class TradeOut extends React.Component {
     constructor(props) {
@@ -77,19 +78,21 @@ class TradeOut extends React.Component {
         return (
             <Form>
                 <Form.Group className="mb-3" controlId="formBasicText">
-                    <Form.Label>Clothing Title</Form.Label>
-                    <Form.Control type="text" placeholder="Enter Title" onChange={this.setTitle} required/>
-                    <Form.Control.Feedback type="invalid">
-                        Please provide a title.
-                    </Form.Control.Feedback>
+                    <FloatingLabel label="Name of Item" className="mb-3">
+                        <Form.Control type="text" placeholder="Enter Title" onChange={this.setTitle} required/>
+                        <Form.Control.Feedback type="invalid">
+                            Please provide a title.
+                        </Form.Control.Feedback>
+                    </FloatingLabel>
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicDesc">
-                    <Form.Label>Description</Form.Label>
-                    <Form.Control type="text" placeholder="Enter Description" onChange={this.setDescription} required/>
-                    <Form.Control.Feedback type="invalid">
-                        Please provide a description.
-                    </Form.Control.Feedback>
+                    <FloatingLabel label="Description" className="mb-3">
+                        <Form.Control type="text" placeholder="Enter Description" onChange={this.setDescription} required/>
+                        <Form.Control.Feedback type="invalid">
+                            Please provide a description.
+                        </Form.Control.Feedback>
+                    </FloatingLabel>
                 </Form.Group>
 
                 <Row>
@@ -118,12 +121,12 @@ class TradeOut extends React.Component {
                     </Col>
                 </Row>
                 
-                <Form.Group>
+                <Form.Group className='mb-3'>
                     <Form.Label>Condition</Form.Label>
                     <Form.Range onChange={this.setCondition}/>
                 </Form.Group>
 
-                <Form.Group>
+                <Form.Group className='mb-3'>
                     <Button variant="primary" type="submit">
                         Submit
                     </Button>
