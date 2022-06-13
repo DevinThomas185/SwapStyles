@@ -14,72 +14,55 @@ class TradeOut extends React.Component {
                 title: '',
                 description: '',
                 image: '',
-                age: '',
+                age: '0',
                 condition: 50,
             }
         };
-        this.setTitle = this.setTitle.bind(this);
-        this.setDescription = this.setDescription.bind(this);
-        this.setImage = this.setImage.bind(this);
-        this.setAge = this.setAge.bind(this);
-        this.setCondition = this.setCondition.bind(this);
+        this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    setTitle(event) {
+    handleChange = (event) => {
+        const { name, value } = event.target;
         this.setState({
+            ...this.state,
             item: {
-                title: event.target.value
-            }
-        });
-    }
-
-    setDescription(event) {
-        this.setState({
-            item: {
-                description: event.target.value
-            }
-        });
-    }
-
-    setImage(event) {
-        this.setState({
-            item: {
-                image: event.target.value
-            }
-        });
-    }
-
-    setAge(event) {
-        this.setState({
-            item: {
-                age: event.target.value
-            }
-        });
-    }
-
-    setCondition(event) {
-        this.setState({
-            item: {
-                condition: event.target.value
+                ...this.state.item,
+                [name]: value
             }
         });
     }
 
     handleSubmit(event) {
+        event.preventDefault();
+
         const form = event.currentTarget;
         if (form.checkValidity() === false) {
             event.preventDefault();
             event.stopPropagation();
         }
+        console.log(this.state.item.title);
+        const request = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                title: this.state.item.title,
+                description: this.state.item.description,
+                image: this.state.item.image,
+                age: this.state.item.age,
+                condition: this.state.item.condition
+             })
+        };
+        
+        fetch('/api/addProduct', request);
     }
 
     render() {
         return (
-            <Form>
+            <Form onSubmit={this.handleSubmit}>
                 <Form.Group className="mb-3" controlId="formBasicText">
                     <FloatingLabel label="Name of Item" className="mb-3">
-                        <Form.Control type="text" placeholder="Enter Title" onChange={this.setTitle} required/>
+                        <Form.Control type="text" placeholder="Enter Title" name="title" onChange={this.handleChange} required/>
                         <Form.Control.Feedback type="invalid">
                             Please provide a title.
                         </Form.Control.Feedback>
@@ -88,7 +71,7 @@ class TradeOut extends React.Component {
 
                 <Form.Group className="mb-3" controlId="formBasicDesc">
                     <FloatingLabel label="Description" className="mb-3">
-                        <Form.Control type="text" placeholder="Enter Description" onChange={this.setDescription} required/>
+                        <Form.Control type="text" placeholder="Enter Description" name="description" onChange={this.handleChange} required/>
                         <Form.Control.Feedback type="invalid">
                             Please provide a description.
                         </Form.Control.Feedback>
@@ -99,7 +82,7 @@ class TradeOut extends React.Component {
                     <Col lg={8}>
                         <Form.Group className='mb-3' controlId="formBasicFile">
                             <Form.Label>Upload Image</Form.Label>
-                            <Form.Control type="file" onChange={this.setImage} required />
+                            <Form.Control type="file" name="image" onChange={this.handleChange} required />
                             <Form.Control.Feedback type="invalid">
                                 Please provide an image.
                             </Form.Control.Feedback>
@@ -108,8 +91,8 @@ class TradeOut extends React.Component {
                     <Col>
                         <Form.Group className='mb-3' controlId="formBasicSelect">
                             <Form.Label>Age</Form.Label>
-                            <Form.Select aria-label="Default select example" onChange={this.setAge} required>
-                                <option>New</option>
+                            <Form.Select aria-label="Default select example" name="age" onChange={this.handleChange} required>
+                                <option value="0">New</option>
                                 <option value="1">0 - 1 Years</option>
                                 <option value="2">1 - 2 Years</option>
                                 <option value="3">2 - 3 Years</option>
@@ -123,7 +106,7 @@ class TradeOut extends React.Component {
                 
                 <Form.Group className='mb-3'>
                     <Form.Label>Condition</Form.Label>
-                    <Form.Range onChange={this.setCondition}/>
+                    <Form.Range name="condition" onChange={this.handleChange}/>
                 </Form.Group>
 
                 <Form.Group className='mb-3'>
