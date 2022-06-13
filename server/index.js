@@ -24,13 +24,14 @@ app.get('api/user/balance', (req, res) => {
   res.status(200).send("1");
 })
 
-app.get('api/allProducts', async (req, res) => {
+app.get('/api/allProducts', async (req, res) => {
+  console.log("getting all products");
   const products = await pool.query(`SELECT * FROM products'`);
   res.json(products.rows);
 })
 
-app.get('api/getProducts', async (req, res) => {
-  const q = res.query.q
+app.get('/api/getProducts', async (req, res) => {
+  const q = res.query.q;
   console.log(q);
   const products = await pool.query(`SELECT * FROM products WHERE Title LIKE '%${q}%'`);
   res.json(products.rows);
