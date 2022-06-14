@@ -125,7 +125,6 @@ function TradeOut() {
                             min={0}
                             className="form-control"
                             aria-describedby="inputGroupPrepend"
-                            name = "age"
                             onChange={handleChange}
                         />
                         <InputGroup.Text id="inputGroupPrepend">Year(s)</InputGroup.Text>
