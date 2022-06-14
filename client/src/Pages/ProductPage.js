@@ -10,16 +10,18 @@ class ProductPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            product: {
-                id: 1,
-                name: "Product 1",
-                description: "This is a product",
-                image: "https://picsum.photos/300/300/?random",
-                seller: "Adam",
-                age: "10",
-                condition: "50"
-            }
+            product: {}
         };
+    }
+
+    componentDidMount() {
+        fetch(`/api/getProduct?q=${this.props.match.params.id}`)
+            .then(response => response.json())
+            .then(data => {
+                this.setState({
+                    product: data
+                });
+            });
     }
 
     render() {
@@ -27,13 +29,13 @@ class ProductPage extends React.Component {
             <Card>
                 <Card.Header>
                     <Card.Title>
-                        {this.state.product.name}
+                        {this.state.product.title}
                     </Card.Title>
                 </Card.Header>
                 <Card.Body>
                     <Row>
                         <Col lg={4}>
-                            <Card.Img variant="top" src={this.state.product.image} style={{height: '20rem', width: '20rem'}}/>
+                            <Card.Img variant="top" src={this.state.product.url} style={{height: '20rem', width: '20rem'}}/>
                         </Col>
                         <Col>
                             <Row>
