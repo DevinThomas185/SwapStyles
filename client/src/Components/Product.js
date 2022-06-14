@@ -8,7 +8,7 @@ class Product extends React.Component {
         return (
             <Card style={{width: '18rem'}} href="/product/1">
                     <Link to={"/product/"+this.props.product.id}>
-                        <Card.Img variant="top" src={this.props.product.image} style={{height: '18rem'}}/>
+                        <Card.Img variant="top" src={this.props.product.url} style={{height: '18rem'}}/>
                     </Link>
                     <Card.Body>
                         <Card.Title>
