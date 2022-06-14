@@ -13,6 +13,7 @@ import ProductPage from "./Pages/ProductPage";
 import EventPage from "./Pages/EventPage";
 import Navigation from "./Components/Navigation";
 import CreateEvent from "./Pages/CreateEvent";
+import EventSearch from "./Pages/EventSearch";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -33,8 +34,9 @@ root.render(
               <Route path="/" element={<Shop />} />
               <Route path="/tradeout" element={<TradeOut />} />
               <Route path="/product/:id" element={<ProductPage product="h" />} />
-              <Route path="/event/" element={<EventPage />} />
+              <Route path="/event/:id" element={<EventPage />} />
               <Route path="/createEvent/" element={<CreateEvent />} />
+              <Route path="/searchEvents/" element={<EventSearch />} />
             </Routes>
           </Col>
         </Row>

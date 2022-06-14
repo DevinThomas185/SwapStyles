@@ -1,28 +1,28 @@
 import React from 'react';
-import Product from './Product';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/esm/Container';
 import Row from 'react-bootstrap/Row';
-import SearchBar from './SearchBar';
+import SearchBar from '../Components/SearchBar';
+import Event from '../Components/Event';
 
 
-class Shop extends React.Component {
+class EventSearch extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            products: []
+            events: []
         };
-        this.getProducts = this.getProducts.bind(this);
+        this.getEvents = this.getEvents.bind(this);
     }
 
 
-    async getProducts(query) {
-        const res = await fetch(`/api/getProducts?q=${query}`);
+    async getEvents(query) {
+        const res = await fetch(`/api/getEvents?q=${query}`);
         console.log(res);
         const data = await res.json();
         console.log(data);
         this.setState({
-            products: data
+            events: data
         });
     }
 
@@ -30,12 +30,12 @@ class Shop extends React.Component {
     render() {
         return (
             <div>
-                <SearchBar getResults={this.getProducts} />
+                <SearchBar getResults={this.getEvents} />
                 <Container>
                     <Row>
-                        {this.state.products.map(item => (
-                            <Col key={item.id}>
-                                <Product product={item} />
+                        {this.state.events.map(event => (
+                            <Col key={event.id}>
+                                <Event event={event} />
                             </Col>
                         ))}
                     </Row>
@@ -45,4 +45,4 @@ class Shop extends React.Component {
     }
 }
 
-export default Shop;
+export default EventSearch;
