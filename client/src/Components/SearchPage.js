@@ -20,44 +20,7 @@ function SearchPage(props) {
         const res = await fetch('api/allProducts');
         console.log(res);
         const data = await res.json();
-        props.setProducts([
-            {
-                id: 1,
-                name: "Product 1",
-                description: "This is a product",
-                image: "https://picsum.photos/200/300/?random",
-                seller: "Adam",
-                age: "10",
-                condition: "50"
-            },
-            {
-                id: 2,
-                name: "Product 2",
-                description: "This is a product",
-                image: "https://picsum.photos/200/300/?random",
-                seller: "Devin",
-                age: "10",
-                condition: "50"
-            },
-            {
-                id: 3,
-                name: "Product 3",
-                description: "This is a product",
-                image: "https://picsum.photos/200/300/?random",
-                seller: "Raaif",
-                age: "10",
-                condition: "50"
-            },
-            {
-                id: 4,
-                name: "Product 4",
-                description: "This is a product",
-                image: "https://picsum.photos/200/300/?random",
-                seller: "Josh",
-                age: "10",
-                condition: "50"
-            },
-        ]);
+        props.setProducts(data);
     }
 
     return (
