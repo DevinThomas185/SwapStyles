@@ -45,7 +45,7 @@ app.get('/api/getProduct', async (req, res) => {
   console.log(`Getting product: ${req.query.id}`);
   const id = req.query.id;
   const product = await pool.query(`SELECT * FROM products WHERE id = ${id}`);
-  res.json(product.rows);
+  res.json(product.rows[0]);
 })
 
 app.use(express.json());
