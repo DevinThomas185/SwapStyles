@@ -4,23 +4,16 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 
 
-function SearchPage(props) {
+function SearchBar(props) {
 
     const [query, setQuery] = useState("");
 
     const onKeyUp = (e) => {
         if (e.key === "Enter") {
-            getProducts(query);
+            props.getResults(query);
         }
     }
 
-    async function getProducts() {
-        const res = await fetch(`/api/getProducts?q=${query}`);
-        console.log(res);
-        const data = await res.json();
-        console.log(data);
-        props.setProducts(data);
-    }
 
     return (
         <div>
@@ -32,7 +25,7 @@ function SearchPage(props) {
                     onChange={(e) => setQuery(e.target.value.toLowerCase())}
                     onKeyPress={(e) => { onKeyUp(e) }}
                 />
-                <Button variant="outline-secondary" id="button-addon2" onClick={(e) => getProducts()}>
+                <Button variant="outline-secondary" id="button-addon2" onClick={(e) => props.getResults(query)}>
                     Search
                 </Button>
             </InputGroup>
@@ -41,4 +34,4 @@ function SearchPage(props) {
 
 }
 
-export default SearchPage;
+export default SearchBar;
