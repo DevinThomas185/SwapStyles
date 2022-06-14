@@ -26,7 +26,7 @@ app.get('api/user/balance', (req, res) => {
 
 app.get('/api/allProducts', async (req, res) => {
   console.log("getting all products");
-  const products = await pool.query(`SELECT * FROM products'`);
+  const products = await pool.query(`SELECT * FROM products`);
   res.json(products.rows);
 })
 
