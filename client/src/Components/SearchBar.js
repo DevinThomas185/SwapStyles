@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
@@ -13,6 +13,10 @@ function SearchBar(props) {
             props.getResults(query);
         }
     }
+
+    useEffect(() => {
+        props.getResults(query)
+    }, []);
 
 
     return (

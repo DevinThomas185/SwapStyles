@@ -6,10 +6,9 @@ import { Link } from 'react-router-dom';
 class Product extends React.Component {
     render() {
         return (
-            <Card style={{width: '18rem'}} href={"/product/"+this.props.product.id}  className="mb-3">
-                    <Link to={"/product/"+this.props.product.id}>
-                        <Card.Img variant="top" src={this.props.product.url} style={{height: '18rem'}}/>
-                    </Link>
+            <Link to={"/product/"+this.props.product.id} style={{ textDecoration: 'none' }}>
+                <Card style={{width: '18rem'}} href={"/product/"+this.props.product.id}  className="mb-3">
+                    <Card.Img variant="top" src={this.props.product.url} style={{height: '18rem'}}/>
                     <Card.Body>
                         <Card.Title>
                             {this.props.product.title}
@@ -23,6 +22,7 @@ class Product extends React.Component {
                         {/* <Button variant="primary" align="center" href="/product/1">View</Button> */}
                     </Card.Body>
                 </Card>
+            </Link>
         );
     }
 }
