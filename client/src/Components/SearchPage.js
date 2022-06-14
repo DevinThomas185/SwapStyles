@@ -22,6 +22,10 @@ function SearchPage(props) {
         props.setProducts(data);
     }
 
+    componentDidMount() {
+        getProducts();
+    }
+
     return (
         <div>
             <InputGroup className="mb-3">
