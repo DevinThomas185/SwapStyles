@@ -111,6 +111,14 @@ app.post('/api/addEvent', function (event, res) {
     });
 })
 
+// Get event from the search
+app.get('/api/getEvents', async (req, res) => {
+  console.log(`Getting events for: ${req.query.q}`);
+  const query = req.query.q;
+  const events = await pool.query(`SELECT * FROM events WHERE LOWER(Name) LIKE '%${query}%'`);
+  res.json(products.rows);
+})
+
 // serve react app from root
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.resolve(__dirname, "../client/build")));

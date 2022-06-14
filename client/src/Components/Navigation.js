@@ -24,6 +24,7 @@ class Navigation extends React.Component {
                                 <Nav.Link href="/">Trade In</Nav.Link>
                                 <Nav.Link href="/tradeout">Trade Out</Nav.Link>
                                 <Nav.Link href="/createEvent">New Event</Nav.Link>
+                                <Nav.Link href="/searchEvents">Search Events</Nav.Link>
                             </Nav>
                         </Navbar.Collapse>
                         <Navbar.Collapse className="justify-content-end">

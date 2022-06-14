@@ -19,7 +19,7 @@ function SearchBar(props) {
         <div>
             <InputGroup className="mb-3">
                 <Form.Control
-                    placeholder="Search Items"
+                    placeholder="Search"
                     aria-label="query"
                     aria-describedby="basic-addon2"
                     onChange={(e) => setQuery(e.target.value.toLowerCase())}
