@@ -92,28 +92,14 @@ function TradeOut() {
             </Row>
 
             <Row className="mb-3">
-                <SimpleFileUpload
-                    apiKey="035d47aa53030d76819b63ab6ce9b05b"
-                    data-maxFileSize="0.5"
+                <input
+                    type="file"
                     data-accepted="image/*"
-                    onSuccess={handleFile} />
-                {/* <Form.Group controlId="validationCustom03" as={Col} lg={8}>
-                    <Form.Label>Upload Image</Form.Label>
-                    <Form.Control
-                        required
-                        type = "file"
-                        id="image-uploader"
-                        data-accepted="image/*"
-                        class="simple-file-upload"
-                        apiKey="..."
-                        onSuccess={handleFile}
-                        data-maxFileSize="0.5"
-                        name = "image"
-                        onChange={handleChange}
-                    />
-                    <Form.Control.Feedback>Great Image!</Form.Control.Feedback>
-                    <Form.Control.Feedback type="invalid">Please provide an image.</Form.Control.Feedback>
-                </Form.Group> */}
+                    data-maxFileSize="0.5"
+                    apiKey="035d47aa53030d76819b63ab6ce9b05b"
+                    onSuccess={handleFile}
+                />
+                    
                 <Form.Group controlId="validationCustom04" as={Col}>
                     <Form.Label>Age</Form.Label>
                     <InputGroup hasValidation>
