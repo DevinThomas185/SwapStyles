@@ -12,7 +12,7 @@ function ProductPage() {
     const [product, setProduct] = useState({});
 
     useEffect(() => {
-        fetch(`api/getProduct?q=${id}`)
+        fetch(`api/getProduct?id=${id}`)
             .then(res => res.json())
             .then(data => setProduct(data));
     }, []);
