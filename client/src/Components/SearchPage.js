@@ -16,14 +16,14 @@ function SearchPage(props) {
 
     async function getProducts() {
 
-        const request = {
-            method: 'GET',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                query: query
-            })
-        };
-        const res = await fetch('api/getProducts', request);
+        // const request = {
+        //     method: 'GET',
+        //     headers: { 'Content-Type': 'application/json' },
+        //     body: JSON.stringify({
+        //         query: query
+        //     })
+        // };
+        const res = await fetch(`api/getProducts?q=${query}`);
         console.log(res);
         const data = await res.json();
         console.log(data);
