@@ -10,12 +10,15 @@ class ProductPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            product: {}
+            product: {},
+            id: 0
         };
+        const {id} = this.props.match.params;
+        this.setState({id: id});
     }
 
     componentDidMount() {
-        fetch(`/api/getProduct?q=${this.props.match.params.id}`)
+        fetch(`/api/getProduct?q=${this.state.id}`)
             .then(response => response.json())
             .then(data => {
                 this.setState({
