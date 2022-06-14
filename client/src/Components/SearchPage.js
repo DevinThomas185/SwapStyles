@@ -19,7 +19,7 @@ function SearchPage(props) {
         const request = {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
-            q: query
+            body: query
         };
         const res = await fetch('api/getProducts', request);
         console.log(res);
