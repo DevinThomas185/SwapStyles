@@ -21,7 +21,7 @@ function SearchPage(props) {
             method: 'Get',
             q: query
         }
-        const res = await fetch('api/getProduct', request);
+        const res = await fetch('api/getProducts', request);
         console.log(res);
         const data = await res.json();
         props.setProducts(data);
