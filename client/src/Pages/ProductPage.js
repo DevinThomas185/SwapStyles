@@ -7,7 +7,7 @@ import Form from 'react-bootstrap/Form';
 import SustainableAlternatives from '../Components/SustainableAlternatives';
 import { useParams } from 'react-router-dom';
 
-function ProductPage() {
+function ProductPage(props) {
     const { id } = useParams();
     const [product, setProduct] = useState({});
 
@@ -16,6 +16,8 @@ function ProductPage() {
             .then(res => res.json())
             .then(data => setProduct(data));
     }, []);
+
+    alert(product.title);
 
     return (
         <Card>
