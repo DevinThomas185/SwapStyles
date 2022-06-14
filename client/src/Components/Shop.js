@@ -28,11 +28,9 @@ class Shop extends React.Component {
                 <Container>
                     <Row>
                         {this.state.products.map(item => (
-                            <React.Fragment key={item.id}>
-                                <Col>
-                                    <Product product={item} />
-                                </Col>
-                            </React.Fragment>
+                            <Col key={item.id}>
+                                <Product product={item}/>
+                            </Col>
                         ))}
                     </Row>
                 </Container>

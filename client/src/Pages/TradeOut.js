@@ -10,7 +10,9 @@ import InputGroup from 'react-bootstrap/InputGroup';
 
 
 function TradeOut() {
-    const [item, setItem] = React.useState('');
+    const [item, setItem] = React.useState({
+        condition: 50,
+    });
     const [validated, setValidated] = React.useState(false);
 
     const handleSubmit = (event) => {
@@ -24,6 +26,7 @@ function TradeOut() {
 
         setValidated(true);
 
+        console.log(item.title);
         const request = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -62,8 +65,8 @@ function TradeOut() {
                         <Form.Control
                             required
                             type="text"
-                            placeholder="Enter Title"
-                            name = "title"
+                            name="title" 
+                            placeholder="Enter Title" 
                             onChange={handleChange}
                         />
                         <Form.Control.Feedback>Cool Title!</Form.Control.Feedback>
@@ -78,6 +81,7 @@ function TradeOut() {
                         <Form.Control
                             required
                             type="text"
+                            name='description'
                             placeholder="Enter Description"
                             name = "description"
                             onChange={handleChange}
@@ -117,9 +121,10 @@ function TradeOut() {
                         <Form.Control
                             required
                             type="number"
+                            name='age'
                             max={10}
                             min={0}
-                            class="form-control"
+                            className="form-control"
                             aria-describedby="inputGroupPrepend"
                             name = "age"
                             onChange={handleChange}
@@ -139,14 +144,17 @@ function TradeOut() {
                             </Badge>
                         </Col>
                         <Col>
-                            <Form.Range name = "condition" onChange={
-                                (event) => {
-                                    setItem({
-                                        ...item,
-                                        condition: event.target.value
-                                    });
+                            <Form.Range
+                                name='condition'
+                                onChange={
+                                    (event) => {
+                                        setItem({
+                                            ...item,
+                                            condition: event.target.value
+                                        });
+                                    }
                                 }
-                            }/>
+                            />
                         </Col>
                         <Col lg={1}>
                             <Badge pill bg="success">
