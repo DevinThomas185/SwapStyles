@@ -1,4 +1,5 @@
 import React from 'react';
+import SimpleFileUpload from 'react-simple-file-upload'
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
@@ -49,12 +50,19 @@ function TradeOut() {
         });
     }
 
+    function handleFile(url){
+        setItem({
+            ...item,
+            image: url
+        });
+    }
+
     return (
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
             <Row className="mb-3">
                 <Form.Group controlId="validationCustom01" as={Col}>
                     <FloatingLabel label="Name of Item">
-                        <Form.Control 
+                        <Form.Control
                             required
                             type="text"
                             name="title" 
@@ -70,12 +78,13 @@ function TradeOut() {
             <Row className="mb-3">
                 <Form.Group controlId="validationCustom02" as={Col}>
                     <FloatingLabel label="Description">
-                        <Form.Control 
+                        <Form.Control
                             required
                             type="text"
                             name='description'
                             placeholder="Enter Description"
-                            onChange={handleChange} 
+                            name = "description"
+                            onChange={handleChange}
                         />
                         <Form.Control.Feedback>Nice Description!</Form.Control.Feedback>
                         <Form.Control.Feedback type="invalid">Please provide a description.</Form.Control.Feedback>
@@ -84,16 +93,28 @@ function TradeOut() {
             </Row>
 
             <Row className="mb-3">
-                <Form.Group controlId="validationCustom03" as={Col} lg={8}>
+                <SimpleFileUpload
+                    apiKey="035d47aa53030d76819b63ab6ce9b05b"
+                    data-maxFileSize="0.5"
+                    data-accepted="image/*"
+                    onSuccess={handleFile} />
+                {/* <Form.Group controlId="validationCustom03" as={Col} lg={8}>
                     <Form.Label>Upload Image</Form.Label>
-                    <Form.Control 
+                    <Form.Control
                         required
-                        type="file"
+                        type = "file"
+                        id="image-uploader"
+                        data-accepted="image/*"
+                        class="simple-file-upload"
+                        apiKey="..."
+                        onSuccess={handleFile}
+                        data-maxFileSize="0.5"
+                        name = "image"
                         onChange={handleChange}
                     />
                     <Form.Control.Feedback>Great Image!</Form.Control.Feedback>
                     <Form.Control.Feedback type="invalid">Please provide an image.</Form.Control.Feedback>
-                </Form.Group>
+                </Form.Group> */}
                 <Form.Group controlId="validationCustom04" as={Col}>
                     <Form.Label>Age</Form.Label>
                     <InputGroup hasValidation>
@@ -105,6 +126,7 @@ function TradeOut() {
                             min={0}
                             className="form-control"
                             aria-describedby="inputGroupPrepend"
+                            name = "age"
                             onChange={handleChange}
                         />
                         <InputGroup.Text id="inputGroupPrepend">Year(s)</InputGroup.Text>
@@ -117,7 +139,7 @@ function TradeOut() {
                     <Form.Label>Condition</Form.Label>
                     <Row>
                         <Col lg={1}>
-                            <Badge pill bg="danger"> 
+                            <Badge pill bg="danger">
                                 Poor
                             </Badge>
                         </Col>
