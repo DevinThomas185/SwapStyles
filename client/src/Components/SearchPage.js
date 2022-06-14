@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
@@ -22,9 +22,9 @@ function SearchPage(props) {
         props.setProducts(data);
     }
 
-    componentDidMount() {
+    useEffect(() => {
         getProducts();
-    }
+    });
 
     return (
         <div>
