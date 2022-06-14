@@ -30,7 +30,7 @@ root.render(
             <Routes>
               <Route path="/" element={<Shop />} />
               <Route path="/tradeout" element={<TradeOut />} />
-              <Route path="/product/:id" element={<ProductPage product="h"/>} />
+              <Route path="/product/:id" element={<ProductPage />} />
             </Routes>
           </Col>
         </Row>
