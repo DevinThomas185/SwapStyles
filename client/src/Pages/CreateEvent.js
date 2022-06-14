@@ -49,7 +49,7 @@ function CreateEvent() {
             })
         };
 
-        // fetch('/api/addProduct', request);
+        fetch('/api/addEvent', request);
     }
 
     const handleChange = (e) => {
