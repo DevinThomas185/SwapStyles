@@ -20,16 +20,19 @@ app.get('/api', (req, res) => {
 })
 
 
-app.get('api/user/balance', (req, res) => {
+// Temporary Balance display
+app.get('/api/user/balance', (req, res) => {
   res.status(200).send("1");
 })
 
+// Get all products listed
 app.get('/api/allProducts', async (req, res) => {
   console.log("getting all products");
   const products = await pool.query(`SELECT * FROM products`);
   res.json(products.rows);
 })
 
+// Get products from the search
 app.get('/api/getProducts', async (req, res) => {
   console.log(`Getting products for: ${req.query.q}`);
   const query = req.query.q;
@@ -37,6 +40,7 @@ app.get('/api/getProducts', async (req, res) => {
   res.json(products.rows);
 })
 
+// Get product from its id
 app.get('/api/getProduct', async (req, res) => {
   console.log(`Getting product: ${req.query.id}`);
   const id = req.query.id;
@@ -47,6 +51,7 @@ app.get('/api/getProduct', async (req, res) => {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Post a new product
 app.post('/api/addProduct', function (clothing, res) {
   title = clothing.body.title;
   description = clothing.body.description;
@@ -73,7 +78,7 @@ app.post('/api/addProduct', function (clothing, res) {
 })
 
 
-// serve react app from root
+// Serve react app from root
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.resolve(__dirname, "../client/build")));
   app.get("*", function (req, res) {
