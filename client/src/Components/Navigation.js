@@ -1,7 +1,8 @@
 import React from 'react';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import Container from 'react-bootstrap/esm/Container';
+import Notifications from './Notifications';
+import Container from 'react-bootstrap/Container';
 
 
 class Navigation extends React.Component {
@@ -32,6 +33,9 @@ class Navigation extends React.Component {
                                     {this.state.balance} Trades
                                 </b>
                             </Navbar.Text>
+                            <Navbar>
+                                <Notifications />
+                            </Navbar>
                         </Navbar.Collapse>
                     </Container>
                 </Navbar>
