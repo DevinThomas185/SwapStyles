@@ -8,7 +8,14 @@ function SearchPage(props) {
 
     const [query, setQuery] = useState("");
 
+    const onKeyUp = (e) => {
+        if (e.key === "Enter") {
+            getProducts(query);
+        }
+    }
+
     async function getProducts() {
+
         // const res = await fetch(`api/getProducts?q=${query}`);
         // const data = await res.json();
         props.setProducts([
@@ -59,6 +66,7 @@ function SearchPage(props) {
                     aria-label="query"
                     aria-describedby="basic-addon2"
                     onChange={(e) => setQuery(e.target.value.toLowerCase())}
+                    onKeyPress={(e) => { onKeyUp(e) }}
                 />
                 <Button variant="outline-secondary" id="button-addon2" onClick={(e) => getProducts()}>
                     Search
