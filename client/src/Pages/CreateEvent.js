@@ -37,7 +37,7 @@ function CreateEvent() {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                name: event.name,
+                title: event.title,
                 description: event.description,
                 date: event.date,
                 starttime: event.starttime,

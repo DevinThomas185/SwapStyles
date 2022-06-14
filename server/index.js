@@ -67,15 +67,15 @@ app.post('/api/addProduct', function (clothing, res) {
 
 
 app.post('/api/addEvent', function (event, res) {
-  title = event.body.name;
+  title = event.body.title;
   description = event.body.description;
   date = event.body.date;
   starttime = event.body.starttime;
   endtime = event.body.endtime;
   location = event.body.address;
   postcode = event.body.postcode;
-  longitude = event.body.longitude;
-  latitude = event.body.latitude;
+  longitude = event.body.long;
+  latitude = event.body.lat;
 
   console.log("API PROCESSING")
   console.log(title);
