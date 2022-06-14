@@ -7,9 +7,7 @@ import FloatingLabel from 'react-bootstrap/FloatingLabel';
 
 
 function CreateEvent() {
-    const [item, setItem] = React.useState({
-        condition: 50,
-    });
+    const [event, setEvent] = React.useState({});
     const [validated, setValidated] = React.useState(false);
 
     const handleSubmit = (event) => {
@@ -23,16 +21,24 @@ function CreateEvent() {
 
         setValidated(true);
 
-        console.log(item.title);
+        // Calculate Longditude and Latitude here
+        const long = -0.176894;
+        const lat = 51.498356;
+
+        console.log(event.title);
         const request = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                title: item.title,
-                description: item.description,
-                image: item.image,
-                age: item.age,
-                condition: item.condition
+                name: event.name,
+                description: event.description,
+                date: event.date,
+                starttime: event.starttime,
+                endtime: event.endtime,
+                postcode: event.postcode,
+                address: event.address,
+                long: event.long,
+                lat: event.lat
             })
         };
 
@@ -41,8 +47,8 @@ function CreateEvent() {
 
     const handleChange = (event) => {
         const { name, value } = event.target;
-        setItem({
-            ...item,
+        setEvent({
+            ...event,
             [name]: value
         });
     }
@@ -137,7 +143,7 @@ function CreateEvent() {
                             <Form.Control
                                 required
                                 type="time"
-                                name='start-time'
+                                name='starttime'
                                 placeholder="Enter Start Time"
                                 onChange={handleChange}
                             />
@@ -152,7 +158,7 @@ function CreateEvent() {
                             <Form.Control
                                 required
                                 type="time"
-                                name='end-time'
+                                name='endtime'
                                 placeholder="Enter End Time"
                                 onChange={handleChange}
                             />

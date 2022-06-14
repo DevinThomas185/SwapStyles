@@ -4,7 +4,6 @@ import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import ListGroup from 'react-bootstrap/ListGroup'
-import Form from 'react-bootstrap/Form';
 import SustainableAlternatives from '../Components/SustainableAlternatives';
 import Map from '../Components/Map';
 

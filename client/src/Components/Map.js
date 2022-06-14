@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 
 import { useJsApiLoader, GoogleMap, Marker } from '@react-google-maps/api'
 
