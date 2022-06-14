@@ -10,22 +10,29 @@ function CreateEvent() {
     const [event, setEvent] = React.useState({});
     const [validated, setValidated] = React.useState(false);
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
+    async function setLatLong(postcode) {
+        await fetch("https://maps.googleapis.com/maps/api/geocode/json?address=" + postcode.replace(" ", "") + '&key=AIzaSyCV1xLSpdplVb0nDpJJl1KDkpgjN6rSQ7k')
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                event.lat = data.results[0].geometry.location.lat;
+                event.long = data.results[0].geometry.location.lng;
+            })
+    }
 
-        const form = event.currentTarget;
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const form = e.currentTarget;
         if (form.checkValidity() === false) {
-            event.preventDefault();
-            event.stopPropagation();
+            e.preventDefault();
+            e.stopPropagation();
         }
 
         setValidated(true);
 
-        // Calculate Longditude and Latitude here
-        const long = -0.176894;
-        const lat = 51.498356;
+        setLatLong(event.postcode)
 
-        console.log(event.title);
         const request = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -42,11 +49,11 @@ function CreateEvent() {
             })
         };
 
-        fetch('/api/addProduct', request);
+        // fetch('/api/addProduct', request);
     }
 
-    const handleChange = (event) => {
-        const { name, value } = event.target;
+    const handleChange = (e) => {
+        const { name, value } = e.target;
         setEvent({
             ...event,
             [name]: value
@@ -95,7 +102,7 @@ function CreateEvent() {
                             <Form.Control
                                 required
                                 type="text"
-                                name='postcode'
+                                name="postcode"
                                 placeholder="Enter Postcode"
                                 onChange={handleChange}
                             />
