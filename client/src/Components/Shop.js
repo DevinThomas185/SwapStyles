@@ -14,7 +14,7 @@ class Shop extends React.Component {
                     id: 1,
                     name: "Product 1",
                     description: "This is a product",
-                    image: "https://picsum.photos/200/300/?random",
+                    image: "https://picsum.photos/300/300/?random",
                     seller: "Adam",
                     age: "10",
                     condition: "50"
@@ -23,7 +23,7 @@ class Shop extends React.Component {
                     id: 2,
                     name: "Product 2",
                     description: "This is a product",
-                    image: "https://picsum.photos/200/300/?random",
+                    image: "https://picsum.photos/300/300/?random",
                     seller: "Devin",
                     age: "10",
                     condition: "50"
@@ -32,7 +32,7 @@ class Shop extends React.Component {
                     id: 3,
                     name: "Product 3",
                     description: "This is a product",
-                    image: "https://picsum.photos/200/300/?random",
+                    image: "https://picsum.photos/300/300/?random",
                     seller: "Raaif",
                     age: "10",
                     condition: "50"
@@ -41,7 +41,7 @@ class Shop extends React.Component {
                     id: 4,
                     name: "Product 4",
                     description: "This is a product",
-                    image: "https://picsum.photos/200/300/?random",
+                    image: "https://picsum.photos/300/300/?random",
                     seller: "Josh",
                     age: "10",
                     condition: "50"

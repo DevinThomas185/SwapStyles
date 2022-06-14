@@ -14,7 +14,7 @@ class ProductPage extends React.Component {
                 id: 1,
                 name: "Product 1",
                 description: "This is a product",
-                image: "https://picsum.photos/200/300/?random",
+                image: "https://picsum.photos/300/300/?random",
                 seller: "Adam",
                 age: "10",
                 condition: "50"
