@@ -22,9 +22,9 @@ function SearchPage(props) {
         props.setProducts(data);
     }
 
-    useEffect(() => {
-        getProducts();
-    });
+    // useEffect(() => {
+    //     getProducts();
+    // });
 
     return (
         <div>
