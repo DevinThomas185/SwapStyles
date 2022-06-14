@@ -17,8 +17,6 @@ function ProductPage(props) {
             .then(data => setProduct(data));
     }, []);
 
-    alert(product.title);
-
     return (
         <Card>
             <Card.Header>
@@ -44,7 +42,7 @@ function ProductPage(props) {
                                 <Card>
                                     <Card.Body>
                                         <Card.Text>
-                                            Age: {product.age}
+                                            Age: {product.age} Years
                                         </Card.Text>
                                         <Card.Text>
                                             Condition:
