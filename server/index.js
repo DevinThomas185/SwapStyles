@@ -81,7 +81,6 @@ app.post('/api/addEvent', function (event, res) {
   console.log(name);
   console.log(description);
   console.log(date);
-  console.log(age);
   console.log(starttime);
   console.log(endtime);
   console.log(location);
