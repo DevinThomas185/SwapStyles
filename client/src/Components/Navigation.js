@@ -20,10 +20,11 @@ class Navigation extends React.Component {
                         <Navbar.Brand href="/">SwapSearch</Navbar.Brand>
                         <Navbar.Toggle aria-controls="basic-navbar-nav" />
                         <Navbar.Collapse id="basic-navbar-nav">
-                        <Nav className="me-auto">
-                            <Nav.Link href="/">Trade In</Nav.Link>
-                            <Nav.Link href="/tradeout">Trade Out</Nav.Link>
-                        </Nav>
+                            <Nav className="me-auto">
+                                <Nav.Link href="/">Trade In</Nav.Link>
+                                <Nav.Link href="/tradeout">Trade Out</Nav.Link>
+                                <Nav.Link href="/createEvent">New Event</Nav.Link>
+                            </Nav>
                         </Navbar.Collapse>
                         <Navbar.Collapse className="justify-content-end">
                             <Navbar.Text>

@@ -66,6 +66,39 @@ app.post('/api/addProduct', function (clothing, res) {
 })
 
 
+app.post('/api/addEvent', function (event, res) {
+  title = event.body.title;
+  description = event.body.description;
+  date = event.body.date;
+  starttime = event.body.starttime;
+  endtime = event.body.endtime;
+  location = event.body.address;
+  postcode = event.body.postcode;
+  longitude = event.body.long;
+  latitude = event.body.lat;
+
+  console.log("API PROCESSING")
+  console.log(title);
+  console.log(description);
+  console.log(date);
+  console.log(starttime);
+  console.log(endtime);
+  console.log(location);
+  console.log(postcode);
+  console.log(longitude);
+  console.log(latitude);
+
+  pool.query(`INSERT INTO events(Name, Description, Date, Starttime, Endtime, Location, Postcode, Longitude, Latitude)VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9)`,
+    [title, description, date, starttime, endtime, location, postcode, longitude, latitude], (err, res) => {
+      if (err) {
+        console.log("Error - Failed to insert data into Products");
+        console.log(err);
+      } else {
+        console.log("Query Processed");
+      }
+    });
+})
+
 // serve react app from root
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.resolve(__dirname, "../client/build")));
