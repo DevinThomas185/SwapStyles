@@ -116,7 +116,7 @@ app.get('/api/getEvents', async (req, res) => {
   console.log(`Getting events for: ${req.query.q}`);
   const query = req.query.q;
   const events = await pool.query(`SELECT * FROM events WHERE LOWER(Name) LIKE '%${query}%'`);
-  res.json(products.rows);
+  res.json(events.rows);
 })
 
 // serve react app from root
