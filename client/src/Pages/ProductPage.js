@@ -5,6 +5,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import SustainableAlternatives from '../Components/SustainableAlternatives';
+import { useParams } from 'react-router-dom';
 
 class ProductPage extends React.Component {
     constructor(props) {
@@ -13,7 +14,7 @@ class ProductPage extends React.Component {
             product: {},
             id: 0
         };
-        const {id} = this.props.match.params;
+        const {id} = useParams();
         this.setState({id: id});
     }
 
