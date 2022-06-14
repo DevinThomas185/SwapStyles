@@ -16,14 +16,15 @@ function SearchPage(props) {
 
     async function getProducts() {
 
-        // const res = await fetch(`api/getProducts?q=${query}`);
         const request = {
-            method: 'Get',
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
             q: query
-        }
+        };
         const res = await fetch('api/getProducts', request);
         console.log(res);
         const data = await res.json();
+        console.log(data);
         props.setProducts(data);
     }
 

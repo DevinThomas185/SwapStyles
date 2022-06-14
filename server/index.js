@@ -31,8 +31,9 @@ app.get('/api/allProducts', async (req, res) => {
 })
 
 app.get('/api/getProducts', async (req, res) => {
+  console.log(req);
+  console.log(`Getting products for: ${req.q}`);
   const q = req.q;
-  console.log(q);
   const products = await pool.query(`SELECT * FROM products WHERE Title LIKE '%${q}%'`);
   res.json(products.rows);
 })
