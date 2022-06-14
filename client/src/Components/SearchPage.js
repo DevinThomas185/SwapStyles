@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
@@ -15,16 +15,12 @@ function SearchPage(props) {
     }
 
     async function getProducts() {
-        const res = await fetch(`api/getProducts?q=${query}`);
+        const res = await fetch(`/api/getProducts?q=${query}`);
         console.log(res);
         const data = await res.json();
         console.log(data);
         props.setProducts(data);
     }
-
-    // useEffect(() => {
-    //     getProducts();
-    // });
 
     return (
         <div>
