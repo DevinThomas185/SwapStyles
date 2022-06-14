@@ -14,7 +14,6 @@ function CreateEvent() {
         await fetch("https://maps.googleapis.com/maps/api/geocode/json?address=" + postcode.replace(" ", "") + '&key=AIzaSyCV1xLSpdplVb0nDpJJl1KDkpgjN6rSQ7k')
             .then(response => response.json())
             .then(data => {
-                console.log(data);
                 event.lat = data.results[0].geometry.location.lat;
                 event.long = data.results[0].geometry.location.lng;
             })
@@ -31,7 +30,9 @@ function CreateEvent() {
 
         setValidated(true);
 
-        setLatLong(event.postcode)
+        await setLatLong(event.postcode);
+        console.log(event.long);
+        console.log(event.lat);
 
         const request = {
             method: 'POST',
