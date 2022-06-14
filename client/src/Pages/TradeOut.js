@@ -23,16 +23,15 @@ function TradeOut() {
 
         setValidated(true);
 
-        console.log(this.state.item.title);
         const request = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                title: this.state.item.title,
-                description: this.state.item.description,
-                image: this.state.item.image,
-                age: this.state.item.age,
-                condition: this.state.item.condition
+                title: item.title,
+                description: item.description,
+                image: item.image,
+                age: item.age,
+                condition: item.condition
              })
         };
         
@@ -56,6 +55,7 @@ function TradeOut() {
                             required
                             type="text" 
                             placeholder="Enter Title" 
+                            name = "title"
                             onChange={handleChange}
                         />
                         <Form.Control.Feedback>Cool Title!</Form.Control.Feedback>
@@ -71,6 +71,7 @@ function TradeOut() {
                             required
                             type="text"
                             placeholder="Enter Description"
+                            name = "description"
                             onChange={handleChange} 
                         />
                         <Form.Control.Feedback>Nice Description!</Form.Control.Feedback>
@@ -85,6 +86,7 @@ function TradeOut() {
                     <Form.Control 
                         required
                         type="file"
+                        name = "image"
                         onChange={handleChange}
                     />
                     <Form.Control.Feedback>Great Image!</Form.Control.Feedback>
@@ -100,6 +102,7 @@ function TradeOut() {
                             min={0}
                             class="form-control"
                             aria-describedby="inputGroupPrepend"
+                            name = "age"
                             onChange={handleChange}
                         />
                         <InputGroup.Text id="inputGroupPrepend">Year(s)</InputGroup.Text>
@@ -117,7 +120,7 @@ function TradeOut() {
                             </Badge>
                         </Col>
                         <Col>
-                            <Form.Range onChange={
+                            <Form.Range name = "condition" onChange={
                                 (event) => {
                                     setItem({
                                         ...item,
