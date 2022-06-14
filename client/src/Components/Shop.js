@@ -12,21 +12,23 @@ class Shop extends React.Component {
         this.state = {
             products: []
         };
-        this.setProducts = this.setProducts.bind(this);
+        this.getProducts = this.getProducts.bind(this);
     }
 
-    setProducts(products) {
-        this.setState({
-            products: products
-        });
-    }
+    // setProducts(products) {
+    //     this.setState({
+    //         products: products
+    //     });
+    // }
 
     async getProducts(query) {
         const res = await fetch(`/api/getProducts?q=${query}`);
         console.log(res);
         const data = await res.json();
         console.log(data);
-        this.setProducts(data);
+        this.setState({
+            products: data
+        });
     }
 
 
