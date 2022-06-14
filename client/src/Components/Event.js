@@ -9,7 +9,7 @@ class Event extends React.Component {
     render() {
         return (
             <Link to={"/event/" + this.props.event.id}>
-                <Card href={"/event/" + this.props.event.id} className="mb-3">
+                <Card href={"/event/" + this.props.event.id} className="mb-3"  style={{width: '18rem'}}>
                     <Card.Body>
                         <Card.Title>
                             {this.props.event.name}
