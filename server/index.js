@@ -32,9 +32,9 @@ app.get('/api/allProducts', async (req, res) => {
 
 app.get('/api/getProducts', async (req, res) => {
   console.log(req);
-  console.log(`Getting products for: ${req.q}`);
-  const q = req.body;
-  const products = await pool.query(`SELECT * FROM products WHERE Title LIKE '%${q}%'`);
+  console.log(`Getting products for: ${req.body.query}`);
+  const query = req.body.query;
+  const products = await pool.query(`SELECT * FROM products WHERE Title LIKE '%${query}%'`);
   res.json(products.rows);
 })
 
