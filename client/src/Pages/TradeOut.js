@@ -83,7 +83,6 @@ function TradeOut() {
                             type="text"
                             name='description'
                             placeholder="Enter Description"
-                            name = "description"
                             onChange={handleChange}
                         />
                         <Form.Control.Feedback>Nice Description!</Form.Control.Feedback>
