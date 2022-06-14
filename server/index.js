@@ -67,7 +67,7 @@ app.post('/api/addProduct', function (clothing, res) {
 
 
 app.post('/api/addEvent', function (event, res) {
-  name = event.body.name;
+  title = event.body.name;
   description = event.body.description;
   date = event.body.date;
   starttime = event.body.starttime;
@@ -78,7 +78,7 @@ app.post('/api/addEvent', function (event, res) {
   latitude = event.body.latitude;
 
   console.log("API PROCESSING")
-  console.log(name);
+  console.log(title);
   console.log(description);
   console.log(date);
   console.log(starttime);
