@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
+import SustainableAlternatives from '../Components/SustainableAlternatives';
 
 class ProductPage extends React.Component {
     constructor(props) {
@@ -31,24 +32,37 @@ class ProductPage extends React.Component {
                 </Card.Header>
                 <Card.Body>
                     <Row>
-                        <Col>
+                        <Col lg={4}>
                             <Card.Img variant="top" src={this.state.product.image} style={{height: '20rem', width: '20rem'}}/>
                         </Col>
                         <Col>
-                            <Card.Text>
-                                {this.state.product.description}
-                            </Card.Text>
-                            <Card>
-                                <Card.Body>
+                            <Row>
+                                <Col>
                                     <Card.Text>
-                                        Age: {this.state.product.age}
+                                        {this.state.product.description}
                                     </Card.Text>
-                                    <Card.Text>
-                                        Condition:
-                                        <Form.Range disabled value={this.state.product.condition}/>
-                                    </Card.Text>
-                                </Card.Body>
-                            </Card>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col className="mt-2">
+                                    <Card>
+                                        <Card.Body>
+                                            <Card.Text>
+                                                Age: {this.state.product.age}
+                                            </Card.Text>
+                                            <Card.Text>
+                                                Condition:
+                                                <Form.Range disabled value={this.state.product.condition}/>
+                                            </Card.Text>
+                                        </Card.Body>
+                                    </Card>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col className="mt-2">
+                                    <SustainableAlternatives />
+                                </Col>
+                            </Row>
                         </Col>
                     </Row>
                 </Card.Body>

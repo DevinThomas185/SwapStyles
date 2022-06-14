@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 class Product extends React.Component {
     render() {
         return (
-            <Card style={{width: '18rem'}} href="/product/1">
+            <Card style={{width: '18rem'}} href="/product/1"  className="mb-3">
                     <Link to={"/product/"+this.props.product.id}>
                         <Card.Img variant="top" src={this.props.product.image} style={{height: '18rem'}}/>
                     </Link>
