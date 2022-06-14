@@ -12,7 +12,7 @@ class Product extends React.Component {
                     </Link>
                     <Card.Body>
                         <Card.Title>
-                            {this.props.product.name}
+                            {this.props.product.title}
                         </Card.Title>
                         <Card.Text>
                             {this.props.product.description}
