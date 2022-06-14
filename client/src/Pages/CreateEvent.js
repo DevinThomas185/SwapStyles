@@ -121,7 +121,7 @@ function CreateEvent() {
                         <FloatingLabel label="Date">
                             <Form.Control
                                 required
-                                type="text"
+                                type="date"
                                 name='date'
                                 placeholder="Enter Date"
                                 onChange={handleChange}
@@ -133,16 +133,31 @@ function CreateEvent() {
                 </Col>
                 <Col>
                     <Form.Group controlId="validationCustom06" as={Col}>
-                        <FloatingLabel label="Time">
+                        <FloatingLabel label="Start Time">
                             <Form.Control
                                 required
                                 type="time"
-                                name='time'
-                                placeholder="Enter Time"
+                                name='start-time'
+                                placeholder="Enter Start Time"
                                 onChange={handleChange}
                             />
-                            <Form.Control.Feedback>Nice Time!</Form.Control.Feedback>
-                            <Form.Control.Feedback type="invalid">Please provide an Time.</Form.Control.Feedback>
+                            <Form.Control.Feedback>Nice Start Time!</Form.Control.Feedback>
+                            <Form.Control.Feedback type="invalid">Please provide a Start Time.</Form.Control.Feedback>
+                        </FloatingLabel>
+                    </Form.Group>
+                </Col>
+                <Col>
+                    <Form.Group controlId="validationCustom07" as={Col}>
+                        <FloatingLabel label="End Time">
+                            <Form.Control
+                                required
+                                type="time"
+                                name='end-time'
+                                placeholder="Enter End Time"
+                                onChange={handleChange}
+                            />
+                            <Form.Control.Feedback>Nice End Time!</Form.Control.Feedback>
+                            <Form.Control.Feedback type="invalid">Please provide a End Time.</Form.Control.Feedback>
                         </FloatingLabel>
                     </Form.Group>
                 </Col>
