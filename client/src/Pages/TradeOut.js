@@ -30,32 +30,32 @@ function TradeOut() {
         if (form.checkValidity() === false) {
             event.preventDefault();
             event.stopPropagation();
+        } else {
+            console.log(item.title);
+            const request = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    title: item.title,
+                    description: item.description,
+                    image: document.getElementById("image").value,
+                    age: item.age,
+                    condition: item.condition
+                 })
+            };
+            
+            fetch('/api/addProduct', request)
+                .then(res => {
+                    if (res.ok) {
+                        setSucceeded(true);
+                    } else {
+                        setSucceeded(false);
+                    }
+                    setDbResponded(true);
+                });
         }
-
         setValidated(true);
 
-        console.log(item.title);
-        const request = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                title: item.title,
-                description: item.description,
-                image: document.getElementById("image").value,
-                age: item.age,
-                condition: item.condition
-             })
-        };
-        
-        fetch('/api/addProduct', request)
-            .then(res => {
-                if (res.ok) {
-                    setSucceeded(true);
-                } else {
-                    setSucceeded(false);
-                }
-                setDbResponded(true);
-            });
     }
 
     const handleChange = (event) => {
@@ -113,7 +113,8 @@ function TradeOut() {
                         type="hidden" 
                         data-accepted="image/*"
                         data-maxFileSize="0.5"
-                        name="image" id="image" class="simple-file-upload"
+                        name="image" id="image"
+                        className="simple-file-upload"
                         onSuccess={handleFile}
                     />
 
@@ -199,7 +200,7 @@ function TradeOut() {
                 </Row>
             </Container>
         )
-    } else {
+    } else if (dbResponded && succeeded) {
         return (
             <Container>
                 <Row>
