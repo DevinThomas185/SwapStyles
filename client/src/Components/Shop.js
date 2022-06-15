@@ -20,6 +20,7 @@ class Shop extends React.Component {
         const res = await fetch(`/api/getProducts?q=${query}`);
         console.log(res);
         const data = await res.json();
+        data.reverse()
         console.log(data);
         this.setState({
             products: data
