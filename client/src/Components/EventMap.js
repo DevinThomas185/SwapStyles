@@ -1,10 +1,9 @@
 import React from "react";
-import Event from './Event';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 
-import { useJsApiLoader, GoogleMap, Marker, InfoWindow } from '@react-google-maps/api'
+import { useJsApiLoader, GoogleMap, Marker } from '@react-google-maps/api'
 
 
 export default function EventMap(props) {

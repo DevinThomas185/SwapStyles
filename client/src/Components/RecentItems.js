@@ -44,7 +44,7 @@ class RecentItems extends React.Component {
                                     </Card.Text>
                                 </Card.Body>
                                 <Card.Footer>
-                                    <small className="text-muted"> {} minutes ago</small>
+                                    <small className="text-muted"> {timeSince(product.submitted)} </small>
                                 </Card.Footer>
                             </Card>
                         </Link>
@@ -53,6 +53,59 @@ class RecentItems extends React.Component {
             </>
         )
     }
+}
+
+export function timeSince(date) {
+    var now = new Date();
+    var then = new Date(date);
+    var seconds = Math.floor((now - then) / 1000);
+    var interval = Math.floor(seconds / 31536000);
+
+    console.log(seconds);
+    console.log(now);
+    console.log(then);
+    console.log(date);
+
+    if (interval > 1) {
+        const year = Math.floor(interval) 
+        if (year > 1) {
+            return year + " years ago";
+        }
+        return year + " year ago";
+    }
+    interval = seconds / 2592000;
+    if (interval > 1) {
+        const month = Math.floor(interval)
+        if (month > 1) {
+            return month + " months ago";
+        }
+        return month + " month ago";
+    }
+    interval = seconds / 86400;
+    if (interval > 1) {
+        const day = Math.floor(interval)
+        if (day > 1) {
+            return day + " days ago";
+        }
+        return day + " day ago";
+    }
+    interval = seconds / 3600;
+    if (interval > 1) {
+        const hour = Math.floor(interval)
+        if (hour > 1) {
+            return hour + " hours ago";
+        }
+        return hour + " hour ago";
+    }
+    interval = seconds / 60;
+    if (interval > 1) {
+        const minute = Math.floor(interval)
+        if (minute > 1) {
+            return minute + " minutes ago";
+        }
+        return minute + " minute ago";
+    }
+    return Math.floor(seconds) + " seconds ago";
 }
 
 export default RecentItems;
