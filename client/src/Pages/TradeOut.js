@@ -173,24 +173,26 @@ function TradeOut() {
     } else if (dbResponded && !succeeded) {
         return (
             <Container>
-            <Row>
-                <Col style={{display: 'flex',  justifyContent:'center', alignItems:'center'}}>
-                    <h1>Error!</h1>
-                </Col>
-            </Row>
-            <Row>
-                <Col style={{display: 'flex',  justifyContent:'center', alignItems:'center'}}>
-                    <h4>Something went wrong, please try again</h4>
-                </Col>
-            </Row>
-            <Row>
-                <Col style={{display: 'flex',  justifyContent:'center', alignItems:'center'}}>
-                    <Link to="/tradeout">
-                        <Button variant="primary" type="success">Back to Trade Out</Button>
-                    </Link>
-                </Col>
-            </Row>
-        </Container>
+                <Row>
+                    <Col style={{display: 'flex',  justifyContent:'center', alignItems:'center'}}>
+                        <h1>Error!</h1>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col style={{display: 'flex',  justifyContent:'center', alignItems:'center'}}>
+                        <h4>Something went wrong, please try again</h4>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col style={{display: 'flex',  justifyContent:'center', alignItems:'center'}}>
+                        <Button variant="primary" type="success" onClick={
+                            () => {
+                                window.location.reload(); // Reload the page
+                            }
+                        }>Retry</Button>
+                    </Col>
+                </Row>
+            </Container>
         )
     } else {
         return (
