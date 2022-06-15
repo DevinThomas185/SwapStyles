@@ -5,6 +5,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
 
 class HomePage extends React.Component {
     constructor(props) {
@@ -67,7 +68,18 @@ class HomePage extends React.Component {
             <Container>
                 <Row>
                     <Col className="mb-3">
-                        <h2>Events near you</h2>
+                        <Row>
+                            <Col>
+                                <h2>Events near you</h2>
+                            </Col>
+                            <Col lg={3}>
+                                <Link to="/searchEvents" style={{textDecoration: 'none'}}>
+                                    <Button className="mb-3" style={{float: 'right'}}>
+                                        Browse All Events
+                                    </Button>
+                                </Link>
+                            </Col>
+                        </Row>
                         <ListGroup>
                             {this.state.nearbyEvents.map(event => (
                                 <Link to={`/event/${event.id}`}  style={{ textDecoration: 'none' }} key={event.id}>
@@ -93,7 +105,18 @@ class HomePage extends React.Component {
                 </Row>
                 <Row>
                     <Col>
-                        <h2>Recently listed items</h2>
+                        <Row>
+                            <Col>
+                                <h2>Recently listed items</h2>
+                            </Col>
+                            <Col lg={3}>
+                                <Link to="/tradein" style={{textDecoration: 'none'}}>
+                                    <Button className="mb-3" style={{float: 'right'}}>
+                                        Browse All Items
+                                    </Button>
+                                </Link>
+                            </Col>
+                        </Row>
                         <Row>
                             {this.state.recentItems.map(product => (
                                 <Col key={product.id} >
