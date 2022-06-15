@@ -4,8 +4,8 @@ import Container from 'react-bootstrap/esm/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import ListGroup from 'react-bootstrap/ListGroup';
-import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
+import RecentItems from '../Components/RecentItems';
 
 class HomePage extends React.Component {
     constructor(props) {
@@ -38,18 +38,6 @@ class HomePage extends React.Component {
         })
     }
 
-    getRecentItems() {
-        fetch('/api/getRecentItems')
-            .then(res => res.json())
-            .then(data => {
-                console.log(data);
-                this.setState({
-                    recentItems: data
-                });
-            }
-            );
-    }
-
     getDate(date) {
         return new Date(date).toLocaleDateString();
     }
@@ -60,7 +48,6 @@ class HomePage extends React.Component {
 
     componentDidMount() {
         this.getNearbyEvents();
-        this.getRecentItems();
     }
 
     render() {
@@ -118,26 +105,7 @@ class HomePage extends React.Component {
                             </Col>
                         </Row>
                         <Row>
-                            {this.state.recentItems.map(product => (
-                                <Col key={product.id} >
-                                    <Link to={`/product/${product.id}`}  style={{ textDecoration: 'none' }}>
-                                        <Card style={{width: "12rem"}} >
-                                            <Card.Img variant="top" src={product.url}/>
-                                            <Card.Body>
-                                                <Card.Title>
-                                                    {product.title}
-                                                </Card.Title>
-                                                <Card.Text>
-                                                    {product.description}
-                                                </Card.Text>
-                                            </Card.Body>
-                                            <Card.Footer>
-                                                <small className="text-muted"> {} minutes ago</small>
-                                            </Card.Footer>
-                                        </Card>
-                                    </Link>
-                                </Col>
-                            ))}
+                            <RecentItems />
                         </Row>
                     </Col>
                 </Row>
