@@ -31,39 +31,39 @@ function CreateEvent() {
         if (form.checkValidity() === false) {
             e.preventDefault();
             e.stopPropagation();
+        } else {
+            await setLatLong(event.postcode);
+            console.log(event.long);
+            console.log(event.lat);
+    
+            const request = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    title: event.title,
+                    description: event.description,
+                    date: event.date,
+                    starttime: event.starttime,
+                    endtime: event.endtime,
+                    postcode: event.postcode,
+                    address: event.address,
+                    long: event.long,
+                    lat: event.lat
+                })
+            };
+    
+            fetch('/api/addEvent', request)
+                .then(res => {
+                    if (res.ok) {
+                        setSucceeded(true);
+                    } else {
+                        setSucceeded(false);
+                    }
+                    setDbResponded(true);
+                });
         }
 
         setValidated(true);
-
-        await setLatLong(event.postcode);
-        console.log(event.long);
-        console.log(event.lat);
-
-        const request = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                title: event.title,
-                description: event.description,
-                date: event.date,
-                starttime: event.starttime,
-                endtime: event.endtime,
-                postcode: event.postcode,
-                address: event.address,
-                long: event.long,
-                lat: event.lat
-            })
-        };
-
-        fetch('/api/addEvent', request)
-            .then(res => {
-                if (res.ok) {
-                    setSucceeded(true);
-                } else {
-                    setSucceeded(false);
-                }
-                setDbResponded(true);
-            });
     }
 
     const handleChange = (e) => {
@@ -224,7 +224,7 @@ function CreateEvent() {
                 </Row>
             </Container>
         )
-    } else {
+    } else if (dbResponded && succeeded) {
         return (
             <Container>
                 <Row>
