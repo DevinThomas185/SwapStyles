@@ -1,15 +1,17 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Container from 'react-bootstrap/esm/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import ListGroup from 'react-bootstrap/ListGroup';
-import { Link } from 'react-router-dom';
+import Card from 'react-bootstrap/Card';
 
 class HomePage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             nearbyEvents: [],
+            recentItems: []
         };
     }
 
@@ -35,6 +37,18 @@ class HomePage extends React.Component {
         })
     }
 
+    getRecentItems() {
+        fetch('/api/getRecentItems')
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                this.setState({
+                    recentItems: data
+                });
+            }
+            );
+    }
+
     getDate(date) {
         return new Date(date).toLocaleDateString();
     }
@@ -45,13 +59,14 @@ class HomePage extends React.Component {
 
     componentDidMount() {
         this.getNearbyEvents();
+        this.getRecentItems();
     }
 
     render() {
         return (
             <Container>
                 <Row>
-                    <Col className="mb-5">
+                    <Col className="mb-3">
                         <h2>Events near you</h2>
                         <ListGroup>
                             {this.state.nearbyEvents.map(event => (
@@ -79,11 +94,28 @@ class HomePage extends React.Component {
                 <Row>
                     <Col>
                         <h2>Recently listed items</h2>
-                        <ListGroup>
-                            <ListGroup.Item>Item 1</ListGroup.Item>
-                            <ListGroup.Item>Item 2</ListGroup.Item>
-                            <ListGroup.Item>Item 3</ListGroup.Item>
-                        </ListGroup>
+                        <Row>
+                            {this.state.recentItems.map(product => (
+                                <Col key={product.id} >
+                                    <Link to={`/product/${product.id}`}  style={{ textDecoration: 'none' }}>
+                                        <Card style={{width: "12rem"}} >
+                                            <Card.Img variant="top" src={product.url}/>
+                                            <Card.Body>
+                                                <Card.Title>
+                                                    {product.title}
+                                                </Card.Title>
+                                                <Card.Text>
+                                                    {product.description}
+                                                </Card.Text>
+                                            </Card.Body>
+                                            <Card.Footer>
+                                                <small className="text-muted"> {} minutes ago</small>
+                                            </Card.Footer>
+                                        </Card>
+                                    </Link>
+                                </Col>
+                            ))}
+                        </Row>
                     </Col>
                 </Row>
             </Container>

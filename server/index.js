@@ -133,6 +133,12 @@ app.post('/api/getNearbyEvents', async (req, res) => {
   res.json(events.rows);
 })
 
+app.get('/api/getRecentItems', async(req, res) => {
+  console.log("Getting recent items");
+  const items = await pool.query(`SELECT * FROM products ORDER BY id DESC LIMIT 5`);
+  res.json(items.rows);
+})
+
 
 // serve react app from root
 if (process.env.NODE_ENV === "production") {
