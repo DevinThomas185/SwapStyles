@@ -129,7 +129,7 @@ app.post('/api/getNearbyEvents', async (req, res) => {
   const lat = req.body.lat;
   const lng = req.body.lng;
   console.log(`Getting events nearby: Lat:${lat} Long:${lng}`);
-  const events = await pool.query(`SELECT * FROM events WHERE Latitude BETWEEN ${lat - radius} AND ${lat + radius} AND Longitude BETWEEN ${lng - radius} AND ${lng + radius} LIMIT 5`);
+  const events = await pool.query(`SELECT * FROM events WHERE Latitude BETWEEN ${lat - radius} AND ${lat + radius} AND Longitude BETWEEN ${lng - radius} AND ${lng + radius} ORDER BY Date ASC LIMIT 5`);
   res.json(events.rows);
 })
 
