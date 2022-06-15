@@ -61,11 +61,6 @@ export function timeSince(date) {
     var seconds = Math.floor((now - then) / 1000);
     var interval = Math.floor(seconds / 31536000);
 
-    console.log(seconds);
-    console.log(now);
-    console.log(then);
-    console.log(date);
-
     if (interval > 1) {
         const year = Math.floor(interval) 
         if (year > 1) {
@@ -105,7 +100,12 @@ export function timeSince(date) {
         }
         return minute + " minute ago";
     }
-    return Math.floor(seconds) + " seconds ago";
+
+    if (seconds > 1) {
+        return seconds + " seconds ago";
+    } else {
+        return "just now";
+    }   
 }
 
 export default RecentItems;
