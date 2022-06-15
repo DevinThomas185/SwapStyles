@@ -4,6 +4,7 @@ import Container from 'react-bootstrap/esm/Container';
 import Row from 'react-bootstrap/Row';
 import SearchBar from '../Components/SearchBar';
 import Event from '../Components/Event';
+import EventMap from '../Components/EventMap';
 
 
 class EventSearch extends React.Component {
@@ -31,6 +32,7 @@ class EventSearch extends React.Component {
         return (
             <div>
                 <SearchBar getResults={this.getEvents} />
+                <EventMap></EventMap>
                 <Container>
                     <Row>
                         {this.state.events.map(event => (
