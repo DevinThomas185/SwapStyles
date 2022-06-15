@@ -67,17 +67,19 @@ app.post('/api/addProduct', function (clothing, res) {
   console.log(condition);
 
   pool.query(`INSERT INTO products(Title, Description, Url, Age, Condition)VALUES($1,$2,$3,$4,$5)`,
-    [title, description, image, age, condition,], (err, res) => {
+    [title, description, image, age, condition,], (err, r) => {
       if (err) {
         console.log("Error - Failed to insert data into Products");
         console.log(err);
+        res.status(500).send("Error - Failed to insert data into Products");
       } else {
         console.log("Query Processed");
+        res.status(200).send("Success - Data inserted into Products");
       }
     });
 })
 
-
+// Adding an event to the database
 app.post('/api/addEvent', function (event, res) {
   title = event.body.title;
   description = event.body.description;
@@ -101,12 +103,14 @@ app.post('/api/addEvent', function (event, res) {
   console.log(latitude);
 
   pool.query(`INSERT INTO events(Name, Description, Date, Starttime, Endtime, Location, Postcode, Longitude, Latitude)VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9)`,
-    [title, description, date, starttime, endtime, location, postcode, longitude, latitude], (err, res) => {
+    [title, description, date, starttime, endtime, location, postcode, longitude, latitude], (err, r) => {
       if (err) {
-        console.log("Error - Failed to insert data into Products");
+        console.log("Error - Failed to insert data into Events");
         console.log(err);
+        res.status(500).send("Error - Failed to insert data into Events");
       } else {
         console.log("Query Processed");
+        res.status(200).send("Success - Data inserted into Events");
       }
     });
 })
