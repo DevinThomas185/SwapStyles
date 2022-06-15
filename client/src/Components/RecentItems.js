@@ -23,6 +23,40 @@ class RecentItems extends React.Component {
             );
     }
 
+    timeSince(date) {
+        var now = new Date();
+        var then = new Date(date);
+        // then.setHours(then.getHours() + 1);
+        var seconds = Math.floor((now - then) / 1000);
+        var interval = Math.floor(seconds / 31536000);
+
+        console.log(seconds);
+        console.log(now);
+        console.log(then);
+        console.log(date);
+
+        if (interval > 1) {
+          return Math.floor(interval) + " years ago";
+        }
+        interval = seconds / 2592000;
+        if (interval > 1) {
+          return Math.floor(interval) + " months ago";
+        }
+        interval = seconds / 86400;
+        if (interval > 1) {
+          return Math.floor(interval) + " days ago";
+        }
+        interval = seconds / 3600;
+        if (interval > 1) {
+          return Math.floor(interval) + " hours ago";
+        }
+        interval = seconds / 60;
+        if (interval > 1) {
+          return Math.floor(interval) + " minutes ago";
+        }
+        return Math.floor(seconds) + " seconds ago";
+      }
+
     componentDidMount() {
         this.getRecentItems();
     }
@@ -44,7 +78,7 @@ class RecentItems extends React.Component {
                                     </Card.Text>
                                 </Card.Body>
                                 <Card.Footer>
-                                    <small className="text-muted"> {} minutes ago</small>
+                                    <small className="text-muted"> {this.timeSince(product.submitted)} </small>
                                 </Card.Footer>
                             </Card>
                         </Link>

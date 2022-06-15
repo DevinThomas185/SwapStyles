@@ -1,9 +1,5 @@
 import React from 'react';
-import Col from 'react-bootstrap/Col';
-import Container from 'react-bootstrap/esm/Container';
-import Row from 'react-bootstrap/Row';
 import SearchBar from '../Components/SearchBar';
-import Event from '../Components/Event';
 import EventMap from '../Components/EventMap';
 
 

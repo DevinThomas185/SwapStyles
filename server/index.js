@@ -58,6 +58,7 @@ app.post('/api/addProduct', function (clothing, res) {
   image = clothing.body.image;
   age = clothing.body.age;
   condition = clothing.body.condition;
+  submitted = new Date();
 
   console.log("API PROCESSING")
   console.log(title);
@@ -66,8 +67,8 @@ app.post('/api/addProduct', function (clothing, res) {
   console.log(age);
   console.log(condition);
 
-  pool.query(`INSERT INTO products(Title, Description, Url, Age, Condition)VALUES($1,$2,$3,$4,$5)`,
-    [title, description, image, age, condition,], (err, r) => {
+  pool.query(`INSERT INTO products(Title, Description, Url, Age, Condition, Submitted) VALUES($1,$2,$3,$4,$5,$6)`,
+    [title, description, image, age, condition, submitted], (err, r) => {
       if (err) {
         console.log("Error - Failed to insert data into Products");
         console.log(err);
