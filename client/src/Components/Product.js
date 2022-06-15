@@ -6,8 +6,8 @@ import { Link } from 'react-router-dom';
 class Product extends React.Component {
     render() {
         return (
-            <Link to={"/product/"+this.props.product.id} style={{ textDecoration: 'none' }}>
-                <Card style={{width: '18rem'}} href={"/product/"+this.props.product.id}  className="mb-3">
+            <Card style={{width: '18rem'}} href={"/product/"+this.props.product.id}  className="mb-3">
+                <Link to={"/product/"+this.props.product.id} style={{ textDecoration: 'none' }}>
                     <Card.Img variant="top" src={this.props.product.url} style={{height: '18rem'}}/>
                     <Card.Body>
                         <Card.Title>
@@ -21,8 +21,8 @@ class Product extends React.Component {
                         </Card.Text>
                         {/* <Button variant="primary" align="center" href="/product/1">View</Button> */}
                     </Card.Body>
-                </Card>
-            </Link>
+                </Link>
+            </Card>
         );
     }
 }
