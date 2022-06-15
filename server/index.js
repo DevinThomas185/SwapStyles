@@ -5,6 +5,8 @@ const cookieParser = require("cookie-parser")
 const app = express()
 const port = process.env.PORT || 5000
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser("82e4e438a0705fabf61f9854e3b575af"))
 
 const { Pool } = require('pg');
@@ -15,6 +17,10 @@ const pool = new Pool({
   }
 });
 
+function get_user_id(req) {
+  const cookies = Object.assign({}, req.signedCookies)
+  return cookies.user
+}
 
 // backend api
 app.get('/api', (req, res) => {
@@ -51,11 +57,14 @@ app.get('/api/getProduct', async (req, res) => {
   res.json(product.rows[0]);
 })
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
 // Post a new product
 app.post('/api/addProduct', function (clothing, res) {
+  const user_id = get_user_id(clothing)
+  if (user_id == null) {
+    // TODO: handle attempt to add while not logged in
+    return
+  }
+
   title = clothing.body.title;
   description = clothing.body.description;
   image = clothing.body.image;
@@ -69,8 +78,8 @@ app.post('/api/addProduct', function (clothing, res) {
   console.log(age);
   console.log(condition);
 
-  pool.query(`INSERT INTO products(Title, Description, Url, Age, Condition)VALUES($1,$2,$3,$4,$5)`,
-    [title, description, image, age, condition,], (err, res) => {
+  pool.query(`INSERT INTO products (Title, Description, Url, Age, Condition, SellerId) VALUES ($1,$2,$3,$4,$5,$6)`,
+    [title, description, image, age, condition, user_id], (err, res) => {
       if (err) {
         console.log("Error - Failed to insert data into Products");
         console.log(err);
@@ -133,7 +142,6 @@ app.post('/api/login', async (event, res) => {
 
   if (matches.length != 0) {
     const details = matches.rows[0]
-    console.log(details)
     const user_id = details.id
     const expected_password = details.password
 
@@ -142,8 +150,8 @@ app.post('/api/login', async (event, res) => {
         httpOnly: true,
         signed: true,
       };
-      maxAge = 360000 // 1 hour
-      res.cookie('user', user_id, options).send({maxAge: maxAge});
+      const maxAge = 360000 // 1 hour
+      res.cookie('user', user_id, options).send({maxAge: maxAge})
     } else {
       // TODO: invalid
     }
