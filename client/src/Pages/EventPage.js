@@ -38,6 +38,9 @@ function ProductPage(props) {
                                     Description: {event.description}
                                 </Card.Text>
                                 <Card.Text>
+                                    Postcode: {event.postcode}
+                                </Card.Text>
+                                <Card.Text>
                                     Address: {event.location}
                                 </Card.Text>
                                 <Card.Text>

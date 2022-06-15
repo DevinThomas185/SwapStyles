@@ -20,7 +20,7 @@ export default function Map(props) {
                 zoom={13}
                 mapContainerStyle={{ width: '100%', height: '100%' }}
                 options={{ streetViewControl: false, fullscreenControl: false }}>
-                <Marker position={{ lat: 51.498356, lng: -0.176894 }} />
+                <Marker position={{ lat: props.lat, lng: props.long }} />
             </GoogleMap>
         </div>
     )
