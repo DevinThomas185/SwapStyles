@@ -6,6 +6,7 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import SustainableAlternatives from '../Components/SustainableAlternatives';
 import { useParams } from 'react-router-dom';
+import { timeSince } from '../Components/RecentItems';
 
 function ProductPage(props) {
     const { id } = useParams();
@@ -65,6 +66,9 @@ function ProductPage(props) {
                     <Col>
                         <Card.Text>
                             From: {product.seller}
+                        </Card.Text>
+                        <Card.Text>
+                            {timeSince(product.submitted)}
                         </Card.Text>
                     </Col>
                     <Col lg={2}>
