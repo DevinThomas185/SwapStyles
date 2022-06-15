@@ -110,12 +110,13 @@ function TradeOut() {
 
                 <Row className="mb-3">
                     <input
-                        type="file"
+                        type="hidden" 
                         data-accepted="image/*"
                         data-maxFileSize="0.5"
-                        apiKey="035d47aa53030d76819b63ab6ce9b05b"
+                        name="image" id="image" class="simple-file-upload"
                         onSuccess={handleFile}
                     />
+
                         
                     <Form.Group controlId="validationCustom04" as={Col}>
                         <Form.Label>Age</Form.Label>
