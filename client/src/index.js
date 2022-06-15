@@ -14,6 +14,8 @@ import EventPage from "./Pages/EventPage";
 import Navigation from "./Components/Navigation";
 import CreateEvent from "./Pages/CreateEvent";
 import EventSearch from "./Pages/EventSearch";
+import Login from "./Pages/Login";
+import SignUp from "./Pages/SignUp.js";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -37,6 +39,8 @@ root.render(
               <Route path="/event/:id" element={<EventPage />} />
               <Route path="/createEvent/" element={<CreateEvent />} />
               <Route path="/searchEvents/" element={<EventSearch />} />
+              <Route path="/login/" element={<Login />} />
+              <Route path="/signup/" element={<SignUp />} />
             </Routes>
           </Col>
         </Row>

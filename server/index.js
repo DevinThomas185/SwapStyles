@@ -1,9 +1,12 @@
 const express = require('express')
 const path = require("path")
+const cookieParser = require("cookie-parser")
 
 const app = express()
-
 const port = process.env.PORT || 5000
+
+app.use(cookieParser("82e4e438a0705fabf61f9854e3b575af"))
+
 const { Pool } = require('pg');
 const pool = new Pool({
   connectionString: "postgres://gobsygpefhzdif:99c9011aacce9c1764ac8aa17f9f0d09c0b56ebf104bf79b0eb50558c94d9bbf@ec2-52-73-184-24.compute-1.amazonaws.com:5432/dej5s0l23ki1su",
@@ -118,6 +121,55 @@ app.get('/api/getEvents', async (req, res) => {
   const events = await pool.query(`SELECT * FROM events WHERE LOWER(Name) LIKE '%${query}%'`);
   res.json(events.rows);
 })
+
+
+// Login
+app.post('/api/login', async (event, res) => {
+  const details = event.body
+  const username = details.username
+  const password = details.password
+
+  const matches = await pool.query(`SELECT * FROM users WHERE Username = '${username}'`)
+
+  if (matches.length != 0) {
+    const details = matches.rows[0]
+    console.log(details)
+    const user_id = details.id
+    const expected_password = details.password
+
+    if (password === expected_password) {
+      const options = {
+        httpOnly: true,
+        signed: true,
+      };
+      maxAge = 360000 // 1 hour
+      res.cookie('user', user_id, options).send({maxAge: maxAge});
+    } else {
+      // TODO: invalid
+    }
+  } else {
+    // TODO: invalid
+  }
+
+})
+
+
+// Signup
+app.post('/api/signup', async (event, res) => {
+  const details = event.body
+  const username = details.username
+  const password = details.password
+
+  const collisions = (await pool.query(`SELECT Username FROM users WHERE Username = '${username}'`)).rows.length != 0
+
+  if (!collisions) {
+    pool.query(`INSERT INTO users (Username, Password) VALUES ('${username}', '${password}')`)
+    // TODO: redirect? login?
+  } else {
+    // TODO: invalid
+  }
+})
+
 
 // serve react app from root
 if (process.env.NODE_ENV === "production") {
