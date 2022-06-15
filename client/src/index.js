@@ -14,6 +14,7 @@ import EventPage from "./Pages/EventPage";
 import Navigation from "./Components/Navigation";
 import CreateEvent from "./Pages/CreateEvent";
 import EventSearch from "./Pages/EventSearch";
+import HomePage from "./Pages/HomePage";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -31,7 +32,8 @@ root.render(
         <Row>
           <Col>
             <Routes>
-              <Route path="/" element={<Shop />} />
+              <Route path="/" element={<HomePage/>} />
+              <Route path="/tradein" element={<Shop />} />
               <Route path="/tradeout" element={<TradeOut />} />
               <Route path="/product/:id" element={<ProductPage product="h" />} />
               <Route path="/event/:id" element={<EventPage />} />

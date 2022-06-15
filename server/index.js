@@ -131,6 +131,23 @@ app.get('/api/getEvent', async (req, res) => {
   res.json(event.rows[0]);
 })
 
+// Get nearby events (must be a post due to hidden location data)
+app.post('/api/getNearbyEvents', async (req, res) => {
+  const radius = req.body.radius;
+  const lat = req.body.lat;
+  const lng = req.body.lng;
+  console.log(`Getting events nearby: Lat:${lat} Long:${lng}`);
+  const events = await pool.query(`SELECT * FROM events WHERE Latitude BETWEEN ${lat - radius} AND ${lat + radius} AND Longitude BETWEEN ${lng - radius} AND ${lng + radius} ORDER BY Date ASC LIMIT 5`);
+  res.json(events.rows);
+})
+
+app.get('/api/getRecentItems', async(req, res) => {
+  console.log("Getting recent items");
+  const items = await pool.query(`SELECT * FROM products ORDER BY id DESC LIMIT 5`);
+  res.json(items.rows);
+})
+
+
 // serve react app from root
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.resolve(__dirname, "../client/build")));
