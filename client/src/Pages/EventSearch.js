@@ -33,15 +33,6 @@ class EventSearch extends React.Component {
             <div>
                 <SearchBar getResults={this.getEvents} />
                 <EventMap events={this.state.events} />
-                <Container>
-                    <Row>
-                        {this.state.events.map(event => (
-                            <Col key={event.id}>
-                                <Event event={event} />
-                            </Col>
-                        ))}
-                    </Row>
-                </Container>
             </div>
         );
     }
