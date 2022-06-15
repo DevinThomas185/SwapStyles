@@ -32,7 +32,7 @@ class EventSearch extends React.Component {
         return (
             <div>
                 <SearchBar getResults={this.getEvents} />
-                <EventMap></EventMap>
+                <EventMap events={this.state.events} />
                 <Container>
                     <Row>
                         {this.state.events.map(event => (
