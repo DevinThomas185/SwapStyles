@@ -21,6 +21,10 @@ function TradeOut() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        setItem({
+            ...item,
+            image: document.getElementById("image").value
+        });
 
         const form = event.currentTarget;
         if (form.checkValidity() === false) {
@@ -37,7 +41,7 @@ function TradeOut() {
             body: JSON.stringify({
                 title: item.title,
                 description: item.description,
-                image: item.image,
+                image: document.getElementById("image").value,
                 age: item.age,
                 condition: item.condition
              })
