@@ -123,6 +123,14 @@ app.get('/api/getEvents', async (req, res) => {
   res.json(events.rows);
 })
 
+// Get Event from its id
+app.get('/api/getEvent', async (req, res) => {
+  console.log(`Getting event: ${req.query.id}`);
+  const id = req.query.id;
+  const event = await pool.query(`SELECT * FROM events WHERE id = ${id}`);
+  res.json(event.rows[0]);
+})
+
 // serve react app from root
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.resolve(__dirname, "../client/build")));
