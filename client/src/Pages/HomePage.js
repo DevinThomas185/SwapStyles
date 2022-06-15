@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 import Container from 'react-bootstrap/esm/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
 import RecentItems from '../Components/RecentItems';
+import NearbyEvents from '../Components/NearbyEvents';
 
 class HomePage extends React.Component {
     constructor(props) {
@@ -67,27 +67,9 @@ class HomePage extends React.Component {
                                 </Link>
                             </Col>
                         </Row>
-                        <ListGroup>
-                            {this.state.nearbyEvents.map(event => (
-                                <Link to={`/event/${event.id}`}  style={{ textDecoration: 'none' }} key={event.id}>
-                                    <ListGroup.Item>
-                                        <Row >
-                                            <Col lg={8}>
-                                                <h6>
-                                                    {event.name}
-                                                </h6>
-                                            </Col>
-                                            <Col lg={2}>
-                                                {this.getDate(event.date)}
-                                            </Col>
-                                            <Col lg={2}>
-                                                {this.getTime(event.starttime)} - {this.getTime(event.endtime)}
-                                            </Col>
-                                        </Row>
-                                    </ListGroup.Item>
-                                </Link>
-                            ))}
-                        </ListGroup>
+                        <Row>
+                            <NearbyEvents />
+                        </Row>
                     </Col>
                 </Row>
                 <Row>
