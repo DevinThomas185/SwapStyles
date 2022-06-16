@@ -2,7 +2,6 @@ import React from 'react';
 import Card from 'react-bootstrap/Card';
 import { timeSince } from './RecentItems';
 import { Link } from 'react-router-dom';
-import { timeSince } from './RecentItems';
 
 
 class Product extends React.Component {
