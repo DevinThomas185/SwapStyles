@@ -15,12 +15,15 @@ function ProductPage(props) {
 
 
     useEffect(() => {
-        fetch(`/api/getProduct?id=${id}`)
-            .then(res => res.json())
-            .then(data => setProduct(data));
-        fetch(`/api/getUser?id=${product.sellerid}`)
-            .then(res => res.json())
-            .then(data => setPoster(data.username));
+        async function setData() {
+            await fetch(`/api/getProduct?id=${id}`)
+                .then(res => res.json())
+                .then(data => setProduct(data));
+            fetch(`/api/getUser?id=${product.sellerid}`)
+                .then(res => res.json())
+                .then(data => setPoster(data.username));
+        }
+        setData();
     }, []);
 
 
