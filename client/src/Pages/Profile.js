@@ -74,7 +74,10 @@ export default function Profile() {
                                         headers: { 'Content-Type': 'application/json' },
                                     };
                                     fetch(`/api/deleteProduct?id=${item.id}`, request);
-                                    useEffect();
+                                    const i = posts.indexOf(item);
+                                    if (i > -1) {
+                                        posts.splice(i, 1);
+                                    }
                                 }}
                             >
                                 Delete
