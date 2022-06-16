@@ -43,6 +43,7 @@ function Navigation() {
                               <Nav.Link href="/login">Log in</Nav.Link>
                           </Navbar.Collapse>
                       ))}
+                      <Notifications />
                   </Container>
               </Navbar>
           </div>
