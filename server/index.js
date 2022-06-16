@@ -17,15 +17,15 @@ const pool = new Pool({
   }
 });
 
-function get_user_id(req) {
+function getUserId(req) {
   const cookies = Object.assign({}, req.signedCookies)
   return cookies.user
 }
 
-// backend api
-app.get('/api', (req, res) => {
-  console.log("hello");
-  res.status(200).send('Hello from the backend!');
+// Get user id if logged in
+app.get('/api/getUserId', (req, res) => {
+  const id = getUserId(req)
+  res.json(id)
 })
 
 
@@ -67,7 +67,7 @@ app.get('/api/getProduct', async (req, res) => {
 
 // Post a new product
 app.post('/api/addProduct', function (clothing, res) {
-  const user_id = get_user_id(clothing)
+  const user_id = getUserId(clothing)
   if (user_id == null) {
     // TODO: handle attempt to add while not logged in
     console.log("User not signed in")
@@ -104,7 +104,7 @@ app.post('/api/addProduct', function (clothing, res) {
 // Adding an event to the database
 app.post('/api/addEvent', function (event, res) {
 
-  const user_id = get_user_id(event)
+  const user_id = getUserId(event)
   if (user_id == null) {
     // TODO: handle attempt to add while not logged in
     console.log("User not signed in")
