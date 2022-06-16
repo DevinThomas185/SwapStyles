@@ -133,15 +133,15 @@ function TradeOut() {
                         apiKey="035d47aa53030d76819b63ab6ce9b05b"
                         onSuccess={handleFile}
                     />
-
                         
                     <Form.Group controlId="validationCustom04" as={Col}>
-                        <Form.Label>Age</Form.Label>
+                        <Form.Label>Age of the Item</Form.Label>
                         <InputGroup hasValidation>
                             <Form.Control
                                 required
                                 type="number"
                                 name='age'
+                                placeholder='How many years ago was this bought?'
                                 max={10}
                                 min={0}
                                 className="form-control"

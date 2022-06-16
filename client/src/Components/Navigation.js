@@ -22,8 +22,8 @@ class Navigation extends React.Component {
                         <Navbar.Toggle aria-controls="basic-navbar-nav" />
                         <Navbar.Collapse id="basic-navbar-nav">
                             <Nav className="me-auto">
-                                <Nav.Link href="/tradein">Trade In</Nav.Link>
-                                <Nav.Link href="/tradeout">Trade Out</Nav.Link>
+                                <Nav.Link href="/tradein">Avaliable Products</Nav.Link>
+                                <Nav.Link href="/tradeout">Swap Away</Nav.Link>
                                 <Nav.Link href="/createEvent">New Event</Nav.Link>
                                 <Nav.Link href="/searchEvents">Search Events</Nav.Link>
                             </Nav>
