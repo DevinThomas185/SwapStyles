@@ -210,13 +210,26 @@ app.post('/api/login', async (event, res) => {
 // Signup
 app.post('/api/signup', async (event, res) => {
   const details = event.body
-  const username = details.username
+  const email = details.email
   const password = details.password
+  const username = details.username
+  const postcode = details.postcode
+  const age = details.age
 
   const collisions = (await pool.query(`SELECT Username FROM users WHERE Username = '${username}'`)).rows.length != 0
 
   if (!collisions) {
-    pool.query(`INSERT INTO users (Username, Password) VALUES ('${username}', '${password}')`)
+    pool.query(`INSERT INTO users (Username, Password, Email, Postcode, Age) VALUES($1,$2,$3,$4,$5)`,
+      [username, password, email, postcode, age], (err, r) => {
+        if (err) {
+          console.log("Error - Failed to insert user into users");
+          console.log(err);
+          res.status(500).send("Error - Failed to insert new user");
+        } else {
+          console.log("User Addeded");
+          res.status(200).send("Success - Data inserted into Events");
+        }
+      })
     // TODO: redirect? login?
   } else {
     // TODO: invalid
