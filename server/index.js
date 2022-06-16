@@ -29,6 +29,14 @@ app.get('/api', (req, res) => {
 })
 
 
+// Get User from its id
+app.get('/api/getUser', async (req, res) => {
+  console.log(`Getting User: ${req.query.id}`);
+  const id = req.query.id;
+  const user = await pool.query(`SELECT * FROM users WHERE id = ${id}`);
+  res.json(user.rows[0]);
+})
+
 // Temporary Balance display
 app.get('/api/user/balance', (req, res) => {
   res.status(200).send("1");
@@ -96,7 +104,7 @@ app.post('/api/addProduct', function (clothing, res) {
 // Adding an event to the database
 app.post('/api/addEvent', function (event, res) {
 
-  const user_id = get_user_id(clothing)
+  const user_id = get_user_id(event)
   if (user_id == null) {
     // TODO: handle attempt to add while not logged in
     console.log("User not signed in")
