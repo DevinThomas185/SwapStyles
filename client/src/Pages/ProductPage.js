@@ -11,12 +11,19 @@ import { timeSince } from '../Components/RecentItems';
 function ProductPage(props) {
     const { id } = useParams();
     const [product, setProduct] = useState({});
+    const [poster, setPoster] = useState("");
+
 
     useEffect(() => {
         fetch(`/api/getProduct?id=${id}`)
             .then(res => res.json())
             .then(data => setProduct(data));
+        fetch(`/api/getUser?id=${product.sellerid}`)
+            .then(res => res.json())
+            .then(data => setPoster(data.username));
     }, []);
+
+
 
     return (
         <Card>
@@ -28,7 +35,7 @@ function ProductPage(props) {
             <Card.Body>
                 <Row>
                     <Col lg={4}>
-                        <Card.Img variant="top" src={product.url} style={{height: '20rem', width: '20rem'}}/>
+                        <Card.Img variant="top" src={product.url} style={{ height: '20rem', width: '20rem' }} />
                     </Col>
                     <Col>
                         <Row>
@@ -47,7 +54,7 @@ function ProductPage(props) {
                                         </Card.Text>
                                         <Card.Text>
                                             Condition:
-                                            <Form.Range disabled value={product.condition}/>
+                                            <Form.Range disabled value={product.condition} />
                                         </Card.Text>
                                     </Card.Body>
                                 </Card>
@@ -65,7 +72,7 @@ function ProductPage(props) {
                 <Row>
                     <Col>
                         <Card.Text>
-                            From: {product.seller}
+                            From: {poster}
                         </Card.Text>
                         <Card.Text>
                             {timeSince(product.submitted)}
