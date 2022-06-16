@@ -88,10 +88,10 @@ app.get('/api/getProduct', async (req, res) => {
 })
 
 // delete product from its id
-app.delete('/api/deleteProduct', async (req, res) => {
+app.delete('/api/deleteProduct', (req, res) => {
   console.log(`deleting product: ${req.query.id}`);
   const id = req.query.id;
-  await pool.query(`DELETE FROM products WHERE id = $1`[id], (err, result) => {
+  pool.query(`DELETE FROM products WHERE id = $1`, [id], (err, result) => {
     if (err) {
       console.error('Error removing product', err.stack)
     } else {
