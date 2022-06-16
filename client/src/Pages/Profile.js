@@ -32,13 +32,36 @@ export default function Profile() {
     return (
         <div>
 
-            <h1> </h1>
-
             <Card>
                 <Card.Header>
-                    Your Details: {user.username}
+                    Your Details
                 </Card.Header>
+                <Card.Body>
+                    <Card.Text>
+                        Username: {user.username}
+                    </Card.Text>
+                    <Card.Text>
+                        Age: {user.age}
+                    </Card.Text>
+                    <Card.Text>
+                        Postcode: {user.postcode}
+                    </Card.Text>
+                </Card.Body>
             </Card>
+
+            <h1> Your Listings: </h1>
+
+            <Container>
+                <Row>
+                    {posts.map(item => (
+                        <Col key={item.id}>
+                            <Product product={item} />
+                            <Button variant="warning"> Delete </Button>
+                        </Col>
+                    ))}
+                </Row>
+            </Container>
+
         </div>
     )
 }
