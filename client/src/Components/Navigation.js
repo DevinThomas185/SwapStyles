@@ -33,9 +33,7 @@ class Navigation extends React.Component {
                                     {this.state.balance} Trades
                                 </b>
                             </Navbar.Text>
-                            <Navbar>
-                                <Notifications />
-                            </Navbar>
+                            <Notifications />
                         </Navbar.Collapse>
                     </Container>
                 </Navbar>

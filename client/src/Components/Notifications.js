@@ -1,8 +1,8 @@
 import React from 'react';
-import Button from 'react-bootstrap/Button';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import Toast from 'react-bootstrap/Toast';
 import ToastContainer from 'react-bootstrap/ToastContainer';
+import Nav from 'react-bootstrap/Nav';
 import { useState } from 'react';
 
 
@@ -17,9 +17,9 @@ function Notifications() {
 
     return (
         <>
-            <Button variant="primary" onClick={handleShow}>
+            <Nav.Link variant="primary" onClick={handleShow}>
                 Notifications
-            </Button>
+            </Nav.Link>
 
             <Offcanvas show={show} onHide={handleClose} placement="end">
                 <Offcanvas.Header closeButton>
@@ -29,7 +29,7 @@ function Notifications() {
                     <ToastContainer>
                         <Toast animation bg='dark' show={showToast} onClose={toggleShowToast}>
                             <Toast.Header closeVariant='dark'>
-                                <strong className="me-auto">Listing!</strong>
+                                <strong className="me-auto">New Listing!</strong>
                                 <small>11 mins ago</small>
                             </Toast.Header>
                             <Toast.Body>Raaif listed an item!</Toast.Body>
