@@ -23,14 +23,14 @@ function Navigation() {
 
       return (
           <div >
-              <Navbar variant='dark' expand="lg">
+              <Navbar variant='light' expand="lg">
                   <Container>
-                      <Navbar.Brand href="/">SwapSearch</Navbar.Brand>
+                      <Navbar.Brand href="/">SwapStyles</Navbar.Brand>
                       <Navbar.Toggle aria-controls="basic-navbar-nav" />
                       <Navbar.Collapse id="basic-navbar-nav">
                           <Nav className="me-auto">
-                              <Nav.Link href="/tradein">Trade In</Nav.Link>
-                              <Nav.Link href="/tradeout">Trade Out</Nav.Link>
+                              <Nav.Link href="/tradein">Avaliable Items</Nav.Link>
+                              <Nav.Link href="/tradeout">Swap Away</Nav.Link>
                               <Nav.Link href="/createEvent">New Event</Nav.Link>
                               <Nav.Link href="/searchEvents">Search Events</Nav.Link>
                           </Nav>

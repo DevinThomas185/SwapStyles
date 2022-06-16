@@ -27,8 +27,8 @@ function Notifications() {
                 </Offcanvas.Header>
                 <Offcanvas.Body>
                     <ToastContainer>
-                        <Toast animation bg='dark' show={showToast} onClose={toggleShowToast}>
-                            <Toast.Header closeVariant='dark'>
+                        <Toast animation bg='light' show={showToast} onClose={toggleShowToast}>
+                            <Toast.Header closeVariant='light'>
                                 <strong className="me-auto">New Listing!</strong>
                                 <small>11 mins ago</small>
                             </Toast.Header>
