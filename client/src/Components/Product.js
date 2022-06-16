@@ -7,6 +7,7 @@ import { useState } from 'react';
 
 function Product(props) {
     const [eventName, setEventName] = useState("online");
+    const [seller, setSeller] = useState("");
     
     useEffect(() => {
         if (!props.product.online) {
@@ -14,6 +15,11 @@ function Product(props) {
                 .then(res => res.json())
                 .then(data => setEventName(`at ${data.name}`))
         }
+
+        fetch(`/api/getUser/?id=${props.product.sellerid}`)
+            .then(res => res.json())
+            .then(data => setSeller(data.username))
+
     }, [])
 
     return (
@@ -30,7 +36,7 @@ function Product(props) {
                 </Card.Body>
                 <Card.Footer>
                     <Card.Text>
-                        From: {props.product.seller}
+                        From: {seller}
                     </Card.Text>
                     <Card.Text>
                         <small className="text-muted">Available { eventName }</small>
