@@ -17,15 +17,29 @@ const pool = new Pool({
   }
 });
 
-function get_user_id(req) {
+function getUserId(req) {
   const cookies = Object.assign({}, req.signedCookies)
   return cookies.user
 }
 
-// backend api
-app.get('/api', (req, res) => {
-  console.log("hello");
-  res.status(200).send('Hello from the backend!');
+// Get user id if logged in
+app.get('/api/getUserId', (req, res) => {
+  const id = getUserId(req)
+  if (id === undefined) {
+    res.json({})
+  } else {
+    res.json({ id: id })
+  }
+})
+
+app.get('/api/isLoggedIn', (req, res) => {
+  const id = getUserId(req)
+  if (id === undefined) {
+    loggedIn = false
+  } else {
+    loggedIn = true
+  }
+  res.json(loggedIn)
 })
 
 
@@ -57,6 +71,14 @@ app.get('/api/getProducts', async (req, res) => {
   res.json(products.rows);
 })
 
+// Get products from sller id
+app.get('/api/getProductsFromSeller', async (req, res) => {
+  console.log(`Getting products from seller: ${req.query.id}`);
+  const id = req.query.id;
+  const products = await pool.query(`SELECT * FROM products WHERE Sellerid = ${id}`);
+  res.json(products.rows);
+})
+
 // Get product from its id
 app.get('/api/getProduct', async (req, res) => {
   console.log(`Getting product: ${req.query.id}`);
@@ -65,9 +87,22 @@ app.get('/api/getProduct', async (req, res) => {
   res.json(product.rows[0]);
 })
 
+// delete product from its id
+app.delete('/api/deleteProduct', (req, res) => {
+  console.log(`deleting product: ${req.query.id}`);
+  const id = req.query.id;
+  pool.query(`DELETE FROM products WHERE id = $1`, [id], (err, result) => {
+    if (err) {
+      console.error('Error removing product', err.stack)
+    } else {
+      console.log("Product removed succesfully");
+    }
+  });
+})
+
 // Post a new product
 app.post('/api/addProduct', function (clothing, res) {
-  var user_id = get_user_id(clothing)
+  user_id = getUserId(clothing)
   if (user_id == null) {
     // TODO: handle attempt to add while not logged in
     console.log("User not signed in")
@@ -106,7 +141,7 @@ app.post('/api/addProduct', function (clothing, res) {
 // Adding an event to the database
 app.post('/api/addEvent', function (event, res) {
 
-  const user_id = get_user_id(event)
+  const user_id = getUserId(event)
   if (user_id == null) {
     // TODO: handle attempt to add while not logged in
     console.log("User not signed in")
@@ -189,10 +224,12 @@ app.get('/api/getRecentItems', async (req, res) => {
 // Login
 app.post('/api/login', async (event, res) => {
   const details = event.body
-  const username = details.username
+  const email = details.email
   const password = details.password
 
-  const matches = await pool.query(`SELECT * FROM users WHERE Username = '${username}'`)
+  const matches = await pool.query(`SELECT * FROM users WHERE Email = '${email}'`)
+
+  success = false
 
   if (matches.length != 0) {
     const details = matches.rows[0]
@@ -205,31 +242,43 @@ app.post('/api/login', async (event, res) => {
         signed: true,
       };
       const maxAge = 360000 // 1 hour
-      res.cookie('user', user_id, options).send({ maxAge: maxAge })
-    } else {
-      // TODO: invalid
+      res.cookie('user', user_id, options)
+      success = true
     }
-  } else {
-    // TODO: invalid
   }
 
+  res.json({ success: success })
 })
 
 
 // Signup
 app.post('/api/signup', async (event, res) => {
   const details = event.body
-  const username = details.username
+  const email = details.email
   const password = details.password
+  const username = details.username
+  const postcode = details.postcode
+  const age = details.age
 
   const collisions = (await pool.query(`SELECT Username FROM users WHERE Username = '${username}'`)).rows.length != 0
 
+  success = false
+
   if (!collisions) {
-    pool.query(`INSERT INTO users (Username, Password) VALUES ('${username}', '${password}')`)
-    // TODO: redirect? login?
-  } else {
-    // TODO: invalid
+    pool.query(`INSERT INTO users (Username, Password, Email, Postcode, Age) VALUES($1,$2,$3,$4,$5)`,
+      [username, password, email, postcode, age], (err, r) => {
+        if (err) {
+          console.log("Error - Failed to insert user into users");
+          console.log(err);
+        } else {
+          console.log("User Addeded");
+        }
+      }
+    )
+    success = true
   }
+
+  res.json({ success: success })
 })
 
 

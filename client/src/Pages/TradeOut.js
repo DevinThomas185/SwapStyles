@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import  { useNavigate } from 'react-router-dom'
 import SimpleFileUpload from 'react-simple-file-upload';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -26,14 +27,28 @@ function TradeOut() {
     });
 
     const [validated, setValidated] = useState(false);
-
     const [dbResponded, setDbResponded] = useState(false);
     const [succeeded, setSucceeded] = useState(false);
+    const [loggedIn, setLoggedIn] = useState(true);
 
     const setEvent = (event) => {
         setItem({
             ...item,
             event: event
+        })
+    }
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+      checkLoggedIn()
+    }, [])
+
+    function checkLoggedIn() {
+      fetch('/api/isLoggedIn')
+        .then(resp => resp.json())
+        .then(loggedIn => {
+          setLoggedIn(loggedIn)
         })
     }
 
@@ -88,8 +103,10 @@ function TradeOut() {
             image: url
         });
     }
-
-    if (!dbResponded) {
+    
+    if (!loggedIn) {
+        navigate('/login')
+    } else if (!dbResponded) {
         return (
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
                 <Row className="mb-3">
