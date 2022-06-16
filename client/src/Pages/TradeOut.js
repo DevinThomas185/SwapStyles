@@ -7,17 +7,34 @@ import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Badge from 'react-bootstrap/Badge';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Container from 'react-bootstrap/Container';
+import ButtonGroup from 'react-bootstrap/ButtonGroup'
+import ToggleButton from 'react-bootstrap/ToggleButton'
+import ProductListEvent from '../Components/ProductListEvent'
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
 
 
 function TradeOut() {
-    const [item, setItem] = React.useState({
+    const [item, setItem] = useState({
         condition: 50,
+        online: false,
+        event: {
+            id: 1,
+            name: ""
+        }
     });
-    const [validated, setValidated] = React.useState(false);
 
-    const [dbResponded, setDbResponded] = React.useState(false);
-    const [succeeded, setSucceeded] = React.useState(false);
+    const [validated, setValidated] = useState(false);
+
+    const [dbResponded, setDbResponded] = useState(false);
+    const [succeeded, setSucceeded] = useState(false);
+
+    const setEvent = (event) => {
+        setItem({
+            ...item,
+            event: event
+        })
+    }
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -40,7 +57,9 @@ function TradeOut() {
                     description: item.description,
                     image: document.getElementById("image").value,
                     age: item.age,
-                    condition: item.condition
+                    condition: item.condition,
+                    event: item.event,
+                    online: item.online,
                  })
             };
             
@@ -165,6 +184,47 @@ function TradeOut() {
                                 </Badge>
                             </Col>
                         </Row>
+                    </Form.Group>
+                </Row>
+                <Row className='mb-2'>
+                    <Form.Group>
+                        <Col>
+                            <ButtonGroup>
+                                <ToggleButton
+                                key={0}
+                                id='radio-0'
+                                type="radio"
+                                variant="info"
+                                name="radio"
+                                checked={item.online}
+                                onChange={() => setItem({
+                                    ...item,
+                                    online: true
+                                })}
+                                >
+                                    List item Online
+                                </ToggleButton>
+                                <ToggleButton
+                                key={1}
+                                id='radio-1'
+                                type="radio"
+                                variant="info"
+                                name="radio"
+                                checked={!item.online}
+                                onChange={() => setItem({
+                                    ...item,
+                                    online: false
+                                })}
+                                >
+                                    List item at Event
+                                </ToggleButton>
+                            </ButtonGroup>
+                        </Col>
+                    </Form.Group>
+                </Row>
+                <Row className="mb-3">
+                    <Form.Group controlId="validationCustom06" as={Col}>
+                        <ProductListEvent online={item.online} event={item.event} setEvent={setEvent}/>
                     </Form.Group>
                 </Row>
                 <Row className="mb-3">

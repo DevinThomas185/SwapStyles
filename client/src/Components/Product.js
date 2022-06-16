@@ -19,7 +19,6 @@ class Product extends React.Component {
                         <Card.Text>
                             From: {this.props.product.seller}
                         </Card.Text>
-                        {/* <Button variant="primary" align="center" href="/product/1">View</Button> */}
                     </Card.Body>
                 </Link>
             </Card>
