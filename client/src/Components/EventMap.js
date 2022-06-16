@@ -57,6 +57,13 @@ export default function EventMap(props) {
                                 <Card.Text>
                                     Location: {selected.location}
                                 </Card.Text>
+                                <Card.Text>
+                                    Oraginser: {
+                                        fetch(`/api/getUser?id=${selected.organiser}`)
+                                            .then(res => res.json())
+                                            .then(data => data.username)
+                                    }
+                                </Card.Text>
                             </Card.Body>
                         </Card>
                     ) : null}
