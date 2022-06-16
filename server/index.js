@@ -29,6 +29,14 @@ app.get('/api', (req, res) => {
 })
 
 
+// Get User from its id
+app.get('/api/getUser', async (req, res) => {
+  console.log(`Getting User: ${req.query.id}`);
+  const id = req.query.id;
+  const user = await pool.query(`SELECT * FROM users WHERE id = ${id}`);
+  res.json(user.rows[0]);
+})
+
 // Temporary Balance display
 app.get('/api/user/balance', (req, res) => {
   res.status(200).send("1");
@@ -95,6 +103,14 @@ app.post('/api/addProduct', function (clothing, res) {
 
 // Adding an event to the database
 app.post('/api/addEvent', function (event, res) {
+
+  const user_id = get_user_id(event)
+  if (user_id == null) {
+    // TODO: handle attempt to add while not logged in
+    console.log("User not signed in")
+    user_id = 69;
+  }
+
   title = event.body.title;
   description = event.body.description;
   date = event.body.date;
@@ -116,8 +132,8 @@ app.post('/api/addEvent', function (event, res) {
   console.log(longitude);
   console.log(latitude);
 
-  pool.query(`INSERT INTO events(Name, Description, Date, Starttime, Endtime, Location, Postcode, Longitude, Latitude)VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9)`,
-    [title, description, date, starttime, endtime, location, postcode, longitude, latitude], (err, r) => {
+  pool.query(`INSERT INTO events(Name, Description, Date, Starttime, Endtime, Location, Postcode, Longitude, Latitude, Organiser)VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)`,
+    [title, description, date, starttime, endtime, location, postcode, longitude, latitude, user_id], (err, r) => {
       if (err) {
         console.log("Error - Failed to insert data into Events");
         console.log(err);

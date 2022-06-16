@@ -2,8 +2,9 @@ import React from "react";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
-
+import Button from 'react-bootstrap/Button';
 import { useJsApiLoader, GoogleMap, Marker } from '@react-google-maps/api'
+import { Link } from "react-router-dom";
 
 
 export default function EventMap(props) {
@@ -70,6 +71,9 @@ export default function EventMap(props) {
                                 <Card.Text>
                                     Location: {selected.location}
                                 </Card.Text>
+                                <Link to={"/event/" + selected.id} style={{ textDecoration: 'none' }}>
+                                    <Button> Find Out More</Button>
+                                </Link>
                             </Card.Body>
                         </Card>
                     ) : null}

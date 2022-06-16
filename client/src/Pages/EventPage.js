@@ -12,11 +12,18 @@ function ProductPage(props) {
 
     const { id } = useParams();
     const [event, setEvent] = useState({});
+    const [organiser, setOrganiser] = useState("");
 
     useEffect(() => {
         fetch(`/api/getEvent?id=${id}`)
             .then(res => res.json())
-            .then(data => setEvent(data));
+            .then(data => {
+                setEvent(data);
+                console.log(data);
+                fetch(`/api/getUser?id=${data.organiser}`)
+                    .then(res => res.json())
+                    .then(data => setOrganiser(data.username));
+            });
     }, []);
 
     return (
@@ -67,7 +74,7 @@ function ProductPage(props) {
                 <Row>
                     <Col>
                         <Card.Text>
-                            Organiser:
+                            Organiser: {organiser}
                         </Card.Text>
                     </Col>
                     <Col lg={2}>
