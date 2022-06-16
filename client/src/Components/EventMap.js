@@ -46,6 +46,8 @@ export default function EventMap(props) {
                                     position={{ lat: event.latitude, lng: event.longitude, }}
                                     onClick={() => {
                                         setSelected(event);
+                                        setLat(event.latitude);
+                                        setLng(event.longitude);
                                     }}
                                 />
                             ))}
