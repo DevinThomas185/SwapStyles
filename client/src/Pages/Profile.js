@@ -19,13 +19,13 @@ export default function Profile() {
                 console.log(id)
                 if (id != undefined) {
                     setLoggedIn(true);
-                    fetch(`/api/getUser?id=${id}`)
+                    fetch(`/api/getUser?id=${id.id}`)
                         .then(res => res.json())
                         .then(data => {
                             console.log(data);
                             setUser(data);
                         });
-                    fetch(`/api/getProductsFromSeller?id=${id}`)
+                    fetch(`/api/getProductsFromSeller?id=${id.id}`)
                         .then(res => res.json())
                         .then(data => {
                             console.log(data);

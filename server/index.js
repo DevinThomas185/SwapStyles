@@ -28,7 +28,7 @@ app.get('/api/getUserId', (req, res) => {
   if (id === undefined) {
     res.json({})
   } else {
-    res.json({id: id})
+    res.json({ id: id })
   }
 })
 
@@ -75,7 +75,7 @@ app.get('/api/getProducts', async (req, res) => {
 app.get('/api/getProductsFromSeller', async (req, res) => {
   console.log(`Getting products from seller: ${req.query.id}`);
   const id = req.query.id;
-  const products = await pool.query(`SELECT * FROM products WHERE Sellerid LIKE '%${id}%'`);
+  const products = await pool.query(`SELECT * FROM products WHERE Sellerid = ${id}`);
   res.json(products.rows);
 })
 
@@ -238,7 +238,7 @@ app.post('/api/login', async (event, res) => {
     }
   }
 
-  res.json({success: success})
+  res.json({ success: success })
 })
 
 
@@ -269,7 +269,7 @@ app.post('/api/signup', async (event, res) => {
     success = true
   }
 
-  res.json({success: success})
+  res.json({ success: success })
 })
 
 
