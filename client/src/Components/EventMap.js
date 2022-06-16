@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
@@ -14,11 +14,20 @@ export default function EventMap(props) {
     })
 
     const [selected, setSelected] = React.useState(null);
+    const [lat, setLat] = React.useState(51.499603);
+    const [lng, setLng] = React.useState(-0.174610);
 
 
     function getTime(time) {
         return time.substring(0, time.length - 3);
     }
+
+    useEffect(() => {
+        navigator.geolocation.getCurrentPosition(position => {
+            setLat(position.coords.latitude);
+            setLng(position.coords.longitude);
+        })
+    }, [])
 
 
     return (!isLoaded) ? (<div>Loading...</div>) : (
@@ -27,7 +36,7 @@ export default function EventMap(props) {
                 <Col lg={9}>
                     <div style={{ height: '75vh', width: '100%' }}>
                         <GoogleMap
-                            center={{ lat: 51.499603, lng: -0.174610, }}
+                            center={{ lat: lat, lng: lng, }}
                             zoom={13}
                             mapContainerStyle={{ width: '100%', height: '100%' }}
                             options={{ streetViewControl: false, fullscreenControl: false }}>
@@ -40,7 +49,6 @@ export default function EventMap(props) {
                                     }}
                                 />
                             ))}
-                            <Marker position={{ lat: 51.499603, lng: -0.174610, }} />
                         </GoogleMap>
                     </div >
                 </Col>
@@ -52,11 +60,13 @@ export default function EventMap(props) {
                                     {selected.name}
                                 </Card.Title>
                                 <Card.Text>
-                                    Date: {(new Date(selected.date)).toLocaleDateString("en-US", 
-                                    {weekday: 'long',
-                                    year: 'numeric',
-                                    month: 'long',
-                                    day: 'numeric'}
+                                    Date: {(new Date(selected.date)).toLocaleDateString("en-US",
+                                        {
+                                            weekday: 'long',
+                                            year: 'numeric',
+                                            month: 'long',
+                                            day: 'numeric'
+                                        }
                                     )}
                                 </Card.Text>
                                 <Card.Text>
