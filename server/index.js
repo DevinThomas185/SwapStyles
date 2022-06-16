@@ -59,7 +59,7 @@ app.get('/api/getProduct', async (req, res) => {
 
 // Post a new product
 app.post('/api/addProduct', function (clothing, res) {
-  const user_id = get_user_id(clothing)
+  var user_id = get_user_id(clothing)
   if (user_id == null) {
     // TODO: handle attempt to add while not logged in
     console.log("User not signed in")
@@ -72,6 +72,8 @@ app.post('/api/addProduct', function (clothing, res) {
   age = clothing.body.age;
   condition = clothing.body.condition;
   submitted = new Date();
+  event_id = clothing.body.event.id;
+  online = clothing.body.online;
 
   console.log("API PROCESSING")
   console.log(title);
@@ -80,8 +82,8 @@ app.post('/api/addProduct', function (clothing, res) {
   console.log(age);
   console.log(condition);
 
-  pool.query(`INSERT INTO products(Title, Description, Url, Age, Condition, Submitted, SellerId) VALUES($1,$2,$3,$4,$5,$6,$7)`,
-    [title, description, image, age, condition, submitted, user_id], (err, r) => {
+  pool.query(`INSERT INTO products(Title, Description, Url, Age, Condition, Submitted, SellerId, EventID, Online) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9)`,
+    [title, description, image, age, condition, submitted, user_id, event_id, online], (err, r) => {
       if (err) {
         console.log("Error - Failed to insert data into Products");
         console.log(err);
@@ -134,6 +136,13 @@ app.get('/api/getEvents', async (req, res) => {
   console.log(`Getting events for: ${req.query.q}`);
   const query = req.query.q;
   const events = await pool.query(`SELECT * FROM events WHERE LOWER(Name) LIKE '%${query}%'`);
+  res.json(events.rows);
+})
+
+// Get all events
+app.get('/api/getAllEvents', async (req, res) => {
+  console.log("Getting all events");
+  const events = await pool.query(`SELECT * FROM events`);
   res.json(events.rows);
 })
 

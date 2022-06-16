@@ -1,9 +1,30 @@
 import React from 'react';
 import Card from 'react-bootstrap/Card';
 import { Link } from 'react-router-dom';
+import { timeSince } from './RecentItems';
 
 
 class Product extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            eventName: '',
+        }
+    }
+
+    available(product) {
+        if (product.online) {
+            return (
+                "online"
+            )
+        } else {
+            fetch(`/api/getEvent/?id=${product.eventid}`)
+                .then(res => res.json())
+                .then(data => this.setState({ eventName: `at ${data.name}` }))
+            return this.state.eventName;
+        }
+    }
+
     render() {
         return (
             <Card style={{width: '18rem'}} href={"/product/"+this.props.product.id}  className="mb-3">
@@ -16,11 +37,16 @@ class Product extends React.Component {
                         <Card.Text>
                             {this.props.product.description}
                         </Card.Text>
+                    </Card.Body>
+                    <Card.Footer>
                         <Card.Text>
                             From: {this.props.product.seller}
                         </Card.Text>
-                        {/* <Button variant="primary" align="center" href="/product/1">View</Button> */}
-                    </Card.Body>
+                        <Card.Text>
+                            <small className="text-muted">Available {this.available(this.props.product)}</small>
+                        </Card.Text>
+                        <small className="text-muted">{timeSince(this.props.product.submitted)}</small>
+                    </Card.Footer>
                 </Link>
             </Card>
         );
