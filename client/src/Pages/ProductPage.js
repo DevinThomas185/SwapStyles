@@ -11,20 +11,19 @@ import { timeSince } from '../Components/RecentItems';
 function ProductPage(props) {
     const { id } = useParams();
     const [product, setProduct] = useState({});
-    const [poster, setPoster] = useState("");
+    const [seller, setSeller] = useState("");
 
 
     useEffect(() => {
-        async function setData() {
-            await fetch(`/api/getProduct?id=${id}`)
-                .then(res => res.json())
-                .then(data => setProduct(data));
-            console.log(product);
-            await fetch(`/api/getUser?id=${product.sellerid}`)
-                .then(res => res.json())
-                .then(data => setPoster(data.username));
-        }
-        setData();
+        fetch(`/api/getProduct?id=${id}`)
+            .then(res => res.json())
+            .then(data => {
+                setProduct(data);
+                console.log(data);
+                fetch(`/api/getUser?id=${data.sellerid}`)
+                    .then(res => res.json())
+                    .then(data => setSeller(data.username));
+            });
     }, []);
 
 
