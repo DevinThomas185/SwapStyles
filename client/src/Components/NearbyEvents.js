@@ -35,7 +35,14 @@ class NearbyEvents extends React.Component {
     }
 
     getDate(date) {
-        return new Date(date).toLocaleDateString();
+        return new Date(date).toLocaleDateString('en-US', 
+        {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        }
+        );
     }
 
     getTime(time) {
@@ -53,12 +60,12 @@ class NearbyEvents extends React.Component {
                     <Link to={`/event/${event.id}`}  style={{ textDecoration: 'none' }} key={event.id}>
                         <ListGroup.Item>
                             <Row >
-                                <Col lg={8}>
+                                <Col lg={7}>
                                     <h6>
                                         {event.name}
                                     </h6>
                                 </Col>
-                                <Col lg={2}>
+                                <Col lg={3}>
                                     {this.getDate(event.date)}
                                 </Col>
                                 <Col lg={2}>
