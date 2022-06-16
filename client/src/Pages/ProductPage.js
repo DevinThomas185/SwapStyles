@@ -75,7 +75,7 @@ function ProductPage(props) {
                 <Row>
                     <Col>
                         <Card.Text>
-                            From: {poster}
+                            From: {seller}
                         </Card.Text>
                         <Card.Text>
                             {timeSince(product.submitted)}
