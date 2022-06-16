@@ -15,6 +15,11 @@ export default function EventMap(props) {
     const [selected, setSelected] = React.useState(null);
 
 
+    function getTime(time) {
+        return time.substring(0, time.length - 3);
+    }
+
+
     return (!isLoaded) ? (<div>Loading...</div>) : (
         <div>
             <Row>
@@ -46,7 +51,15 @@ export default function EventMap(props) {
                                     {selected.name}
                                 </Card.Title>
                                 <Card.Text>
-                                    Time: {selected.starttime} - {selected.endtime}
+                                    Date: {(new Date(selected.date)).toLocaleDateString("en-US", 
+                                    {weekday: 'long',
+                                    year: 'numeric',
+                                    month: 'long',
+                                    day: 'numeric'}
+                                    )}
+                                </Card.Text>
+                                <Card.Text>
+                                    Time: {getTime(selected.starttime)} - {getTime(selected.endtime)}
                                 </Card.Text>
                                 <Card.Text>
                                     Description: {selected.description}
