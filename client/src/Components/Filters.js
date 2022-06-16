@@ -23,7 +23,7 @@ class Filters extends React.Component {
 
     render() {
         return (
-            <Accordion defaultActiveKey="0" className="mb-3">
+            <Accordion className="mb-3">
                 <Accordion.Item eventKey="0">
                     <Accordion.Header>Filters</Accordion.Header>
                     <Accordion.Body>
@@ -31,8 +31,8 @@ class Filters extends React.Component {
                             <Row>
                                 <Col lg={1}>
                                     <Form.Group controlId="formBasicCheckbox">
-                                        <Form.Check type="checkbox" label="Online" />
-                                        <Form.Check type="checkbox" label="Event" />
+                                        <Form.Check type="checkbox" label="Online" checked />
+                                        <Form.Check type="checkbox" label="Event" checked />
                                     </Form.Group>
                                 </Col>
                                 <Col>
