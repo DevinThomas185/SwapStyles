@@ -87,6 +87,19 @@ app.get('/api/getProduct', async (req, res) => {
   res.json(product.rows[0]);
 })
 
+// delete product from its id
+app.delete('/api/deleteProduct', async (req, res) => {
+  console.log(`deleting product: ${req.query.id}`);
+  const id = req.query.id;
+  await pool.query(`DELETE FROM products WHERE id = $1`[id], (err, result) => {
+    if (err) {
+      console.error('Error removing product', err.stack)
+    } else {
+      console.log("Product removed succesfully");
+    }
+  });
+})
+
 // Post a new product
 app.post('/api/addProduct', function (clothing, res) {
   const user_id = getUserId(clothing)

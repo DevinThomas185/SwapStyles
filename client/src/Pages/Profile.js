@@ -66,7 +66,14 @@ export default function Profile() {
                     {posts.map(item => (
                         <Col key={item.id}>
                             <Product product={item} />
-                            <Button variant="warning"> Delete </Button>
+                            <Button
+                                variant="warning"
+                                onClick={() => {
+                                    fetch(`/api/deleteProduct?id=${item.id}`)
+                                }}
+                            >
+                                Delete
+                            </Button>
                         </Col>
                     ))}
                 </Row>
