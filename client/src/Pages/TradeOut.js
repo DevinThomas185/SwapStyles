@@ -157,7 +157,7 @@ function TradeOut() {
                             <Form.Control
                                 required
                                 type="number"
-                                name='age'
+                                name='Age of Item'
                                 placeholder='How many years ago was this bought?'
                                 max={10}
                                 min={0}

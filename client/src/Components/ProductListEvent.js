@@ -28,7 +28,7 @@ function ProductListEvent(props) {
     } else {
         return (
             <DropdownButton 
-            menuVariant="dark"
+            menuVariant="light"
             id="dropdown-basic"
             drop="end"
             key="end"

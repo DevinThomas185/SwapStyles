@@ -19,7 +19,7 @@ function Product(props) {
     return (
         <Card style={{width: '18rem'}} href={"/product/"+props.product.id}  className="mb-3">
             <Link to={"/product/"+props.product.id} style={{ textDecoration: 'none' }}>
-                <Card.Img variant="top" src={props.product.url} style={ {height: '18rem' }}/>
+                <Card.Img variant="top" src={props.product.url} style={ {height: 'auto' }}/>
                 <Card.Body>
                     <Card.Title>
                         {props.product.title}

@@ -5,7 +5,7 @@ class Title extends React.Component {
     render() {
         return (
             <div>
-                <h1 align="center">SwapSearch</h1>
+                <h1 align="center">SwapStyles</h1>
             </div>
         );
     }

@@ -38,7 +38,7 @@ function ProductPage(props) {
             <Card.Body>
                 <Row>
                     <Col lg={4}>
-                        <Card.Img variant="top" src={product.url} style={{ height: '20rem', width: '20rem' }} />
+                        <Card.Img variant="top" src={product.url} style={{ height: 'auto', width: '20rem' }} />
                     </Col>
                     <Col>
                         <Row>
