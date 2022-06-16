@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Card from 'react-bootstrap/Card';
-
+import Button from 'react-bootstrap/Button';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/esm/Container';
+import Product from "../Components/Product";
 
 export default function Profile() {
 
