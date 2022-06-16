@@ -26,7 +26,7 @@ export default function Profile() {
     }
 
     useEffect(() => {
-
+        setup();
     })
 
     return (
