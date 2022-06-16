@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import  { useNavigate } from 'react-router-dom'
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
@@ -18,6 +19,21 @@ function TradeOut() {
 
     const [dbResponded, setDbResponded] = React.useState(false);
     const [succeeded, setSucceeded] = React.useState(false);
+    const [loggedIn, setLoggedIn] = React.useState(true);
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+      checkLoggedIn()
+    }, [])
+
+    function checkLoggedIn() {
+      fetch('/api/isLoggedIn')
+        .then(resp => resp.json())
+        .then(loggedIn => {
+          setLoggedIn(loggedIn)
+        })
+    }
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -72,8 +88,10 @@ function TradeOut() {
             image: url
         });
     }
-
-    if (!dbResponded) {
+    
+    if (!loggedIn) {
+        navigate('/login')
+    } else if (!dbResponded) {
         return (
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
                 <Row className="mb-3">

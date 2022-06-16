@@ -1,4 +1,5 @@
 import React from 'react';
+import  { useNavigate } from 'react-router-dom'
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
@@ -8,6 +9,7 @@ import FloatingLabel from 'react-bootstrap/FloatingLabel';
 function Login() {
     const [details, setDetails] = React.useState({});
     const [validated, setValidated] = React.useState(false);
+    const navigate = useNavigate();
 
     function handleSubmit(e) {
         e.preventDefault()
@@ -30,6 +32,12 @@ function Login() {
         }
 
         fetch('/api/login', request)
+          .then(res => res.json())
+          .then(data => {
+            if (data.success) {
+              navigate('/')
+            }
+          })
     }
 
     function handleChange(e) {

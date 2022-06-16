@@ -1,4 +1,5 @@
 import React from 'react';
+import  { useNavigate } from 'react-router-dom'
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
@@ -6,7 +7,7 @@ import Col from 'react-bootstrap/Col';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Container from 'react-bootstrap/Container';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 
 function CreateEvent() {
@@ -14,6 +15,21 @@ function CreateEvent() {
     const [validated, setValidated] = useState(false);
     const [dbResponded, setDbResponded] = useState(false);
     const [succeeded, setSucceeded] = useState(false);
+    const [loggedIn, setLoggedIn] = React.useState(true);
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+      checkLoggedIn()
+    }, [])
+
+    function checkLoggedIn() {
+      fetch('/api/isLoggedIn')
+        .then(resp => resp.json())
+        .then(loggedIn => {
+          setLoggedIn(loggedIn)
+        })
+    }
 
     async function setLatLong(postcode) {
         await fetch("https://maps.googleapis.com/maps/api/geocode/json?address=" + postcode.replace(" ", "") + '&key=AIzaSyCV1xLSpdplVb0nDpJJl1KDkpgjN6rSQ7k')
@@ -74,7 +90,9 @@ function CreateEvent() {
         });
     }
 
-    if (!dbResponded) {
+    if (!loggedIn) {
+        navigate('/login')
+    } else if (!dbResponded) {
         return (
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
                 <Row className="mb-3">

@@ -25,7 +25,21 @@ function getUserId(req) {
 // Get user id if logged in
 app.get('/api/getUserId', (req, res) => {
   const id = getUserId(req)
-  res.json(id)
+  if (id === undefined) {
+    res.json({})
+  } else {
+    res.json({id: id})
+  }
+})
+
+app.get('/api/isLoggedIn', (req, res) => {
+  const id = getUserId(req)
+  if (id === undefined) {
+    loggedIn = false
+  } else {
+    loggedIn = true
+  }
+  res.json(loggedIn)
 })
 
 
@@ -193,6 +207,8 @@ app.post('/api/login', async (event, res) => {
 
   const matches = await pool.query(`SELECT * FROM users WHERE Email = '${email}'`)
 
+  success = false
+
   if (matches.length != 0) {
     const details = matches.rows[0]
     const user_id = details.id
@@ -204,14 +220,12 @@ app.post('/api/login', async (event, res) => {
         signed: true,
       };
       const maxAge = 360000 // 1 hour
-      res.cookie('user', user_id, options).send({ maxAge: maxAge })
-    } else {
-      // TODO: invalid
+      res.cookie('user', user_id, options)
+      success = true
     }
-  } else {
-    // TODO: invalid
   }
 
+  res.json({success: success})
 })
 
 
@@ -226,22 +240,23 @@ app.post('/api/signup', async (event, res) => {
 
   const collisions = (await pool.query(`SELECT Username FROM users WHERE Username = '${username}'`)).rows.length != 0
 
+  success = false
+
   if (!collisions) {
     pool.query(`INSERT INTO users (Username, Password, Email, Postcode, Age) VALUES($1,$2,$3,$4,$5)`,
       [username, password, email, postcode, age], (err, r) => {
         if (err) {
           console.log("Error - Failed to insert user into users");
           console.log(err);
-          res.status(500).send("Error - Failed to insert new user");
         } else {
           console.log("User Addeded");
-          res.status(200).send("Success - Data inserted into Events");
         }
-      })
-    // TODO: redirect? login?
-  } else {
-    // TODO: invalid
+      }
+    )
+    success = true
   }
+
+  res.json({success: success})
 })
 
 

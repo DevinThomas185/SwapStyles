@@ -13,13 +13,10 @@ function Navigation() {
       }, [])
 
       function checkLoggedIn() {
-        fetch('/api/getUserId')
+        fetch('/api/isLoggedIn')
           .then(resp => resp.json())
-          .then(id => {
-            console.log(id)
-            if (id != undefined) {
-              setLoggedIn(true)
-            }
+          .then(loggedIn => {
+            setLoggedIn(loggedIn)
           })
       }
 
