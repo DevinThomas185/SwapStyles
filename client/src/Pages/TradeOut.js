@@ -1,4 +1,5 @@
 import React from 'react';
+import SimpleFileUpload from 'react-simple-file-upload';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
@@ -38,10 +39,6 @@ function TradeOut() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        setItem({
-            ...item,
-            image: document.getElementById("image").value
-        });
 
         const form = event.currentTarget;
         if (form.checkValidity() === false) {
@@ -55,7 +52,7 @@ function TradeOut() {
                 body: JSON.stringify({
                     title: item.title,
                     description: item.description,
-                    image: document.getElementById("image").value,
+                    image: item.image,
                     age: item.age,
                     condition: item.condition,
                     event: item.event,
@@ -128,23 +125,23 @@ function TradeOut() {
                 </Row>
 
                 <Row className="mb-3">
-                    <input
-                        type="hidden" 
+                <SimpleFileUpload
                         data-accepted="image/*"
                         data-maxFileSize="0.5"
                         name="image" id="image"
-                        className="simple-file-upload"
+                        class="simple-file-upload"
+                        apiKey="035d47aa53030d76819b63ab6ce9b05b"
                         onSuccess={handleFile}
                     />
-
                         
                     <Form.Group controlId="validationCustom04" as={Col}>
-                        <Form.Label>Age</Form.Label>
+                        <Form.Label>Age of the Item</Form.Label>
                         <InputGroup hasValidation>
                             <Form.Control
                                 required
                                 type="number"
                                 name='age'
+                                placeholder='How many years ago was this bought?'
                                 max={10}
                                 min={0}
                                 className="form-control"
