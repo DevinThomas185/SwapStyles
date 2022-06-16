@@ -27,13 +27,14 @@ class Navigation extends React.Component {
                                 <Nav.Link href="/searchEvents">Search Events</Nav.Link>
                             </Nav>
                         </Navbar.Collapse>
-                        <Navbar.Collapse className="justify-content-end">
-                            <Navbar.Text>
-                                <b>
-                                    {this.state.balance} Trades
-                                </b>
-                            </Navbar.Text>
-                        </Navbar.Collapse>
+                        {(false ? (
+                            <Nav.Link href="/profile">Profile</Nav.Link>
+                        ) : (
+                            <Navbar.Collapse className="justify-content-end">
+                                <Nav.Link href="/signup">Sign Up</Nav.Link>
+                                <Nav.Link href="/login">Log in</Nav.Link>
+                            </Navbar.Collapse>
+                        ))}
                     </Container>
                 </Navbar>
             </div>
