@@ -88,9 +88,9 @@ app.get('/api/getProduct', async (req, res) => {
 })
 
 // delete product from its id
-app.delete('/api/deleteProduct', (req, res) => {
-  console.log(`deleting product: ${req.query.id}`);
-  const id = req.query.id;
+app.delete('/api/deleteProduct', function (req, res) {
+  console.log(`deleting product: ${req.body.id}`);
+  const id = req.body.id;
   pool.query(`DELETE FROM products WHERE id = $1`, [id], (err, result) => {
     if (err) {
       console.error('Error removing product', err.stack)

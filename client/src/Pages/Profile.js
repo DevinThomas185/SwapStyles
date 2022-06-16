@@ -69,7 +69,14 @@ export default function Profile() {
                             <Button
                                 variant="warning"
                                 onClick={() => {
-                                    fetch(`/api/deleteProduct?id=${item.id}`)
+                                    const request = {
+                                        method: 'DELETE',
+                                        headers: { 'Content-Type': 'application/json' },
+                                        body: {
+                                            id: item.id
+                                        }
+                                    };
+                                    fetch(`/api/deleteProduct?id=${item.id}`, request)
                                 }}
                             >
                                 Delete
