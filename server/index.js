@@ -180,10 +180,10 @@ app.get('/api/getRecentItems', async (req, res) => {
 // Login
 app.post('/api/login', async (event, res) => {
   const details = event.body
-  const username = details.username
+  const email = details.email
   const password = details.password
 
-  const matches = await pool.query(`SELECT * FROM users WHERE Username = '${username}'`)
+  const matches = await pool.query(`SELECT * FROM users WHERE Email = '${email}'`)
 
   if (matches.length != 0) {
     const details = matches.rows[0]
