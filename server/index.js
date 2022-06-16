@@ -1,9 +1,14 @@
 const express = require('express')
 const path = require("path")
+const cookieParser = require("cookie-parser")
 
 const app = express()
-
 const port = process.env.PORT || 5000
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser("82e4e438a0705fabf61f9854e3b575af"))
+
 const { Pool } = require('pg');
 const pool = new Pool({
   connectionString: "postgres://gobsygpefhzdif:99c9011aacce9c1764ac8aa17f9f0d09c0b56ebf104bf79b0eb50558c94d9bbf@ec2-52-73-184-24.compute-1.amazonaws.com:5432/dej5s0l23ki1su",
@@ -12,6 +17,10 @@ const pool = new Pool({
   }
 });
 
+function get_user_id(req) {
+  const cookies = Object.assign({}, req.signedCookies)
+  return cookies.user
+}
 
 // backend api
 app.get('/api', (req, res) => {
@@ -48,11 +57,15 @@ app.get('/api/getProduct', async (req, res) => {
   res.json(product.rows[0]);
 })
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
 // Post a new product
 app.post('/api/addProduct', function (clothing, res) {
+  const user_id = get_user_id(clothing)
+  if (user_id == null) {
+    // TODO: handle attempt to add while not logged in
+    console.log("User not signed in")
+    user_id = 69;
+  }
+
   title = clothing.body.title;
   description = clothing.body.description;
   image = clothing.body.image;
@@ -67,8 +80,8 @@ app.post('/api/addProduct', function (clothing, res) {
   console.log(age);
   console.log(condition);
 
-  pool.query(`INSERT INTO products(Title, Description, Url, Age, Condition, Submitted) VALUES($1,$2,$3,$4,$5,$6)`,
-    [title, description, image, age, condition, submitted], (err, r) => {
+  pool.query(`INSERT INTO products(Title, Description, Url, Age, Condition, Submitted, SellerId) VALUES($1,$2,$3,$4,$5,$6,$7)`,
+    [title, description, image, age, condition, submitted, user_id], (err, r) => {
       if (err) {
         console.log("Error - Failed to insert data into Products");
         console.log(err);
@@ -142,10 +155,56 @@ app.post('/api/getNearbyEvents', async (req, res) => {
   res.json(events.rows);
 })
 
-app.get('/api/getRecentItems', async(req, res) => {
+app.get('/api/getRecentItems', async (req, res) => {
   console.log("Getting recent items");
   const items = await pool.query(`SELECT * FROM products ORDER BY id DESC LIMIT 5`);
   res.json(items.rows);
+})
+
+// Login
+app.post('/api/login', async (event, res) => {
+  const details = event.body
+  const username = details.username
+  const password = details.password
+
+  const matches = await pool.query(`SELECT * FROM users WHERE Username = '${username}'`)
+
+  if (matches.length != 0) {
+    const details = matches.rows[0]
+    const user_id = details.id
+    const expected_password = details.password
+
+    if (password === expected_password) {
+      const options = {
+        httpOnly: true,
+        signed: true,
+      };
+      const maxAge = 360000 // 1 hour
+      res.cookie('user', user_id, options).send({ maxAge: maxAge })
+    } else {
+      // TODO: invalid
+    }
+  } else {
+    // TODO: invalid
+  }
+
+})
+
+
+// Signup
+app.post('/api/signup', async (event, res) => {
+  const details = event.body
+  const username = details.username
+  const password = details.password
+
+  const collisions = (await pool.query(`SELECT Username FROM users WHERE Username = '${username}'`)).rows.length != 0
+
+  if (!collisions) {
+    pool.query(`INSERT INTO users (Username, Password) VALUES ('${username}', '${password}')`)
+    // TODO: redirect? login?
+  } else {
+    // TODO: invalid
+  }
 })
 
 
