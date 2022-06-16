@@ -21,10 +21,16 @@ export default function Profile() {
                     setLoggedIn(true);
                     fetch(`/api/getUser?id=${id}`)
                         .then(res => res.json())
-                        .then(data => setUser(data));
+                        .then(data => {
+                            console.log(data);
+                            setUser(data);
+                        });
                     fetch(`/api/getProductsFromSeller?id=${id}`)
                         .then(res => res.json())
-                        .then(data => setPosts(data));
+                        .then(data => {
+                            console.log(data);
+                            setPosts(data);
+                        });
                 }
             })
     }

@@ -59,9 +59,9 @@ app.get('/api/getProducts', async (req, res) => {
 
 // Get products from sller id
 app.get('/api/getProductsFromSeller', async (req, res) => {
-  console.log(`Getting products from seller: ${req.query.q}`);
-  const query = req.query.q;
-  const products = await pool.query(`SELECT * FROM products WHERE Sellerid LIKE '%${query}%'`);
+  console.log(`Getting products from seller: ${req.query.id}`);
+  const id = req.query.id;
+  const products = await pool.query(`SELECT * FROM products WHERE Sellerid LIKE '%${id}%'`);
   res.json(products.rows);
 })
 
