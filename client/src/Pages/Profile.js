@@ -72,9 +72,6 @@ export default function Profile() {
                                     const request = {
                                         method: 'DELETE',
                                         headers: { 'Content-Type': 'application/json' },
-                                        body: {
-                                            id: item.id
-                                        }
                                     };
                                     fetch(`/api/deleteProduct?id=${item.id}`, request)
                                 }}
