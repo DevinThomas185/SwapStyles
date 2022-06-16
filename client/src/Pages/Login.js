@@ -63,7 +63,7 @@ function Login() {
                     <FloatingLabel label="Password">
                         <Form.Control
                             required
-                            type="text"
+                            type="password"
                             name='password'
                             placeholder="Enter Description"
                             onChange={handleChange}
