@@ -1,5 +1,6 @@
 import React from 'react';
-import Product from './Product';
+import Product from '../Components/Product';
+import SearchPage from '../Components/SearchPage';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/esm/Container';
 import Row from 'react-bootstrap/Row';
