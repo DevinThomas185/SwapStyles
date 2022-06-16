@@ -31,8 +31,8 @@ class Filters extends React.Component {
                             <Row>
                                 <Col lg={1}>
                                     <Form.Group controlId="formBasicCheckbox">
-                                        <Form.Check type="checkbox" label="Online" checked />
-                                        <Form.Check type="checkbox" label="Event" checked />
+                                        <Form.Check type="checkbox" label="Online" />
+                                        <Form.Check type="checkbox" label="Event" />
                                     </Form.Group>
                                 </Col>
                                 <Col>

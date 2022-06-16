@@ -30,7 +30,7 @@ function SearchBar(props) {
                     onKeyPress={(e) => { onKeyUp(e) }}
                 />
                 <Button variant="outline-secondary" id="button-addon2" onClick={(e) => props.getResults(query)}>
-                    Search
+                    Go!
                 </Button>
             </InputGroup>
         </div>
