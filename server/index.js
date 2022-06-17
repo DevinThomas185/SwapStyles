@@ -223,7 +223,7 @@ app.post('/api/getNearbyEvents', async (req, res) => {
 
 app.get('/api/getRecentItems', async (req, res) => {
   console.log("Getting recent items");
-  const items = await pool.query(`SELECT * FROM products ORDER BY submitted ASC LIMIT 5`);
+  const items = await pool.query(`SELECT * FROM products ORDER BY submitted DESC LIMIT 5`);
   res.json(items.rows);
 })
 
