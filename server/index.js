@@ -67,7 +67,7 @@ app.get('/api/allProducts', async (req, res) => {
 app.get('/api/getProducts', async (req, res) => {
   console.log(`Getting products for: ${req.query.q}`);
   const query = req.query.q;
-  const products = await pool.query(`SELECT * FROM products WHERE LOWER(Title) LIKE '%${query}%' ORDER BY submitted DESC`);
+  const products = await pool.query(`SELECT * FROM products WHERE LOWER(Title) LIKE '%${query}%' ORDER BY submitted ASC`);
   res.json(products.rows);
 })
 
@@ -223,7 +223,7 @@ app.post('/api/getNearbyEvents', async (req, res) => {
 
 app.get('/api/getRecentItems', async (req, res) => {
   console.log("Getting recent items");
-  const items = await pool.query(`SELECT * FROM products ORDER BY id DESC LIMIT 5`);
+  const items = await pool.query(`SELECT * FROM products ORDER BY submitted ASC LIMIT 5`);
   res.json(items.rows);
 })
 
