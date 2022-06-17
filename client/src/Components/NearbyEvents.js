@@ -58,7 +58,7 @@ class NearbyEvents extends React.Component {
             <ListGroup>
                 {this.state.nearbyEvents.map(event => (
                     <Link to={`/event/${event.id}`}  style={{ textDecoration: 'none' }} key={event.id}>
-                        <ListGroup.Item>
+                        <ListGroup.Item action>
                             <Row >
                                 <Col lg={7}>
                                     <h6>

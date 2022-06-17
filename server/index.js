@@ -211,8 +211,14 @@ app.post('/api/getNearbyEvents', async (req, res) => {
   const lat = req.body.lat;
   const lng = req.body.lng;
   console.log(`Getting events nearby: Lat:${lat} Long:${lng}`);
-  const events = await pool.query(`SELECT * FROM events WHERE Latitude BETWEEN ${lat - radius} AND ${lat + radius} AND Longitude BETWEEN ${lng - radius} AND ${lng + radius} ORDER BY Date ASC LIMIT 5`);
-  res.json(events.rows);
+  const events = await pool.query(`SELECT * FROM events WHERE Latitude BETWEEN ${lat - radius} AND ${lat + radius} AND Longitude BETWEEN ${lng - radius} AND ${lng + radius} ORDER BY Date ASC`);
+
+  events.rows.sort((a, b) => {
+    var aDistance = Math.sqrt(Math.pow(lat - a.latitude, 2) + Math.pow(lng - a.longitude, 2));
+    var bDistance = Math.sqrt(Math.pow(lat - b.latitude, 2) + Math.pow(lng - b.longitude, 2));
+    return (aDistance < bDistance) ? -1 : (aDistance > bDistance) ? 1 : 0;
+  });
+  res.json(events.rows.slice(0, 5));
 })
 
 app.get('/api/getRecentItems', async (req, res) => {

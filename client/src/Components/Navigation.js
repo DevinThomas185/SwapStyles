@@ -29,7 +29,7 @@ function Navigation() {
                       <Navbar.Toggle aria-controls="basic-navbar-nav" />
                       <Navbar.Collapse id="basic-navbar-nav">
                           <Nav className="me-auto">
-                              <Nav.Link href="/tradein">Avaliable Items</Nav.Link>
+                              <Nav.Link href="/tradein">Available Items</Nav.Link>
                               <Nav.Link href="/tradeout">Swap Away</Nav.Link>
                               <Nav.Link href="/createEvent">New Event</Nav.Link>
                               <Nav.Link href="/searchEvents">Search Events</Nav.Link>

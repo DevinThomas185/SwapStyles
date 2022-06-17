@@ -65,6 +65,9 @@ function ProductPage(props) {
                         </Row>
                         <Row>
                             <Col className="mt-2">
+                                <Card.Text>
+                                    Sustainable Alternatives:
+                                </Card.Text>
                                 <SustainableAlternatives />
                             </Col>
                         </Row>
