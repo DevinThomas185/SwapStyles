@@ -41,9 +41,10 @@ function Navigation() {
                           <Navbar.Collapse className="justify-content-end">
                               <Nav.Link href="/signup">Sign Up</Nav.Link>
                               <Nav.Link href="/login">Log in</Nav.Link>
+                              <Notifications />
                           </Navbar.Collapse>
                       ))}
-                      <Notifications />
+                      
                   </Container>
               </Navbar>
           </div>
