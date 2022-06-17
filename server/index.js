@@ -71,11 +71,11 @@ app.get('/api/getProducts', async (req, res) => {
   res.json(products.rows);
 })
 
-// Get products from sller id
+// Get products from seller id
 app.get('/api/getProductsFromSeller', async (req, res) => {
   console.log(`Getting products from seller: ${req.query.id}`);
   const id = req.query.id;
-  const products = await pool.query(`SELECT * FROM products WHERE Sellerid = ${id}`);
+  const products = await pool.query(`SELECT * FROM products WHERE Sellerid = ${id} ORDER BY submitted ASC`);
   res.json(products.rows);
 })
 
