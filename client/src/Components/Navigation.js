@@ -42,14 +42,14 @@ function Navigation() {
                       </Navbar.Collapse>
                       {(loggedIn ? (
                             <Navbar.Collapse className="justify-content-end">
-                                <Nav.Link href="/profile">Profile</Nav.Link>
                                 <Navbar.Text>{balance} Trades</Navbar.Text>
+                                <Nav.Link href="/profile">Profile</Nav.Link>
+                                <Notifications />
                             </Navbar.Collapse>
                       ) : (
                             <Navbar.Collapse className="justify-content-end">
                                 <Nav.Link href="/signup">Sign Up</Nav.Link>
                                 <Nav.Link href="/login">Log in</Nav.Link>
-                                <Notifications />
                             </Navbar.Collapse>
                       ))}
                       
