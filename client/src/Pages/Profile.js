@@ -17,7 +17,7 @@ export default function Profile() {
             .then(resp => resp.json())
             .then(id => {
                 console.log(id)
-                if (id != undefined) {
+                if (id !== undefined) {
                     setLoggedIn(true);
                     fetch(`/api/getUser?id=${id.id}`)
                         .then(res => res.json())
@@ -39,10 +39,21 @@ export default function Profile() {
         setup();
     }, [])
 
+    const balance = () => {
+        if (user.balance === undefined) {
+            return "0 Trades";
+        } else if (user.balance === 1) {
+            return "1 Trade";
+        } else {
+            return user.balance + " Trades";
+        }
+    }
+
     return (
         <div>
+            <h1> Balance: {balance()}</h1>
 
-            <Card>
+            <Card className="mb-3">
                 <Card.Header>
                     Your Details
                 </Card.Header>
@@ -55,6 +66,20 @@ export default function Profile() {
                     </Card.Text>
                     <Card.Text>
                         Postcode: {user.postcode}
+                    </Card.Text>
+                </Card.Body>
+            </Card>
+
+            <Card className="mb-3">
+                <Card.Header>
+                    Your Statistics
+                </Card.Header>
+                <Card.Body>
+                    <Card.Text>
+                        Items Swapped Away: {user.swappedaway}
+                    </Card.Text>
+                    <Card.Text>
+                        Items Swapped For: {user.swappedfor}
                     </Card.Text>
                 </Card.Body>
             </Card>

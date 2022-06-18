@@ -52,8 +52,21 @@ app.get('/api/getUser', async (req, res) => {
 })
 
 // Temporary Balance display
-app.get('/api/user/balance', (req, res) => {
-  res.status(200).send("1");
+app.get('/api/getUserBalance', (req, res) => {
+  console.log(`Getting User Balance: ${req.query.id}`);
+  const id = getUserId(req)
+  if (id === undefined) {
+    res.json({})
+  } else {  
+    pool.query(`SELECT balance FROM users WHERE id = ${id}`, (err, result) => {
+      if (err) {
+        console.log(err)
+      } else {
+        res.json(result.rows[0])
+      }
+    }
+    )
+  }
 })
 
 // Get all products listed
@@ -271,8 +284,8 @@ app.post('/api/signup', async (event, res) => {
   success = false
 
   if (!collisions) {
-    pool.query(`INSERT INTO users (Username, Password, Email, Postcode, Age) VALUES($1,$2,$3,$4,$5)`,
-      [username, password, email, postcode, age], (err, r) => {
+    pool.query(`INSERT INTO users (Username, Password, Email, Postcode, Age, Balance, Swappedaway, Swappedfor) VALUES($1,$2,$3,$4,$5,$6,$7,$8)`,
+      [username, password, email, postcode, age, 0, 0, 0], (err, r) => {
         if (err) {
           console.log("Error - Failed to insert user into users");
           console.log(err);

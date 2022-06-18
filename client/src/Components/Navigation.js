@@ -18,6 +18,11 @@ function Navigation() {
           .then(resp => resp.json())
           .then(loggedIn => {
             setLoggedIn(loggedIn)
+            fetch('/api/getUserBalance')
+                .then(resp => resp.json())
+                .then(data => {
+                    setBalance(data.balance)
+                })
           })
       }
 
@@ -36,13 +41,16 @@ function Navigation() {
                           </Nav>
                       </Navbar.Collapse>
                       {(loggedIn ? (
-                          <Nav.Link href="/profile">Profile</Nav.Link>
+                            <Navbar.Collapse className="justify-content-end">
+                                <Navbar.Text>{balance} Trades</Navbar.Text>
+                                <Nav.Link href="/profile">Profile</Nav.Link>
+                                <Notifications />
+                            </Navbar.Collapse>
                       ) : (
-                          <Navbar.Collapse className="justify-content-end">
-                              <Nav.Link href="/signup">Sign Up</Nav.Link>
-                              <Nav.Link href="/login">Log in</Nav.Link>
-                              <Notifications />
-                          </Navbar.Collapse>
+                            <Navbar.Collapse className="justify-content-end">
+                                <Nav.Link href="/signup">Sign Up</Nav.Link>
+                                <Nav.Link href="/login">Log in</Nav.Link>
+                            </Navbar.Collapse>
                       ))}
                       
                   </Container>
