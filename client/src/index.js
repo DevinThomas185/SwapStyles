@@ -18,37 +18,67 @@ import HomePage from "./Pages/HomePage";
 import Login from "./Pages/Login";
 import SignUp from "./Pages/SignUp.js";
 import Profile from "./Pages/Profile";
+import { w3cwebsocket as W3CWebSocket } from "websocket";
+
+const client = new W3CWebSocket('ws://localhost:5001');
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      newProducts: 0,
+      newEvents: 0,
+    }
+  }
+
+  componentWillMount() {
+    client.onopen = () => {
+      console.log("Connected to server");
+    }
+
+    client.onmessage = (message) => {
+      if (message.data === "item-added") {
+        console.log("Server: New item added");
+        this.setState({ newProducts: this.state.newProducts + 1 });
+      }
+    }
+  }
+
+  // USE KEY ATTRIBUTE TO FORCE COMPONENT TO RE-RENDER
+  render() {
+    return (
+      <React.StrictMode>
+        <Router>
+          <Container>
+            <Row>
+              <Col>
+                <Title />
+              </Col>
+            </Row>
+            <Row>
+              <Navigation />
+            </Row>
+            <Row>
+              <Col>
+                <Routes>
+                  <Route path="/" element={<HomePage />} />
+                  <Route path="/tradein" element={<Shop key={this.state.newProducts} />} /> 
+                  <Route path="/tradeout" element={<TradeOut />} />
+                  <Route path="/product/:id" element={<ProductPage />} />
+                  <Route path="/event/:id" element={<EventPage />} />
+                  <Route path="/createEvent/" element={<CreateEvent />} />
+                  <Route path="/searchEvents/" element={<EventSearch />} />
+                  <Route path="/login/" element={<Login />} />
+                  <Route path="/signup/" element={<SignUp />} />
+                  <Route path="/profile/" element={<Profile />} />
+                </Routes>
+              </Col>
+            </Row>
+          </Container>
+        </Router>
+      </React.StrictMode>
+      );
+  }
+}
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(
-  <React.StrictMode>
-    <Router>
-      <Container>
-        <Row>
-          <Col>
-            <Title />
-          </Col>
-        </Row>
-        <Row>
-          <Navigation />
-        </Row>
-        <Row>
-          <Col>
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/tradein" element={<Shop />} />
-              <Route path="/tradeout" element={<TradeOut />} />
-              <Route path="/product/:id" element={<ProductPage product="h" />} />
-              <Route path="/event/:id" element={<EventPage />} />
-              <Route path="/createEvent/" element={<CreateEvent />} />
-              <Route path="/searchEvents/" element={<EventSearch />} />
-              <Route path="/login/" element={<Login />} />
-              <Route path="/signup/" element={<SignUp />} />
-              <Route path="/profile/" element={<Profile />} />
-            </Routes>
-          </Col>
-        </Row>
-      </Container>
-    </Router>
-  </React.StrictMode>
-);
+root.render(<App />);

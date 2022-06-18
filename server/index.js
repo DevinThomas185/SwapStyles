@@ -9,6 +9,24 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser("82e4e438a0705fabf61f9854e3b575af"))
 
+
+const http = require("http")
+const server = http.createServer(app)
+const WebSocket = require("ws")
+const wss = new WebSocket.Server({ server })
+const wssPort = port + 1;
+
+wss.on("connection", (ws) => {
+  console.log("New Client Connected")
+  ws.on("message", (message) => {
+    console.log("Client: ", message)
+  })
+});
+
+server.listen(wssPort, () => {
+  console.log(`Web Socket server started on port ${wssPort}`)
+})
+
 const { Pool } = require('pg');
 const pool = new Pool({
   connectionString: "postgres://gobsygpefhzdif:99c9011aacce9c1764ac8aa17f9f0d09c0b56ebf104bf79b0eb50558c94d9bbf@ec2-52-73-184-24.compute-1.amazonaws.com:5432/dej5s0l23ki1su",
@@ -136,6 +154,12 @@ app.post('/api/addProduct', function (clothing, res) {
         res.status(200).send("Success - Data inserted into Products");
       }
     });
+
+  wss.clients.forEach(function each(client) {
+    if (client.readyState === WebSocket.OPEN) {
+      client.send("item-added");
+    }
+  });
 })
 
 // Adding an event to the database
