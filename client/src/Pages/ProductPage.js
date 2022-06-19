@@ -85,7 +85,7 @@ function ProductPage(props) {
                         </Card.Text>
                     </Col>
                     <Col lg={2}>
-                        <Button variant="primary" align="center" href="/product/1">Trade In</Button>
+                        <Button variant="primary" align="center" href={"/tradein/" + product.id}>Trade In</Button>
                     </Col>
                 </Row>
             </Card.Footer>

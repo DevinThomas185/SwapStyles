@@ -18,6 +18,7 @@ import HomePage from "./Pages/HomePage";
 import Login from "./Pages/Login";
 import SignUp from "./Pages/SignUp.js";
 import Profile from "./Pages/Profile";
+import TradeIn from "./Pages/TradeIn";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -45,6 +46,7 @@ root.render(
               <Route path="/login/" element={<Login />} />
               <Route path="/signup/" element={<SignUp />} />
               <Route path="/profile/" element={<Profile />} />
+              <Route path="/tradein/:id" element={<TradeIn />} />
             </Routes>
           </Col>
         </Row>
