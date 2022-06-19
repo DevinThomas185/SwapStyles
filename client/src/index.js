@@ -39,7 +39,7 @@ root.render(
               <Route path="/" element={<HomePage />} />
               <Route path="/tradein" element={<Shop />} />
               <Route path="/tradeout" element={<TradeOut />} />
-              <Route path="/product/:id" element={<ProductPage product="h" />} />
+              <Route path="/product/:id" element={<ProductPage />} />
               <Route path="/event/:id" element={<EventPage />} />
               <Route path="/createEvent/" element={<CreateEvent />} />
               <Route path="/searchEvents/" element={<EventSearch />} />
