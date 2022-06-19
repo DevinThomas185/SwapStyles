@@ -117,22 +117,6 @@ app.get('/api/getAvailableProductsFromSeller', async (req, res) => {
   res.json(products.rows);
 })
 
-// Get products to send from seller id
-app.get('/api/getToSendProductsFromSeller', async (req, res) => {
-  console.log(`Getting to send products from seller: ${req.query.id}`);
-  const id = req.query.id;
-  const products = await pool.query(`SELECT a.* 
-                                     FROM
-                                      products a
-                                     LEFT JOIN
-                                      transactions b
-                                     ON a.id = b.Itemid
-                                     WHERE b.Itemid IS NOT NULL
-                                     AND a.Sellerid = ${id}
-                                     AND NOT b.Fromconfirmsent
-                                     ORDER BY submitted DESC`); // MAY NEED TO REMOVE FROM CONFIRMSENT
-  res.json(products.rows);
-})
 
 // Get products to send from seller id
 app.get('/api/getToReceiveFor', async (req, res) => {
@@ -146,7 +130,7 @@ app.get('/api/getToReceiveFor', async (req, res) => {
                                      ON a.id = b.Itemid
                                      WHERE b.Itemid IS NOT NULL
                                      AND b.Touserid = ${id}
-                                     AND NOT b.Toconfirmreceived
+                                     AND (NOT b.Toconfirmreceived OR NOT b.Fromconfirmsent)
                                      ORDER BY submitted DESC`);
   res.json(products.rows);
 })
@@ -169,6 +153,23 @@ app.get('/api/getReceivedFor', async (req, res) => {
   res.json(products.rows);
 })
 
+// Get products to send from seller id
+app.get('/api/getToSendFrom', async (req, res) => {
+  console.log(`Getting to send products from seller: ${req.query.id}`);
+  const id = req.query.id;
+  const products = await pool.query(`SELECT a.* 
+                                     FROM
+                                      products a
+                                     LEFT JOIN
+                                      transactions b
+                                     ON a.id = b.Itemid
+                                     WHERE b.Itemid IS NOT NULL
+                                     AND a.Sellerid = ${id}
+                                     AND (NOT b.Toconfirmreceived OR NOT b.Fromconfirmsent)
+                                     ORDER BY submitted DESC`); // MAY NEED TO REMOVE FROM CONFIRMSENT
+  res.json(products.rows);
+})
+
 // Get previously sent products
 app.get('/api/getSentFrom', async (req, res) => {
   console.log(`Getting received products for: ${req.query.id}`);
@@ -187,23 +188,6 @@ app.get('/api/getSentFrom', async (req, res) => {
   res.json(products.rows);
 })
 
-// Get previously swapped in products from seller id
-app.get('/api/getPreviousProductsFromSeller', async (req, res) => {
-  console.log(`Getting to send products from seller: ${req.query.id}`);
-  const id = req.query.id;
-  const products = await pool.query(`SELECT a.* 
-                                     FROM
-                                      products a
-                                     LEFT JOIN
-                                      transactions b
-                                     ON a.id = b.Itemid
-                                     WHERE b.Itemid IS NOT NULL
-                                     AND a.Sellerid = ${id}
-                                     AND b.Fromconfirmsent
-                                     AND b.Toconfirmsent
-                                     ORDER BY submitted DESC`);
-  res.json(products.rows);
-})
 
 // Confirm item has been sent
 app.get('/api/confirmSent', async (req, res) => {
@@ -217,6 +201,14 @@ app.get('/api/confirmSent', async (req, res) => {
       res.status(200).send("Item has been sent")
     }
   });
+})
+
+// Check is confirmed sent
+app.get('/api/isConfirmedSent', async (req, res) => {
+  console.log(`Checking if item has been sent: ${req.query.id}`);
+  const id = req.query.id;
+  const products = await pool.query(`SELECT * FROM transactions WHERE Itemid = ${id}`);
+  res.json(products.rows[0].fromconfirmsent);
 })
 
 // Confirm item has been received

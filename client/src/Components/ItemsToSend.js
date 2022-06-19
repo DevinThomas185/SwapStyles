@@ -10,8 +10,18 @@ class ItemsToSend extends React.Component {
         super(props);
         this.state = {
             toSend: [],
+            sentStates: {},
         };
 
+    }
+
+    confirmSent(id) {
+        return fetch(`/api/isConfirmedSent?id=${id}`)
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+            return data;
+        })
     }
 
     confirmed(id) {
@@ -23,12 +33,22 @@ class ItemsToSend extends React.Component {
     }
 
     componentDidMount() {
-        fetch(`/api/getToSendProductsFromSeller?id=${this.props.user.id}`)
+        fetch(`/api/getToSendFrom?id=${this.props.user.id}`)
         .then(res => res.json())
         .then(data => {
             console.log(data);
             this.setState({
                 toSend: data,
+            });
+            data.forEach(item => {
+                this.confirmSent(item.id).then(data => {
+                    this.setState({
+                        sentStates: {
+                            ...this.state.sentStates,
+                            [item.id]: data,
+                        }
+                    });
+                });
             });
         });
     }
@@ -43,11 +63,10 @@ class ItemsToSend extends React.Component {
                     <Row key={item.id}>
                         <Col>
                             <Product product={item} />
-                            <Button 
-                            variant="warning"
-                            onClick={() => this.confirmed(item.id)}>
-                                I've sent this!
-                            </Button>
+                            {this.state.sentStates[item.id] ?
+                                <Button variant="primary" disabled>Already Sent</Button> :
+                                <Button variant="warning" onClick={() => this.confirmed(item.id)}>I've sent this!</Button>
+                            }
                         </Col>
                     </Row>
                 ))}
