@@ -130,7 +130,60 @@ app.get('/api/getToSendProductsFromSeller', async (req, res) => {
                                      WHERE b.Itemid IS NOT NULL
                                      AND a.Sellerid = ${id}
                                      AND NOT b.Fromconfirmsent
+                                     ORDER BY submitted DESC`); // MAY NEED TO REMOVE FROM CONFIRMSENT
+  res.json(products.rows);
+})
+
+// Get products to send from seller id
+app.get('/api/getToReceiveFor', async (req, res) => {
+  console.log(`Getting to receive products for: ${req.query.id}`);
+  const id = req.query.id;
+  const products = await pool.query(`SELECT a.* 
+                                     FROM
+                                      products a
+                                     LEFT JOIN
+                                      transactions b
+                                     ON a.id = b.Itemid
+                                     WHERE b.Itemid IS NOT NULL
+                                     AND b.Touserid = ${id}
+                                     AND NOT b.Toconfirmreceived
                                      ORDER BY submitted DESC`);
+  res.json(products.rows);
+})
+
+// Get previously received products
+app.get('/api/getReceivedFor', async (req, res) => {
+  console.log(`Getting received products for: ${req.query.id}`);
+  const id = req.query.id;
+  const products = await pool.query(`SELECT a.*
+                                      FROM
+                                        products a
+                                      LEFT JOIN
+                                        transactions b
+                                      ON a.id = b.Itemid
+                                      WHERE b.Itemid IS NOT NULL
+                                      AND b.Touserid = ${id}
+                                      AND b.Toconfirmreceived
+                                      AND b.Fromconfirmsent
+                                      ORDER BY submitted DESC`);
+  res.json(products.rows);
+})
+
+// Get previously sent products
+app.get('/api/getSentFrom', async (req, res) => {
+  console.log(`Getting received products for: ${req.query.id}`);
+  const id = req.query.id;
+  const products = await pool.query(`SELECT a.*
+                                      FROM
+                                        products a
+                                      LEFT JOIN
+                                        transactions b
+                                      ON a.id = b.Itemid
+                                      WHERE b.Itemid IS NOT NULL
+                                      AND b.Fromuserid = ${id}
+                                      AND b.Toconfirmreceived
+                                      AND b.Fromconfirmsent
+                                      ORDER BY submitted DESC`);
   res.json(products.rows);
 })
 
@@ -150,6 +203,34 @@ app.get('/api/getPreviousProductsFromSeller', async (req, res) => {
                                      AND b.Toconfirmsent
                                      ORDER BY submitted DESC`);
   res.json(products.rows);
+})
+
+// Confirm item has been sent
+app.get('/api/confirmSent', async (req, res) => {
+  console.log(`Confirming item has been sent: ${req.query.id}`);
+  const id = req.query.id;
+  pool.query(`UPDATE transactions SET Fromconfirmsent = true WHERE Itemid = ${id}`, (err, result) => {
+    if (err) {
+      console.log(err)
+      res.status(500).send("Error confirming item has been sent")
+    } else {
+      res.status(200).send("Item has been sent")
+    }
+  });
+})
+
+// Confirm item has been received
+app.get('/api/confirmReceived', async (req, res) => {
+  console.log(`Confirming item has been received: ${req.query.id}`);
+  const id = req.query.id;
+  pool.query(`UPDATE transactions SET Toconfirmreceived = true WHERE Itemid = ${id}`, (err, result) => {
+    if (err) {
+      console.log(err)
+      res.status(500).send("Error confirming item has been received")
+    } else {
+      res.status(200).send("Item has been received")
+    }
+  });
 })
 
 // Get product from its id
