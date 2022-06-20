@@ -12,7 +12,6 @@ class ItemsToSend extends React.Component {
             toSend: [],
             sentStates: {},
         };
-
     }
 
     confirmSent(id) {
@@ -41,11 +40,11 @@ class ItemsToSend extends React.Component {
                 toSend: data,
             });
             data.forEach(item => {
-                this.confirmSent(item.id).then(data => {
+                this.confirmSent(item.id).then(sent => {
                     this.setState({
                         sentStates: {
                             ...this.state.sentStates,
-                            [item.id]: data,
+                            [item.id]: sent,
                         }
                     });
                 });
@@ -59,7 +58,7 @@ class ItemsToSend extends React.Component {
                 <Row>
                     <h2>Items to Send</h2>
                 </Row>
-                    {this.state.toSend.map(item => (
+                {this.state.toSend.map(item => (
                     <Row key={item.id}>
                         <Col>
                             <Product product={item} />

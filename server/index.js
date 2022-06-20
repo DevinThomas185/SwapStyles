@@ -201,6 +201,15 @@ app.get('/api/confirmSent', async (req, res) => {
       res.status(200).send("Item has been sent")
     }
   });
+
+  const confirms = await pool.query(`SELECT * FROM transactions WHERE Itemid = ${id}`);
+  const item = confirms.rows[0];
+  if (item.toconfirmreceived) { // Both sides have confirmed
+    await pool.query(`UPDATE users SET Balance = Balance + 1 WHERE Id = ${item.fromuserid}`);
+    await pool.query(`UPDATE users SET Swappedaway = Swappedaway + 1 WHERE Id = ${item.fromuserid}`);
+    await pool.query(`UPDATE users SET Balance = Balance - 1 WHERE Id = ${item.touserid}`);
+    await pool.query(`UPDATE users SET Swappedfor = Swappedfor + 1 WHERE Id = ${item.touserid}`);
+  }
 })
 
 // Check is confirmed sent
@@ -223,6 +232,22 @@ app.get('/api/confirmReceived', async (req, res) => {
       res.status(200).send("Item has been received")
     }
   });
+  const confirms = await pool.query(`SELECT * FROM transactions WHERE Itemid = ${id}`);
+  const item = confirms.rows[0];
+  if (item.fromconfirmsent) { // Both sides have confirmed now
+    await pool.query(`UPDATE users SET Balance = Balance + 1 WHERE Id = ${item.fromuserid}`);
+    await pool.query(`UPDATE users SET Swappedaway = Swappedaway + 1 WHERE Id = ${item.fromuserid}`);
+    await pool.query(`UPDATE users SET Balance = Balance - 1 WHERE Id = ${item.touserid}`);
+    await pool.query(`UPDATE users SET Swappedfor = Swappedfor + 1 WHERE Id = ${item.touserid}`);
+  }
+})
+
+// Check is confirmed sent
+app.get('/api/isConfirmedReceived', async (req, res) => {
+  console.log(`Checking if item has been received: ${req.query.id}`);
+  const id = req.query.id;
+  const products = await pool.query(`SELECT * FROM transactions WHERE Itemid = ${id}`);
+  res.json(products.rows[0].toconfirmreceived);
 })
 
 // Get product from its id
