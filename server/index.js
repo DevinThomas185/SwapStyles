@@ -435,12 +435,12 @@ app.post('/api/login', async (event, res) => {
   const email = details.email
   const password = details.password
 
-  const matches = await pool.query(`SELECT * FROM users WHERE Email = '${email}'`)
+  const matches = (await pool.query(`SELECT * FROM users WHERE Email = '${email}'`)).rows
 
   success = false
 
   if (matches.length != 0) {
-    const details = matches.rows[0]
+    const details = matches[0]
     const user_id = details.id
     const expected_password = details.password
 
@@ -468,7 +468,7 @@ app.post('/api/signup', async (event, res) => {
   const postcode = details.postcode
   const age = details.age
 
-  const collisions = (await pool.query(`SELECT Username FROM users WHERE Username = '${username}'`)).rows.length != 0
+  const collisions = (await pool.query(`SELECT * FROM users WHERE Email = '${email}'`)).rows.length != 0
 
   success = false
 
