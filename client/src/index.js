@@ -19,7 +19,6 @@ import Login from "./Pages/Login";
 import SignUp from "./Pages/SignUp.js";
 import Profile from "./Pages/Profile";
 import { w3cwebsocket as W3CWebSocket } from "websocket";
-import { port } from "../../server/index.js";
 
 // const client = new W3CWebSocket(`ws://localhost:${port}`);
 class App extends React.Component {
