@@ -38,8 +38,21 @@ function SignUp() {
         fetch('/api/signup', request)
           .then(res => res.json())
           .then(data => {
-            console.log(data)
+            // attempt login
+            const request = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    email: details.email,
+                    password: details.password,
+                })
+            }
+            return fetch('/api/login', request)
+          })
+          .then(res => res.json())
+          .then(data => {
             if (data.success) {
+              // redirect on success
               navigate('/')
             }
           })
