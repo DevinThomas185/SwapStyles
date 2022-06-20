@@ -74,6 +74,7 @@ class App extends React.Component {
                   <Route path="/login/" element={<Login />} />
                   <Route path="/signup/" element={<SignUp />} />
                   <Route path="/profile/" element={<Profile key={this.state.newProducts} />} />
+                  <Route path="/tradein/:id" element={<TradeIn />} />
                 </Routes>
               </Col>
             </Row>
