@@ -20,13 +20,13 @@ import SignUp from "./Pages/SignUp.js";
 import Profile from "./Pages/Profile";
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 
-const client = new W3CWebSocket('ws://localhost:5001');
+const client = new W3CWebSocket('ws://localhost:5002');
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      newProducts: 0,
-      newEvents: 0,
+      newProducts: true,
+      newEvents: true,
     }
   }
 
@@ -38,7 +38,11 @@ class App extends React.Component {
     client.onmessage = (message) => {
       if (message.data === "item-added") {
         console.log("Server: New item added");
-        this.setState({ newProducts: this.state.newProducts + 1 });
+        this.setState({ newProducts: !this.state.newProducts });
+      }
+      if (message.data === "item-deleted") {
+        console.log("Server: Item deleted");
+        this.setState({ newProducts: !this.state.newProducts });
       }
     }
   }
@@ -69,7 +73,7 @@ class App extends React.Component {
                   <Route path="/searchEvents/" element={<EventSearch />} />
                   <Route path="/login/" element={<Login />} />
                   <Route path="/signup/" element={<SignUp />} />
-                  <Route path="/profile/" element={<Profile />} />
+                  <Route path="/profile/" element={<Profile key={this.state.newProducts} />} />
                 </Routes>
               </Col>
             </Row>

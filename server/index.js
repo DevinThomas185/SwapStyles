@@ -27,6 +27,14 @@ server.listen(wssPort, () => {
   console.log(`Web Socket server started on port ${wssPort}`)
 })
 
+function update(message) {
+  wss.clients.forEach(function each(client) {
+    if (client.readyState === WebSocket.OPEN) {
+      client.send(message);
+    }
+  });
+}
+
 const { Pool } = require('pg');
 const pool = new Pool({
   connectionString: "postgres://gobsygpefhzdif:99c9011aacce9c1764ac8aa17f9f0d09c0b56ebf104bf79b0eb50558c94d9bbf@ec2-52-73-184-24.compute-1.amazonaws.com:5432/dej5s0l23ki1su",
@@ -116,6 +124,7 @@ app.delete('/api/deleteProduct', (req, res) => {
       console.log("Product removed succesfully");
     }
   });
+  update('item-deleted')
 })
 
 // Post a new product
@@ -155,11 +164,7 @@ app.post('/api/addProduct', function (clothing, res) {
       }
     });
 
-  wss.clients.forEach(function each(client) {
-    if (client.readyState === WebSocket.OPEN) {
-      client.send("item-added");
-    }
-  });
+  update("item-added")
 })
 
 // Adding an event to the database
