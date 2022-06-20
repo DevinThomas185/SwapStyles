@@ -26,6 +26,7 @@ function TradeOut() {
         }
     });
 
+    const [imageSet, setImageSet] = useState(false);
     const [validated, setValidated] = useState(false);
     const [dbResponded, setDbResponded] = useState(false);
     const [succeeded, setSucceeded] = useState(false);
@@ -56,7 +57,7 @@ function TradeOut() {
         event.preventDefault();
 
         const form = event.currentTarget;
-        if (form.checkValidity() === false) {
+        if (form.checkValidity() === false || !imageSet) {
             event.preventDefault();
             event.stopPropagation();
         } else {
@@ -102,6 +103,7 @@ function TradeOut() {
             ...item,
             image: url
         });
+        setImageSet(true);
     }
     
     if (!loggedIn) {
@@ -142,7 +144,7 @@ function TradeOut() {
                 </Row>
 
                 <Row className="mb-3">
-                <SimpleFileUpload
+                    <SimpleFileUpload
                         data-accepted="image/*"
                         data-maxFileSize="0.5"
                         name="image" id="image"
@@ -150,14 +152,17 @@ function TradeOut() {
                         apiKey="035d47aa53030d76819b63ab6ce9b05b"
                         onSuccess={handleFile}
                     />
-                        
+                    {imageSet ? 
+                        <Badge bg="success">Image Uploaded</Badge>
+                        : <Badge bg="danger">Image Not Uploaded</Badge>
+                    }                        
                     <Form.Group controlId="validationCustom04" as={Col}>
                         <Form.Label>Age of the Item</Form.Label>
                         <InputGroup hasValidation>
                             <Form.Control
                                 required
                                 type="number"
-                                name='Age of Item'
+                                name='age'
                                 placeholder='How many years ago was this bought?'
                                 max={10}
                                 min={0}
