@@ -20,7 +20,7 @@ import SignUp from "./Pages/SignUp.js";
 import Profile from "./Pages/Profile";
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 
-const client = new W3CWebSocket('ws://localhost:5002');
+// const client = new W3CWebSocket(`ws://localhost:${port}`);
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -30,22 +30,22 @@ class App extends React.Component {
     }
   }
 
-  componentWillMount() {
-    client.onopen = () => {
-      console.log("Connected to server");
-    }
+  // componentWillMount() {
+  //   client.onopen = () => {
+  //     console.log("Connected to server");
+  //   }
 
-    client.onmessage = (message) => {
-      if (message.data === "item-added") {
-        console.log("Server: New item added");
-        this.setState({ newProducts: !this.state.newProducts });
-      }
-      if (message.data === "item-deleted") {
-        console.log("Server: Item deleted");
-        this.setState({ newProducts: !this.state.newProducts });
-      }
-    }
-  }
+  //   client.onmessage = (message) => {
+  //     if (message.data === "item-added") {
+  //       console.log("Server: New item added");
+  //       this.setState({ newProducts: !this.state.newProducts });
+  //     }
+  //     if (message.data === "item-deleted") {
+  //       console.log("Server: Item deleted");
+  //       this.setState({ newProducts: !this.state.newProducts });
+  //     }
+  //   }
+  // }
 
   // USE KEY ATTRIBUTE TO FORCE COMPONENT TO RE-RENDER
   render() {
