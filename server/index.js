@@ -285,15 +285,35 @@ app.get('/api/getProduct', async (req, res) => {
 })
 
 // delete product from its id
-app.delete('/api/deleteProduct', (req, res) => {
-  console.log(`deleting product: ${req.query.id}`);
+app.delete('/api/deleteProduct', async (req, res) => {
+  console.log(`Deleting product: ${req.query.id}`);
   const id = req.query.id;
+  const items = await pool.query(`SELECT * FROM products WHERE id = ${id}`);
+  const url = items.rows[0].url
+  console.log(url);
   pool.query(`DELETE FROM products WHERE id = $1`, [id], (err, result) => {
     if (err) {
       console.error('Error removing product', err.stack)
     } else {
       console.log("Product removed succesfully");
     }
+  });
+
+  const { exec } = require('child_process');
+  exec(`wget -qO /dev/stdout \
+  --method=delete \
+  --user "p8dfd147f72ff9c94ee8d12eed87b746c" \
+  --password "sc9efe8fe5b45c93d5e05872738847ed1" \
+  "https://app.simplefileupload.com/api/v1/file?url="${url}`
+  , (err, stdout, stderr) => {
+    if (err) {
+      // node couldn't execute the command
+      return;
+    }
+
+    // the *entire* stdout and stderr (buffered)
+    console.log(`stdout: ${stdout}`);
+    console.log(`stderr: ${stderr}`);
   });
   update('item-deleted')
 })
