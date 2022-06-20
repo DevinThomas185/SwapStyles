@@ -18,6 +18,7 @@ import HomePage from "./Pages/HomePage";
 import Login from "./Pages/Login";
 import SignUp from "./Pages/SignUp.js";
 import Profile from "./Pages/Profile";
+import TradeIn from "./Pages/TradeIn";
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 
 // const client = new W3CWebSocket(`ws://localhost:${port}`);
