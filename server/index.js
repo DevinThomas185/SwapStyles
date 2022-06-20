@@ -10,30 +10,30 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser("82e4e438a0705fabf61f9854e3b575af"))
 
 
-const http = require("http")
-const server = http.createServer(app)
-const WebSocket = require("ws")
-const wss = new WebSocket.Server({ server })
-const wssPort = port + 1;
+// const http = require("http")
+// const server = http.createServer(app)
+// const WebSocket = require("ws")
+// const wss = new WebSocket.Server({ server })
+// const wssPort = port;
 
-wss.on("connection", (ws) => {
-  console.log("New Client Connected")
-  ws.on("message", (message) => {
-    console.log("Client: ", message)
-  })
-});
+// wss.on("connection", (ws) => {
+//   console.log("New Client Connected")
+//   ws.on("message", (message) => {
+//     console.log("Client: ", message)
+//   })
+// });
 
-server.listen(wssPort, () => {
-  console.log(`Web Socket server started on port ${wssPort}`)
-})
+// server.listen(wssPort, () => {
+//   console.log(`Web Socket server started on port ${wssPort}`)
+// })
 
-function update(message) {
-  wss.clients.forEach(function each(client) {
-    if (client.readyState === WebSocket.OPEN) {
-      client.send(message);
-    }
-  });
-}
+// function update(message) {
+//   wss.clients.forEach(function each(client) {
+//     if (client.readyState === WebSocket.OPEN) {
+//       client.send(message);
+//     }
+//   });
+// }
 
 const { Pool } = require('pg');
 const pool = new Pool({
