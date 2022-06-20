@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
 import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Container from 'react-bootstrap/esm/Container';
-import Product from "../Components/Product";
+import YourListings from "../Components/YourListings";
+import ItemsToSend from "../Components/ItemsToSend";
+import ItemsToReceive from "../Components/ItemsToReceive";
+import PreviouslySent from "../Components/PreviouslySent";
+import PreviouslyReceived from "../Components/PreviouslyReceived";
+import Tabs from 'react-bootstrap/Tabs';
+import Tab from 'react-bootstrap/Tab';
 
 export default function Profile() {
 
     const [user, setUser] = useState({});
-    const [posts, setPosts] = useState([]);
     const [loggedIn, setLoggedIn] = useState(false)
 
     function setup() {
@@ -18,19 +19,13 @@ export default function Profile() {
             .then(id => {
                 console.log(id)
                 if (id !== undefined) {
-                    setLoggedIn(true);
                     fetch(`/api/getUser?id=${id.id}`)
-                        .then(res => res.json())
-                        .then(data => {
+                    .then(res => res.json())
+                    .then(data => {
+                            setLoggedIn(true);
                             console.log(data);
                             setUser(data);
-                        });
-                    fetch(`/api/getProductsFromSeller?id=${id.id}`)
-                        .then(res => res.json())
-                        .then(data => {
-                            console.log(data);
-                            setPosts(data);
-                        });
+                    });
                 }
             })
     }
@@ -83,35 +78,23 @@ export default function Profile() {
                     </Card.Text>
                 </Card.Body>
             </Card>
-
-            <h1> Your Listings: </h1>
-
-            <Container>
-                <Row>
-                    {posts.map(item => (
-                        <Col key={item.id}>
-                            <Product product={item} />
-                            <Button
-                                variant="warning"
-                                onClick={() => {
-                                    const request = {
-                                        method: 'DELETE',
-                                        headers: { 'Content-Type': 'application/json' },
-                                    };
-                                    fetch(`/api/deleteProduct?id=${item.id}`, request);
-                                    const i = posts.indexOf(item);
-                                    if (i > -1) {
-                                        posts.splice(i, 1);
-                                    }
-                                }}
-                            >
-                                Delete
-                            </Button>
-                        </Col>
-                    ))}
-                </Row>
-            </Container>
-
+            <Tabs defaultActiveKey="listings">
+                <Tab eventKey="listings" title="Your Listings">
+                    {(loggedIn ? <YourListings user={user}/> : <div></div>)}
+                </Tab>
+                <Tab eventKey="items-to-send" title="Items To Send">
+                    {(loggedIn ? <ItemsToSend user={user}/> : <div></div>)}
+                </Tab>
+                <Tab eventKey="items-to-receive" title="Items To Receive">
+                    {(loggedIn ? <ItemsToReceive user={user}/> : <div></div>)}
+                </Tab>
+                <Tab eventKey="previously-sent" title="Previously Sent">
+                    {(loggedIn ? <PreviouslySent user={user}/> : <div></div>)}
+                </Tab>
+                <Tab eventKey="previously-received" title="Previously Received">
+                    {(loggedIn ? <PreviouslyReceived user={user}/> : <div></div>)}
+                </Tab>
+            </Tabs>
         </div>
     )
 }

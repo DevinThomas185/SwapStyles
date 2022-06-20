@@ -80,7 +80,16 @@ app.get('/api/allProducts', async (req, res) => {
 app.get('/api/getProducts', async (req, res) => {
   console.log(`Getting products for: ${req.query.q}`);
   const query = req.query.q;
-  const products = await pool.query(`SELECT * FROM products WHERE LOWER(Title) LIKE '%${query}%' ORDER BY submitted ASC`);
+  const products = await pool.query(`SELECT a.* 
+                                     FROM 
+                                      products a
+                                     LEFT JOIN
+                                      transactions b
+                                     ON a.id = b.Itemid
+                                     WHERE b.Itemid IS NULL
+                                     AND LOWER(a.Title) 
+                                     LIKE '%${query}%' 
+                                     ORDER BY a.submitted ASC`);
   res.json(products.rows);
 })
 
@@ -90,6 +99,155 @@ app.get('/api/getProductsFromSeller', async (req, res) => {
   const id = req.query.id;
   const products = await pool.query(`SELECT * FROM products WHERE Sellerid = ${id} ORDER BY submitted DESC`);
   res.json(products.rows);
+})
+
+// Get available products from seller id
+app.get('/api/getAvailableProductsFromSeller', async (req, res) => {
+  console.log(`Getting available products from seller: ${req.query.id}`);
+  const id = req.query.id;
+  const products = await pool.query(`SELECT a.* 
+                                     FROM 
+                                      products a
+                                     LEFT JOIN
+                                      transactions b
+                                     ON a.id = b.Itemid
+                                     WHERE b.Itemid IS NULL
+                                     AND a.Sellerid = ${id} 
+                                     ORDER BY a.submitted DESC`);
+  res.json(products.rows);
+})
+
+
+// Get products to send from seller id
+app.get('/api/getToReceiveFor', async (req, res) => {
+  console.log(`Getting to receive products for: ${req.query.id}`);
+  const id = req.query.id;
+  const products = await pool.query(`SELECT a.* 
+                                     FROM
+                                      products a
+                                     LEFT JOIN
+                                      transactions b
+                                     ON a.id = b.Itemid
+                                     WHERE b.Itemid IS NOT NULL
+                                     AND b.Touserid = ${id}
+                                     AND (NOT b.Toconfirmreceived OR NOT b.Fromconfirmsent)
+                                     ORDER BY submitted DESC`);
+  res.json(products.rows);
+})
+
+// Get previously received products
+app.get('/api/getReceivedFor', async (req, res) => {
+  console.log(`Getting received products for: ${req.query.id}`);
+  const id = req.query.id;
+  const products = await pool.query(`SELECT a.*
+                                      FROM
+                                        products a
+                                      LEFT JOIN
+                                        transactions b
+                                      ON a.id = b.Itemid
+                                      WHERE b.Itemid IS NOT NULL
+                                      AND b.Touserid = ${id}
+                                      AND b.Toconfirmreceived
+                                      AND b.Fromconfirmsent
+                                      ORDER BY submitted DESC`);
+  res.json(products.rows);
+})
+
+// Get products to send from seller id
+app.get('/api/getToSendFrom', async (req, res) => {
+  console.log(`Getting to send products from seller: ${req.query.id}`);
+  const id = req.query.id;
+  const products = await pool.query(`SELECT a.* 
+                                     FROM
+                                      products a
+                                     LEFT JOIN
+                                      transactions b
+                                     ON a.id = b.Itemid
+                                     WHERE b.Itemid IS NOT NULL
+                                     AND a.Sellerid = ${id}
+                                     AND (NOT b.Toconfirmreceived OR NOT b.Fromconfirmsent)
+                                     ORDER BY submitted DESC`); // MAY NEED TO REMOVE FROM CONFIRMSENT
+  res.json(products.rows);
+})
+
+// Get previously sent products
+app.get('/api/getSentFrom', async (req, res) => {
+  console.log(`Getting received products for: ${req.query.id}`);
+  const id = req.query.id;
+  const products = await pool.query(`SELECT a.*
+                                      FROM
+                                        products a
+                                      LEFT JOIN
+                                        transactions b
+                                      ON a.id = b.Itemid
+                                      WHERE b.Itemid IS NOT NULL
+                                      AND b.Fromuserid = ${id}
+                                      AND b.Toconfirmreceived
+                                      AND b.Fromconfirmsent
+                                      ORDER BY submitted DESC`);
+  res.json(products.rows);
+})
+
+
+// Confirm item has been sent
+app.get('/api/confirmSent', async (req, res) => {
+  console.log(`Confirming item has been sent: ${req.query.id}`);
+  const id = req.query.id;
+  pool.query(`UPDATE transactions SET Fromconfirmsent = true WHERE Itemid = ${id}`, (err, result) => {
+    if (err) {
+      console.log(err)
+      res.status(500).send("Error confirming item has been sent")
+    } else {
+      res.status(200).send("Item has been sent")
+    }
+  });
+
+  const confirms = await pool.query(`SELECT * FROM transactions WHERE Itemid = ${id}`);
+  const item = confirms.rows[0];
+  if (item.toconfirmreceived) { // Both sides have confirmed
+    await pool.query(`UPDATE users SET Balance = Balance + 1 WHERE Id = ${item.fromuserid}`);
+    await pool.query(`UPDATE users SET Swappedaway = Swappedaway + 1 WHERE Id = ${item.fromuserid}`);
+    await pool.query(`UPDATE users SET Balance = Balance - 1 WHERE Id = ${item.touserid}`);
+    await pool.query(`UPDATE users SET Swappedfor = Swappedfor + 1 WHERE Id = ${item.touserid}`);
+  }
+})
+
+// Check is confirmed sent
+app.get('/api/isConfirmedSent', async (req, res) => {
+  console.log(`Checking if item has been sent: ${req.query.id}`);
+  const id = req.query.id;
+  const products = await pool.query(`SELECT * FROM transactions WHERE Itemid = ${id}`);
+  res.json(products.rows[0].fromconfirmsent);
+})
+
+// Confirm item has been received
+app.get('/api/confirmReceived', async (req, res) => {
+  console.log(`Confirming item has been received: ${req.query.id}`);
+  const id = req.query.id;
+  pool.query(`UPDATE transactions SET Toconfirmreceived = true WHERE Itemid = ${id}`, (err, result) => {
+    if (err) {
+      console.log(err)
+      res.status(500).send("Error confirming item has been received")
+    } else {
+      res.status(200).send("Item has been received")
+    }
+  });
+  const confirms = await pool.query(`SELECT * FROM transactions WHERE Itemid = ${id}`);
+  const item = confirms.rows[0];
+  if (item.fromconfirmsent) { // Both sides have confirmed now
+    await pool.query(`UPDATE users SET Balance = Balance + 1 WHERE Id = ${item.fromuserid}`);
+    await pool.query(`UPDATE users SET Swappedaway = Swappedaway + 1 WHERE Id = ${item.fromuserid}`);
+    await pool.query(`UPDATE users SET Balance = Balance - 1 WHERE Id = ${item.touserid}`);
+    await pool.query(`UPDATE users SET Swappedfor = Swappedfor + 1 WHERE Id = ${item.touserid}`);
+  }
+})
+
+// Check is confirmed sent
+app.get('/api/isConfirmedReceived', async (req, res) => {
+  console.log(`Checking if item has been received: ${req.query.id}`);
+  const id = req.query.id;
+  const products = await pool.query(`SELECT * FROM transactions WHERE Itemid = ${id}`);
+  res.json(products.rows[0].toconfirmreceived);
 })
 
 // Get product from its id
@@ -234,10 +392,41 @@ app.post('/api/getNearbyEvents', async (req, res) => {
   res.json(events.rows.slice(0, 5));
 })
 
+// Get recent items
 app.get('/api/getRecentItems', async (req, res) => {
   console.log("Getting recent items");
-  const items = await pool.query(`SELECT * FROM products ORDER BY submitted DESC LIMIT 5`);
+  const items = await pool.query(`SELECT a.* 
+                                  FROM 
+                                    products a 
+                                  LEFT JOIN 
+                                    transactions b 
+                                  ON a.ID = b.Itemid 
+                                  WHERE b.Itemid IS NULL
+                                  ORDER BY submitted DESC LIMIT 5`);
   res.json(items.rows);
+})
+
+//Trade in an item
+app.post('/api/tradein', async (req, res) => {
+  const toUserID = getUserId(req)
+  // Confirm item is in database (available)
+  const item = await pool.query(`SELECT * FROM products WHERE id = ${req.query.id}`);
+  if (item.rows.length == 0) {
+    res.status(500).send("Error - Item is no longer available");
+  } else {
+    // Add to transactions
+    pool.query(`INSERT INTO transactions(ItemID, FromUserID, ToUserId, FromConfirmSent, ToConfirmReceived) VALUES($1,$2,$3,$4,$5)`, 
+      [req.query.id, req.body.fromUserID, toUserID, false, false], (err, r) => {
+        if (err) {
+          console.log("Error - Failed to insert data into Transactions");
+          console.log(err);
+          res.status(500).send("Error - Failed to insert data into Transactions");
+        } else {
+          console.log("Query Processed");
+          res.status(200).send("Success - Data inserted into Transactions");
+        }
+      });
+  }
 })
 
 // Login

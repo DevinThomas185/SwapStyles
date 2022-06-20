@@ -12,7 +12,7 @@ function ProductPage(props) {
     const { id } = useParams();
     const [product, setProduct] = useState({});
     const [seller, setSeller] = useState("");
-
+    const [user, setUser] = useState({});
 
     useEffect(() => {
         fetch(`/api/getProduct?id=${id}`)
@@ -24,6 +24,18 @@ function ProductPage(props) {
                     .then(res => res.json())
                     .then(data => setSeller(data.username));
             });
+
+        fetch('/api/getUserId')
+            .then(resp => resp.json())
+            .then(id => {
+                if (id !== undefined) {
+                    fetch(`/api/getUser?id=${id.id}`)
+                    .then(res => res.json())
+                    .then(data => {
+                            setUser(data);
+                    });
+                }
+            })
     }, []);
 
 
@@ -85,7 +97,10 @@ function ProductPage(props) {
                         </Card.Text>
                     </Col>
                     <Col lg={2}>
-                        <Button variant="primary" align="center" href="/product/1">Trade In</Button>
+                        {(product.sellerid === user.id ? 
+                            <Button variant="primary" disabled >This is your listing</Button> :
+                            <Button variant="primary" align="center" href={"/tradein/" + product.id}>Trade In</Button>
+                        )}
                     </Col>
                 </Row>
             </Card.Footer>
