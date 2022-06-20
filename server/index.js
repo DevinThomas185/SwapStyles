@@ -315,7 +315,7 @@ app.delete('/api/deleteProduct', async (req, res) => {
     console.log(`stdout: ${stdout}`);
     console.log(`stderr: ${stderr}`);
   });
-  update('item-deleted')
+  // update('item-deleted')
 })
 
 // Post a new product
@@ -355,7 +355,7 @@ app.post('/api/addProduct', function (clothing, res) {
       }
     });
 
-  update("item-added")
+  // update("item-added")
 })
 
 // Adding an event to the database
