@@ -106,18 +106,22 @@ app.get('/api/allProducts', async (req, res) => {
 app.get('/api/getProducts', async (req, res) => {
   console.log(`Getting products for: ${req.query.q}`);
   const query = req.query.q;
-  const products = await pool.query(`SELECT a.* 
-                                     FROM 
-                                      products a
-                                     LEFT JOIN
-                                      transactions b
-                                     ON a.id = b.Itemid
-                                     WHERE b.Itemid IS NULL
-                                     AND LOWER(a.Title) 
-                                     LIKE '%${query}%' 
-                                     ORDER BY a.submitted ASC`);
+  const sqlquery =
+    `SELECT a.* 
+    FROM 
+    products a
+    LEFT JOIN
+    transactions b
+    ON a.id = b.Itemid
+    WHERE b.Itemid IS NULL
+    AND LOWER(a.Title) 
+    LIKE '%${query}%' ` +
+    (req.query.hasOwnProperty('maxAge') ? `AND (a.age < ${req.query.maxAge})` : ``) +
+    `ORDER BY a.submitted ASC`
+  const products = await pool.query(sqlquery);
   res.json(products.rows);
 })
+
 
 // Get products from seller id
 app.get('/api/getProductsFromSeller', async (req, res) => {

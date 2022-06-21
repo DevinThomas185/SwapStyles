@@ -10,12 +10,7 @@ import Filters from '../Components/Filters';
 function Shop() {
 
     const [products, setProducts] = useState([]);
-    const [filters, setFilters] = useState({
-        minCondition: 0,
-        online: false,
-        event: false,
-        maxAge: 10
-    });
+    const [filters, setFilters] = useState({});
 
     function getFilters() {
         return filters;
@@ -23,7 +18,10 @@ function Shop() {
 
 
     async function getProducts(query) {
-        const res = await fetch(`/api/getProducts?q=${query}`);
+        const queryString = Object.keys(filters).map(key => key + '=' + filters[key]).join('&')
+        // const res = await fetch(`/api/getProducts?q=${query}`);
+        console.log(queryString);
+        const res = await fetch(`/api/getProducts?q=${query}&${queryString}`);
         console.log(res);
         const data = await res.json();
         data.reverse()
