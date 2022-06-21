@@ -83,7 +83,7 @@ app.get('/api/getUserBalance', (req, res) => {
   const id = getUserId(req)
   if (id === undefined) {
     res.json({})
-  } else {  
+  } else {
     pool.query(`SELECT balance FROM users WHERE id = ${id}`, (err, result) => {
       if (err) {
         console.log(err)
@@ -106,18 +106,26 @@ app.get('/api/allProducts', async (req, res) => {
 app.get('/api/getProducts', async (req, res) => {
   console.log(`Getting products for: ${req.query.q}`);
   const query = req.query.q;
-  const products = await pool.query(`SELECT a.* 
-                                     FROM 
-                                      products a
-                                     LEFT JOIN
-                                      transactions b
-                                     ON a.id = b.Itemid
-                                     WHERE b.Itemid IS NULL
-                                     AND LOWER(a.Title) 
-                                     LIKE '%${query}%' 
-                                     ORDER BY a.submitted ASC`);
+  const sqlquery =
+    `SELECT a.* 
+    FROM 
+    products a
+    LEFT JOIN
+    transactions b
+    ON a.id = b.Itemid
+    WHERE b.Itemid IS NULL
+    AND LOWER(a.Title) 
+    LIKE '%${query}%' ` +
+    (req.query.hasOwnProperty('maxAge') ? `AND (a.Age < ${req.query.maxAge})` : ``) +
+    (req.query.hasOwnProperty('minCondition') ? `AND (a.Condition > ${req.query.minCondition})` : ``) +
+    (req.query.hasOwnProperty('online') ? (req.query.online === 'true' ? `AND (a.online)` : ``) : ``) +
+    (req.query.hasOwnProperty('event') ? (req.query.event === 'true' ? `AND NOT (a.online)` : ``) : ``) +
+    (req.query.hasOwnProperty('category') ? `AND (a.category = '${req.query.category}')` : ``) +
+    `ORDER BY a.submitted ASC`
+  const products = await pool.query(sqlquery);
   res.json(products.rows);
 })
+
 
 // Get products from seller id
 app.get('/api/getProductsFromSeller', async (req, res) => {
@@ -305,16 +313,16 @@ app.delete('/api/deleteProduct', async (req, res) => {
   --user "p8dfd147f72ff9c94ee8d12eed87b746c" \
   --password "sc9efe8fe5b45c93d5e05872738847ed1" \
   "https://app.simplefileupload.com/api/v1/file?url="${url}`
-  , (err, stdout, stderr) => {
-    if (err) {
-      // node couldn't execute the command
-      return;
-    }
+    , (err, stdout, stderr) => {
+      if (err) {
+        // node couldn't execute the command
+        return;
+      }
 
-    // the *entire* stdout and stderr (buffered)
-    console.log(`stdout: ${stdout}`);
-    console.log(`stderr: ${stderr}`);
-  });
+      // the *entire* stdout and stderr (buffered)
+      console.log(`stdout: ${stdout}`);
+      console.log(`stderr: ${stderr}`);
+    });
   // update('item-deleted')
 })
 
@@ -335,6 +343,7 @@ app.post('/api/addProduct', function (clothing, res) {
   submitted = new Date();
   event_id = clothing.body.event.id;
   online = clothing.body.online;
+  category = clothing.body.category;
 
   console.log("API PROCESSING")
   console.log(title);
@@ -342,9 +351,10 @@ app.post('/api/addProduct', function (clothing, res) {
   console.log(image);
   console.log(age);
   console.log(condition);
+  console.log(category);
 
-  pool.query(`INSERT INTO products(Title, Description, Url, Age, Condition, Submitted, SellerId, EventID, Online) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9)`,
-    [title, description, image, age, condition, submitted, user_id, event_id, online], (err, r) => {
+  pool.query(`INSERT INTO products(Title, Description, Url, Age, Condition, Submitted, SellerId, EventID, Online, Category) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)`,
+    [title, description, image, age, condition, submitted, user_id, event_id, online, category], (err, r) => {
       if (err) {
         console.log("Error - Failed to insert data into Products");
         console.log(err);
@@ -464,7 +474,7 @@ app.post('/api/tradein', async (req, res) => {
     res.status(500).send("Error - Item is no longer available");
   } else {
     // Add to transactions
-    pool.query(`INSERT INTO transactions(ItemID, FromUserID, ToUserId, FromConfirmSent, ToConfirmReceived) VALUES($1,$2,$3,$4,$5)`, 
+    pool.query(`INSERT INTO transactions(ItemID, FromUserID, ToUserId, FromConfirmSent, ToConfirmReceived) VALUES($1,$2,$3,$4,$5)`,
       [req.query.id, req.body.fromUserID, toUserID, false, false], (err, r) => {
         if (err) {
           console.log("Error - Failed to insert data into Transactions");
