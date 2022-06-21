@@ -548,6 +548,15 @@ app.post('/api/signup', async (event, res) => {
   res.json({ success: success })
 })
 
+app.get('/api/getMessages', async (req, res) => {
+  const id = getUserId(req);
+  const messages = await pool.query(`SELECT *
+                                     FROM messages
+                                     WHERE sender = ${id}
+                                     OR receiver = ${id}
+                                     ORDER BY sent DESC`) 
+})
+
 
 // serve react app from root
 if (process.env.NODE_ENV === "production") {
