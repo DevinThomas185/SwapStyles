@@ -116,7 +116,11 @@ app.get('/api/getProducts', async (req, res) => {
     WHERE b.Itemid IS NULL
     AND LOWER(a.Title) 
     LIKE '%${query}%' ` +
-    (req.query.hasOwnProperty('maxAge') ? `AND (a.age < ${req.query.maxAge})` : ``) +
+    (req.query.hasOwnProperty('maxAge') ? `AND (a.Age < ${req.query.maxAge})` : ``) +
+    (req.query.hasOwnProperty('minCondition') ? `AND (a.Condition > ${req.query.minCondition})` : ``) +
+    (req.query.hasOwnProperty('online') ? (req.query.online === 'true' ? `AND (a.online)` : ``) : ``) +
+    (req.query.hasOwnProperty('event') ? (req.query.event === 'true' ? `AND NOT (a.online)` : ``) : ``) +
+    (req.query.hasOwnProperty('category') ? `AND (a.category = '${req.query.category}')` : ``) +
     `ORDER BY a.submitted ASC`
   const products = await pool.query(sqlquery);
   res.json(products.rows);

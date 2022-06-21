@@ -61,7 +61,7 @@ function Filters(props) {
                                                     (event) => {
                                                         props.setFilters({
                                                             ...(props.getFilters()),
-                                                            condition: event.target.value
+                                                            minCondition: event.target.value
                                                         });
                                                     }
                                                 }
