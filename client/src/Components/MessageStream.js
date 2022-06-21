@@ -18,7 +18,7 @@ class MessageStream extends React.Component {
         return(
             <div>
                 {this.props.messages.map(message => {
-                    const [variant, side] = (message.sender.toString() === this.props.userID) ? ["primary", 11] : ["info", {offset: 1}]
+                    const [variant, side] = (message.sender.toString() === this.props.userID) ? ["info", {offset: 1}] : ["primary", 11]
                     return (<Row className="mt-3" key={message.id}>
                             <Col lg={side}>
                                 <Alert

@@ -11,6 +11,8 @@ class Messages extends React.Component {
         super(props);
         this.state = {
             userID: 0,
+            currentTabUser: 0,
+            recipients: {},
             messages: {},
             messageToSend: ""
         }
@@ -43,14 +45,16 @@ class Messages extends React.Component {
             }
         }
 
+        this.setState({messages: msgs, currentTabUser: Object.keys(msgs)[0]})
+
 
         Object.keys(msgs).forEach((key) => {
             fetch(`/api/getUser?id=${key}`)
                 .then(res => res.json())
-                .then(data => this.setState({
-                    messages: {
-                        ...this.state.messages,
-                        [data.username]: msgs[key]
+                .then(user => this.setState({
+                    recipients: {
+                        ...this.state.recipients,
+                        [user.id]: user
                     }
                 }))
         });
@@ -58,8 +62,20 @@ class Messages extends React.Component {
 
     onKeyUp(e) {
         if (e.key === "Enter") {
-            // SEND MESSAGE
+            this.handleSubmit()
         }
+    }
+
+    handleSubmit() {
+        console.log("SENT MESSAGE")
+        fetch(`/api/sendMessage`, {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                sender: this.state.userID,
+                receiver: this.state.currentTabUser,
+                message: this.state.messageToSend
+        })})
     }
 
     render() {
@@ -67,9 +83,14 @@ class Messages extends React.Component {
             <div>
 
                 <Tabs>
-                    {Object.entries(this.state.messages).map(([recipient, messages]) => (
-                        <Tab eventKey={recipient} title={recipient} key={recipient}>
-                            <MessageStream messages={messages} userID={this.state.userID}/>
+                    {Object.entries(this.state.recipients).map(([id, user]) => (
+                        <Tab 
+                        eventKey={id} 
+                        title={user.username} 
+                        key={id}
+                        onClick={() => this.setState({currentTabUser: id})}
+                        >
+                            <MessageStream messages={this.state.messages[id]} userID={this.state.userID}/>
                         </Tab>
                     ))}
                 </Tabs>
@@ -83,9 +104,9 @@ class Messages extends React.Component {
                     <Button 
                     variant="outline-secondary"
                     id="button-addon2"
-                    onClick={() => {console.log("SEND MESSAGE")}}
+                    onClick={() => this.handleSubmit()}
                     >
-                        Go!
+                        Send
                     </Button>
                 </InputGroup>
             </div>
