@@ -6,21 +6,16 @@ import Row from 'react-bootstrap/Row'
 import Badge from 'react-bootstrap/Badge'
 
 
-function Filters() {
+function Filters(props) {
 
-    const [filters, setFilters] = useState({
-        minCondition: 0,
-        online: false,
-        event: false,
-        maxAge: 10
-    });
 
     const handleChange = (event) => {
         const { name, value } = event.target;
-        setFilters({
-            ...filters,
+        props.setFilters({
+            ...(props.getFilters()),
             [name]: value
         });
+        console.log(props.getFilters())
     }
 
     return (
@@ -34,16 +29,16 @@ function Filters() {
                                 <Form.Group controlId="formBasicCheckbox">
                                     <Form.Check type="checkbox" label="Online" onChange={
                                         (event) => {
-                                            setFilters({
-                                                ...filters,
+                                            props.setFilters({
+                                                ...(props.getFilters()),
                                                 online: event.target.checked
                                             });
                                         }
                                     } />
                                     <Form.Check type="checkbox" label="Event" onChange={
                                         (event) => {
-                                            setFilters({
-                                                ...filters,
+                                            props.setFilters({
+                                                ...(props.getFilters()),
                                                 event: event.target.checked
                                             });
                                         }
@@ -64,8 +59,8 @@ function Filters() {
                                                 name='minCondition'
                                                 onChange={
                                                     (event) => {
-                                                        setFilters({
-                                                            ...filters,
+                                                        props.setFilters({
+                                                            ...(props.getFilters()),
                                                             condition: event.target.value
                                                         });
                                                     }

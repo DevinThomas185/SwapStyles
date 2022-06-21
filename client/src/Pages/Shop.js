@@ -10,6 +10,16 @@ import Filters from '../Components/Filters';
 function Shop() {
 
     const [products, setProducts] = useState([]);
+    const [filters, setFilters] = useState({
+        minCondition: 0,
+        online: false,
+        event: false,
+        maxAge: 10
+    });
+
+    function getFilters() {
+        return filters;
+    }
 
 
     async function getProducts(query) {
@@ -23,13 +33,11 @@ function Shop() {
 
     async function available(product) {
         if (product.online) {
-            console.log("online")
             return ("online")
         } else {
             return fetch(`/api/getEvent/?id=${product.eventid}`)
                 .then(res => res.json())
                 .then(data => {
-                    console.log(data.name);
                     return ("at " + data.name)
                 })
         }
@@ -39,7 +47,7 @@ function Shop() {
     return (
         <div>
             <SearchBar getResults={getProducts} />
-            <Filters />
+            <Filters setFilters={setFilters} getFilters={getFilters} />
             <Container>
                 <Row>
                     {products.map(item => (
