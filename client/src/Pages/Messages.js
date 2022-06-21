@@ -10,15 +10,50 @@ class Messages extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            messages: [],
+            userID: 0,
+            messages: {},
             messageToSend: ""
         }
+        this.setMessages = this.setMessages.bind(this);
     }
 
     componentDidMount() {
-        fetch(`api/getMessages`)
+        fetch('/api/getUserId')
             .then(resp => resp.json())
-            .then(messages => this.setState({messages: messages}))
+            .then(id => this.setState({ userID: id.id }));
+        fetch(`/api/getMessages`)
+            .then(res => res.json())
+            .then(messages => this.setMessages(messages));
+    }
+
+    setMessages(messages) {
+        const msgs = {}
+        for (const i in messages) {
+            const message = messages[i]
+            if (message.sender.toString() === this.state.userID) {
+                if (!(message.receiver in msgs)) {
+                    msgs[message.receiver] = []
+                }
+                msgs[message.receiver].push(message)
+            } else {
+                if (!(message.sender in msgs)) {
+                    msgs[message.sender] = []
+                }
+                msgs[message.sender].push(message)
+            }
+        }
+
+
+        Object.keys(msgs).forEach((key) => {
+            fetch(`/api/getUser?id=${key}`)
+                .then(res => res.json())
+                .then(data => this.setState({
+                    messages: {
+                        ...this.state.messages,
+                        [data.username]: msgs[key]
+                    }
+                }))
+        });
     }
 
     onKeyUp(e) {
@@ -30,13 +65,13 @@ class Messages extends React.Component {
     render() {
         return(
             <div>
+
                 <Tabs>
-                    <Tab eventKey="Devin" title="Devin">
-                        <MessageStream />
-                    </Tab>
-                    <Tab eventKey="Adam" title="Adam">
-                        <MessageStream />
-                    </Tab>
+                    {Object.entries(this.state.messages).map(([recipient, messages]) => (
+                        <Tab eventKey={recipient} title={recipient} key={recipient}>
+                            <MessageStream messages={messages} userID={this.state.userID}/>
+                        </Tab>
+                    ))}
                 </Tabs>
                 <InputGroup className="mb-3">
                     <Form.Control

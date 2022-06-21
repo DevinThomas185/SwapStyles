@@ -550,11 +550,36 @@ app.post('/api/signup', async (event, res) => {
 
 app.get('/api/getMessages', async (req, res) => {
   const id = getUserId(req);
-  const messages = await pool.query(`SELECT *
-                                     FROM messages
-                                     WHERE sender = ${id}
-                                     OR receiver = ${id}
-                                     ORDER BY sent DESC`) 
+  console.log("Getting messages for user " + id);
+  const messages = await pool.query(`SELECT a.*, b.Username
+                                     FROM 
+                                      messages a
+                                     JOIN
+                                      users b
+                                     ON a.Sender = b.Id
+                                     WHERE Sender = ${id}
+                                     OR Receiver = ${id}
+                                     ORDER BY Sent ASC`);
+  res.json(messages.rows);
+})
+
+app.post('/api/sendMessage', async (req, res) => {
+  const details = req.body;
+  const sender = details.sender;
+  const receiver = details.receiver;
+  const message = details.message;
+  const sent = new Date();
+
+  pool.query(`INSERT INTO messages (Sender, Receiver, Sent, Message) VALUES($1,$2,$3,$4)`,
+      [sender, receiver, sent, message], (err, r) => {
+        if (err) {
+          console.log("Error - Failed to insert user into users");
+          console.log(err);
+        } else {
+          console.log("User Added");
+        }
+      }
+    )
 })
 
 

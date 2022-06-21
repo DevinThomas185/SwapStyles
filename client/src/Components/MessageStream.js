@@ -2,36 +2,37 @@ import React from 'react'
 import {Alert, Row, Col} from 'react-bootstrap'
 
 class MessageStream extends React.Component {
+
+    formatDate(date) {
+        return new Date(date).toLocaleDateString('en-US', 
+        {
+            year: '2-digit',
+            month: '2-digit',
+            day: '2-digit',
+            hour: "numeric",
+            minute: "numeric",
+        });
+    }
+
     render() {
         return(
             <div>
-                <Row>
-                    <Col lg={11}>
-                        <Alert
-                        variant="primary"
-                        >
-                            Hi there!
-                            <hr />
-                            <small>
-                                Devin 14:00
-                            </small>
-                        </Alert>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col lg={{offset: 1}}>
-                        <Alert
-                        variant="info"
-                        style={{textAlign: "right" }}
-                        >
-                            Hey!
-                            <hr />
-                            <small>
-                                Raaif 14:01
-                            </small>
-                        </Alert>
-                    </Col>
-                </Row>
+                {this.props.messages.map(message => {
+                    const [variant, side] = (message.sender.toString() === this.props.userID) ? ["primary", 11] : ["info", {offset: 1}]
+                    return (<Row className="mt-3" key={message.id}>
+                            <Col lg={side}>
+                                <Alert
+                                variant={variant}
+                                >
+                                    {message.message}
+                                    <hr />
+                                    <small>
+                                        {message.username} {this.formatDate(message.sent)}
+                                    </small>
+                                </Alert>
+                            </Col>
+                        </Row>);
+                })}
             </div>
         );
     }
