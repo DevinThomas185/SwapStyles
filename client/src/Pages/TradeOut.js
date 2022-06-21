@@ -145,12 +145,11 @@ function TradeOut() {
 
                 <Row className="mb-3">
                     <SimpleFileUpload
-                        data-accepted="image/*"
-                        data-maxFileSize="0.5"
-                        name="image" id="image"
-                        class="simple-file-upload"
                         apiKey="035d47aa53030d76819b63ab6ce9b05b"
+                        preview="true"                        
                         onSuccess={handleFile}
+                        resizeWidth="850"
+                        accepted="image/*"
                     />
                     {imageSet ? 
                         <Badge bg="success">Image Uploaded</Badge>
