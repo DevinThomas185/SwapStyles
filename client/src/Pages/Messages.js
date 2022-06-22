@@ -5,6 +5,7 @@ import MessageStream from '../Components/MessageStream';
 import InputGroup from 'react-bootstrap/InputGroup'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
+import Container from 'react-bootstrap/Container'
 
 class Messages extends React.Component {
     constructor(props) {
@@ -101,7 +102,9 @@ class Messages extends React.Component {
                         key={id}
                         onClick={() => this.setState({currentTabUser: id})}
                         >
-                            <MessageStream messages={this.state.messages[id]} userID={this.state.userID}/>
+                            <Container className='overflow-auto' style={{maxHeight:"70vh", display: "flex", flexDirection: "column-reverse"}}>
+                                <MessageStream messages={this.state.messages[id]} userID={this.state.userID}/>
+                            </Container>
                         </Tab>
                     ))}
                 </Tabs>
