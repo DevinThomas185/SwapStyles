@@ -23,6 +23,15 @@ class Messages extends React.Component {
         fetch('/api/getUserId')
             .then(resp => resp.json())
             .then(id => this.setState({ userID: id.id }));
+
+        this.timer = setInterval(()=> this.getMessages(), 500); // Change update time
+    }
+
+    componentWillUnmount() {
+        this.timer = null;
+    }
+
+    getMessages() {
         fetch(`/api/getMessages`)
             .then(res => res.json())
             .then(messages => this.setMessages(messages));
@@ -76,6 +85,8 @@ class Messages extends React.Component {
                 receiver: this.state.currentTabUser,
                 message: this.state.messageToSend
         })})
+        this.setState({messageToSend: ""})
+
     }
 
     render() {
@@ -98,6 +109,7 @@ class Messages extends React.Component {
                     <Form.Control
                     placeholder="Message to..."
                     aria-describedby="basic-addon2"
+                    value={this.state.messageToSend}
                     onChange={(e) => this.setState({messageToSend: e.target.value})}
                     onKeyPress={(e) => { this.onKeyUp(e) }}
                     />
