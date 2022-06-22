@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import Badge from 'react-bootstrap/Badge'
+import Button from 'react-bootstrap/Button'
 
 
 function Filters(props) {
@@ -17,6 +18,8 @@ function Filters(props) {
         });
         console.log(props.getFilters())
     }
+
+    const [category, setCategory] = useState("none");
 
     return (
         <Accordion className="mb-3">
@@ -86,27 +89,54 @@ function Filters(props) {
                             <Col lg={6}>
                                 <Form.Group controlId="formControlsSelect" as={Col}>
                                     <Form.Label>Category</Form.Label>
-                                    <Form.Control
-                                        as="select"
-                                        name="category"
-                                        placeholder="Select a category"
-                                        onChange={handleChange}
-                                    >
-                                        <option>Select a category</option>
-                                        <option value="shoe">Shoe</option>
-                                        <option value="t-shirt">T-shirt</option>
-                                        <option value="shirt">Shirt</option>
-                                        <option value="trouser">Trouser</option>
-                                        <option value="jeans">Jeans</option>
-                                        <option value="jacket">Jacket</option>
-                                        <option value="coat">Coat</option>
-                                        <option value="hoodie">Hoodie</option>
-                                        <option value="shorts">Shorts</option>
-                                        <option value="sports">Sports</option>
-                                        <option value="other">Other</option>
-                                    </Form.Control>
-                                    <Form.Control.Feedback>Cool Category!</Form.Control.Feedback>
-                                    <Form.Control.Feedback type="invalid">Please provide a Category.</Form.Control.Feedback>
+                                    <Row>
+                                        <Col>
+                                            <Form.Control
+                                                as="select"
+                                                name="category"
+                                                placeholder="Select a category"
+                                                value={category}
+                                                onChange={(e) => {
+                                                    setCategory(e.target.value)
+                                                    if (e.target.value === "none") {
+                                                        var t = props.getFilters();
+                                                        delete t.category;
+                                                        props.setFilters(t);
+                                                    } else {
+                                                        handleChange(e)
+                                                    }
+                                                }}
+                                            >
+                                                <option value="none">Select a category</option>
+                                                <option value="shoe">Shoe</option>
+                                                <option value="t-shirt">T-shirt</option>
+                                                <option value="shirt">Shirt</option>
+                                                <option value="trouser">Trouser</option>
+                                                <option value="jeans">Jeans</option>
+                                                <option value="jacket">Jacket</option>
+                                                <option value="coat">Coat</option>
+                                                <option value="hoodie">Hoodie</option>
+                                                <option value="shorts">Shorts</option>
+                                                <option value="sports">Sports</option>
+                                                <option value="other">Other</option>
+                                            </Form.Control>
+                                            <Form.Control.Feedback>Cool Category!</Form.Control.Feedback>
+                                            <Form.Control.Feedback type="invalid">Please provide a Category.</Form.Control.Feedback>
+                                        </Col>
+                                        <Col>
+                                            <Button
+                                                onClick={(e) => {
+                                                    setCategory("none")
+                                                    var t = props.getFilters();
+                                                    delete t.category;
+                                                    props.setFilters(t);
+                                                }}
+                                                variant="danger"
+                                            >
+                                                x
+                                            </Button>
+                                        </Col>
+                                    </Row>
                                 </Form.Group>
                             </Col>
                         </Row>
