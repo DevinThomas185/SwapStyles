@@ -141,6 +141,7 @@ function TradeOut() {
                             <option value="shoe">Shoe</option>
                             <option value="t-shirt">T-shirt</option>
                             <option value="shirt">Shirt</option>
+                            <option value="dress">Dress</option>
                             <option value="trouser">Trouser</option>
                             <option value="jeans">Jeans</option>
                             <option value="jacket">Jacket</option>
@@ -176,7 +177,8 @@ function TradeOut() {
                         apiKey="035d47aa53030d76819b63ab6ce9b05b"
                         preview="true"                        
                         onSuccess={handleFile}
-                        resizeWidth="850"
+                        resizeWidth="400"
+                        resizeHeight="400"
                         accepted="image/*"
                     />
                     {imageSet ?
