@@ -108,18 +108,18 @@ function Filters(props) {
                                                 }}
                                             >
                                                 <option value="none">Select a category</option>
-                                                <option value="shoe">Shoe</option>
-                                                <option value="t-shirt">T-shirt</option>
-                                                <option value="shirt">Shirt</option>
+                                                <option value="shoe">Shoes</option>
+                                                <option value="t-shirt">T-Shirts</option>
+                                                <option value="shirt">Shirts</option>
                                                 <option value="dress">Dress</option>
-                                                <option value="trouser">Trouser</option>
+                                                <option value="trouser">Trousers</option>
                                                 <option value="jeans">Jeans</option>
-                                                <option value="jacket">Jacket</option>
-                                                <option value="coat">Coat</option>
-                                                <option value="hoodie">Hoodie</option>
+                                                <option value="jacket">Jackets</option>
+                                                <option value="coat">Coats</option>
+                                                <option value="hoodie">Hoodies</option>
                                                 <option value="shorts">Shorts</option>
                                                 <option value="sports">Sports</option>
-                                                <option value="other">Other</option>
+                                                <option value="other">Other Items</option>
                                             </Form.Control>
                                             <Form.Control.Feedback>Cool Category!</Form.Control.Feedback>
                                             <Form.Control.Feedback type="invalid">Please provide a Category.</Form.Control.Feedback>
