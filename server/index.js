@@ -595,7 +595,8 @@ app.get('/api/getUsers', async (req, res) => {
                                   UNION
                                   (SELECT receiver AS id FROM messages WHERE sender = ${id})) b
                                   ON a.id = b.id
-                                  WHERE b.id IS NULL`);
+                                  WHERE b.id IS NULL
+                                  AND a.id != ${id}`);
   res.json(users.rows);
 })
 
