@@ -269,9 +269,8 @@ app.get('/api/confirmReceived', async (req, res) => {
   const confirms = await pool.query(`SELECT * FROM transactions WHERE Itemid = ${id}`);
   const item = confirms.rows[0];
   if (item.fromconfirmsent) { // Both sides have confirmed now
-    await pool.query(`UPDATE users SET Balance = Balance + 1 WHERE Id = ${item.fromuserid}`);
+    await pool.query(`UPDATE users SET Balance = Balance + 1 WHERE Id = ${item.fromuserid}`); // 'Buyer' balance decreases on confirmation
     await pool.query(`UPDATE users SET Swappedaway = Swappedaway + 1 WHERE Id = ${item.fromuserid}`);
-    await pool.query(`UPDATE users SET Balance = Balance - 1 WHERE Id = ${item.touserid}`);
     await pool.query(`UPDATE users SET Swappedfor = Swappedfor + 1 WHERE Id = ${item.touserid}`);
   }
 })
@@ -470,8 +469,12 @@ app.post('/api/tradein', async (req, res) => {
   const toUserID = getUserId(req)
   // Confirm item is in database (available)
   const item = await pool.query(`SELECT * FROM products WHERE id = ${req.query.id}`);
-  if (item.rows.length == 0) {
-    res.status(500).send("Error - Item is no longer available");
+  // Confirm user has enough tokens
+  const user = await pool.query(`SELECT * FROM users WHERE id = ${toUserID} AND Balance > 0`)
+  if (item.rows.length === 0) {
+    res.status(501).send("Error - Item is no longer available");
+  } else if (user.rows.length === 0) {
+    res.status(502).send("Error - Balance is not enough");
   } else {
     // Add to transactions
     pool.query(`INSERT INTO transactions(ItemID, FromUserID, ToUserId, FromConfirmSent, ToConfirmReceived) VALUES($1,$2,$3,$4,$5)`,
@@ -482,6 +485,7 @@ app.post('/api/tradein', async (req, res) => {
           res.status(500).send("Error - Failed to insert data into Transactions");
         } else {
           console.log("Query Processed");
+          pool.query(`UPDATE users SET Balance = Balance - 1 WHERE Id = ${toUserID}`); // Reduce 'buyer's balance
           res.status(200).send("Success - Data inserted into Transactions");
         }
       });

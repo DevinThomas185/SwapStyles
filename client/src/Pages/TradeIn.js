@@ -15,6 +15,8 @@ function TradeIn() {
 
     const [product, setProduct] = useState({});
 
+    const [backendResponse, setBackendResponse] = useState(0);
+
     const handleConfirm = () => {
         fetch(`/api/tradein?id=${id}`,{
             method: 'POST',
@@ -29,6 +31,7 @@ function TradeIn() {
                     setSuccess(true);
                 } else {
                     setSuccess(false);
+                    setBackendResponse(res.status);
                 }
                 setDbResponded(true);
             })
@@ -60,16 +63,37 @@ function TradeIn() {
             </Container>
         );
     } else if (dbResponded && !success) {
-        return (
-            <h1>
-                Error
-            </h1>
-        );
+        if (backendResponse === 501) {
+            return (
+                <h1>
+                    Error - Item not found
+                </h1>
+            );
+        } else if (backendResponse === 502) {
+            return (
+                <Container>
+                    <h1>
+                        Error! You have no tokens to trade for.
+                    </h1>
+                    <h6>
+                        You need to trade away some items to get tokens
+                    </h6>
+                    <Button href="/tradeout">
+                        Go to Swap Away
+                    </Button>
+                </Container>
+            );
+        }
     } else if (dbResponded && success) {
         return (
-            <h1>
-                Success
-            </h1>
+            <Container>
+                <h1>
+                    Success! Visit your profile to see the status of this item.
+                </h1>
+                <Button href="/profile">
+                    Go to Profile
+                </Button>
+            </Container>
         );
     }
 }
