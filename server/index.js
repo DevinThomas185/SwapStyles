@@ -77,7 +77,7 @@ app.get('/api/getUser', async (req, res) => {
   res.json(user.rows[0]);
 })
 
-// Temporary Balance display
+// User balance display
 app.get('/api/getUserBalance', (req, res) => {
   console.log(`Getting User Balance: ${req.query.id}`);
   const id = getUserId(req)
@@ -548,6 +548,7 @@ app.post('/api/signup', async (event, res) => {
   res.json({ success: success })
 })
 
+// Get messages for a user
 app.get('/api/getMessages', async (req, res) => {
   const id = getUserId(req);
   console.log("Getting messages for user " + id);
@@ -563,6 +564,7 @@ app.get('/api/getMessages', async (req, res) => {
   res.json(messages.rows);
 })
 
+// Send message from a user
 app.post('/api/sendMessage', async (req, res) => {
   const details = req.body;
   const sender = details.sender;
@@ -581,6 +583,22 @@ app.post('/api/sendMessage', async (req, res) => {
       }
     )
 })
+
+// Get unmessaged users
+app.get('/api/getUsers', async (req, res) => {
+  const id = getUserId(req);
+  console.log("Getting all unmessaged users for: " + id);
+  const users = await pool.query(`SELECT a.*
+                                  FROM users a
+                                  LEFT JOIN
+                                  ((SELECT sender AS id FROM messages WHERE receiver = ${id})
+                                  UNION
+                                  (SELECT receiver AS id FROM messages WHERE sender = ${id})) b
+                                  ON a.id = b.id
+                                  WHERE b.id IS NULL`);
+  res.json(users.rows);
+})
+
 
 
 // serve react app from root

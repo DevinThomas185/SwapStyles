@@ -6,6 +6,7 @@ import InputGroup from 'react-bootstrap/InputGroup'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import Container from 'react-bootstrap/Container'
+import Dropdown from 'react-bootstrap/Dropdown';
 
 class Messages extends React.Component {
     constructor(props) {
@@ -13,19 +14,24 @@ class Messages extends React.Component {
         this.state = {
             userID: 0,
             currentTabUser: 0,
+            newRecipient: {},
             recipients: {},
+            allUsers: [],
             messages: {},
             messageToSend: ""
         }
         this.setMessages = this.setMessages.bind(this);
+        this.handleSelect = this.handleSelect.bind(this);
     }
 
     componentDidMount() {
         fetch('/api/getUserId')
-            .then(resp => resp.json())
+            .then(res => res.json())
             .then(id => this.setState({ userID: id.id }));
-
-        this.timer = setInterval(()=> this.getMessages(), 500); // Change update time
+        fetch('/api/getUsers')
+            .then(res => res.json())
+            .then(users => this.setState({allUsers: users}));
+        this.timer = setInterval(() => this.getMessages(), 500); // Change update time
     }
 
     componentWillUnmount() {
@@ -55,7 +61,12 @@ class Messages extends React.Component {
             }
         }
 
-        this.setState({messages: msgs, currentTabUser: Object.keys(msgs)[0]})
+        this.setState({messages: msgs})
+
+        if (this.state.currentTabUser === 0) {
+            this.setState({currentTabUser: Object.keys(msgs)[0]})
+        }
+
 
 
         Object.keys(msgs).forEach((key) => {
@@ -77,7 +88,6 @@ class Messages extends React.Component {
     }
 
     handleSubmit() {
-        console.log("SENT MESSAGE")
         fetch(`/api/sendMessage`, {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
@@ -86,27 +96,51 @@ class Messages extends React.Component {
                 receiver: this.state.currentTabUser,
                 message: this.state.messageToSend
         })})
-        this.setState({messageToSend: ""})
+        this.setState({messageToSend: "", newRecipient: {}})
 
     }
 
+    handleSelect(key) {
+        this.setState({currentTabUser: key})
+    }
+    
     render() {
         return(
             <div>
-
-                <Tabs>
+                <Tabs onSelect={this.handleSelect}>
                     {Object.entries(this.state.recipients).map(([id, user]) => (
                         <Tab 
                         eventKey={id} 
                         title={user.username} 
                         key={id}
-                        onClick={() => this.setState({currentTabUser: id})}
                         >
                             <Container className='overflow-auto' style={{maxHeight:"70vh", display: "flex", flexDirection: "column-reverse"}}>
                                 <MessageStream messages={this.state.messages[id]} userID={this.state.userID}/>
                             </Container>
                         </Tab>
                     ))}
+                    <Tab
+                    eventKey="new"
+                    className='justify-content-end'
+                    title="+"
+                    >
+                        <Dropdown>
+                            <Dropdown.Toggle variant="success" id="dropdown-basic">
+                                New Chat with: {this.state.newRecipient.username}
+                            </Dropdown.Toggle>
+
+                            <Dropdown.Menu>
+                               {this.state.allUsers.map((user) => (
+                                <Dropdown.Item 
+                                key={user.username}
+                                onClick={() => {this.setState({currentTabUser: user.id, newRecipient: user})}}
+                                >
+                                    {user.username}
+                                </Dropdown.Item>
+                               ))}
+                            </Dropdown.Menu>
+                        </Dropdown>
+                    </Tab>
                 </Tabs>
                 <InputGroup className="mb-3">
                     <Form.Control
