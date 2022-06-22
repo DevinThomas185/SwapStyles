@@ -44,6 +44,7 @@ function Navigation() {
                             <Navbar.Collapse className="justify-content-end">
                                 <Navbar.Text>{balance} Trades</Navbar.Text>
                                 <Nav.Link href="/profile">Profile</Nav.Link>
+                                <Nav.Link href="/profile/messages">Messages</Nav.Link>
                                 <Notifications />
                             </Navbar.Collapse>
                       ) : (
