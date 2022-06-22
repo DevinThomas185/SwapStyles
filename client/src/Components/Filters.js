@@ -111,6 +111,7 @@ function Filters(props) {
                                                 <option value="shoe">Shoe</option>
                                                 <option value="t-shirt">T-shirt</option>
                                                 <option value="shirt">Shirt</option>
+                                                <option value="dress">Dress</option>
                                                 <option value="trouser">Trouser</option>
                                                 <option value="jeans">Jeans</option>
                                                 <option value="jacket">Jacket</option>
