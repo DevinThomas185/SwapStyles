@@ -7,6 +7,7 @@ import PreviouslySent from "../Components/PreviouslySent";
 import PreviouslyReceived from "../Components/PreviouslyReceived";
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
+import Favourites from "../Components/Favourites";
 
 export default function Profile() {
 
@@ -20,12 +21,12 @@ export default function Profile() {
                 console.log(id)
                 if (id.id !== undefined) {
                     fetch(`/api/getUser?id=${id.id}`)
-                    .then(res => res.json())
-                    .then(data => {
+                        .then(res => res.json())
+                        .then(data => {
                             setLoggedIn(true);
                             console.log(data);
                             setUser(data);
-                    });
+                        });
                 }
             })
     }
@@ -80,19 +81,22 @@ export default function Profile() {
             </Card>
             <Tabs defaultActiveKey="listings">
                 <Tab eventKey="listings" title="Your Listings">
-                    {(loggedIn ? <YourListings user={user}/> : <div></div>)}
+                    {(loggedIn ? <YourListings user={user} /> : <div></div>)}
+                </Tab>
+                <Tab eventKey="favourites" title="Your Favourites">
+                    {(loggedIn ? <Favourites user={user} /> : <div></div>)}
                 </Tab>
                 <Tab eventKey="items-to-send" title="Items To Send">
-                    {(loggedIn ? <ItemsToSend user={user}/> : <div></div>)}
+                    {(loggedIn ? <ItemsToSend user={user} /> : <div></div>)}
                 </Tab>
                 <Tab eventKey="items-to-receive" title="Items To Receive">
-                    {(loggedIn ? <ItemsToReceive user={user}/> : <div></div>)}
+                    {(loggedIn ? <ItemsToReceive user={user} /> : <div></div>)}
                 </Tab>
                 <Tab eventKey="previously-sent" title="Previously Sent">
-                    {(loggedIn ? <PreviouslySent user={user}/> : <div></div>)}
+                    {(loggedIn ? <PreviouslySent user={user} /> : <div></div>)}
                 </Tab>
                 <Tab eventKey="previously-received" title="Previously Received">
-                    {(loggedIn ? <PreviouslyReceived user={user}/> : <div></div>)}
+                    {(loggedIn ? <PreviouslyReceived user={user} /> : <div></div>)}
                 </Tab>
             </Tabs>
         </div>
