@@ -217,13 +217,13 @@ app.get('/api/getReceivedFor', async (req, res) => {
 app.get('/api/getToSendFrom', async (req, res) => {
   console.log(`Getting to send products from seller: ${req.query.id}`);
   const id = req.query.id;
-  const products = await pool.query(`SELECT a.*, b.username, b.address, b.postcode
+  const products = await pool.query(`SELECT a.*, b.Touserid AS userid, b.username, b.address, b.postcode
                                      FROM
                                       products a
                                      LEFT JOIN
                                       (SELECT *
                                        FROM
-                                        transactions x 
+                                        transactions x
                                        LEFT JOIN
                                         users y
                                        ON x.Touserid = y.id
