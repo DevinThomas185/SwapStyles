@@ -18,7 +18,7 @@ export default function Profile() {
             .then(resp => resp.json())
             .then(id => {
                 console.log(id)
-                if (id !== undefined) {
+                if (id.id !== undefined) {
                     fetch(`/api/getUser?id=${id.id}`)
                     .then(res => res.json())
                     .then(data => {

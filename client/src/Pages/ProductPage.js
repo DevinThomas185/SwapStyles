@@ -28,7 +28,8 @@ function ProductPage(props) {
         fetch('/api/getUserId')
             .then(resp => resp.json())
             .then(id => {
-                if (id !== undefined) {
+                if (id.id !== undefined) {
+                    console.log("ID ", id)
                     fetch(`/api/getUser?id=${id.id}`)
                     .then(res => res.json())
                     .then(data => {
