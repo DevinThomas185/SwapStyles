@@ -75,14 +75,14 @@ function ProductPage(props) {
                                 </Card>
                             </Col>
                         </Row>
-                        <Row>
+                        {/* <Row>
                             <Col className="mt-2">
                                 <Card.Text>
                                     Sustainable Alternatives:
                                 </Card.Text>
                                 <SustainableAlternatives />
                             </Col>
-                        </Row>
+                        </Row> */}
                     </Col>
                 </Row>
             </Card.Body>

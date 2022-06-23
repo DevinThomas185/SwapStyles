@@ -1,12 +1,13 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 
 class Title extends React.Component {
     render() {
         return (
-            <div>
-                <h1 align="center">SwapStyles</h1>
-            </div>
+            <Link to="/"  style={{ textDecoration: 'none' }}>
+                <h1 className='mt-4' align="center">SwapStyles</h1>
+            </Link>
         );
     }
 }
