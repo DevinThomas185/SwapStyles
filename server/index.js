@@ -3,7 +3,7 @@ const path = require("path")
 const cookieParser = require("cookie-parser")
 
 const app = express()
-const port = process.env.PORT || 5000
+const port = process.env.PORT || 8000
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -602,6 +602,19 @@ app.get('/api/getUsers', async (req, res) => {
                                   WHERE b.id IS NULL
                                   AND a.id != ${id}`);
   res.json(users.rows);
+})
+
+app.get('/api/getAttendees', async (req, res) => {
+  const eventID = req.query.id
+  console.log("Getting attendees for event: " + eventID);
+  const attendees = await pool.query(`SELECT a.*
+                                      FROM 
+                                        users a
+                                      LEFT JOIN 
+                                        attendees b
+                                      ON a.id = b.attendee
+                                      WHERE b.eventid = ${eventID}`)
+  res.json(attendees.rows);
 })
 
 

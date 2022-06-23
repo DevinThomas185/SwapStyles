@@ -13,6 +13,7 @@ function ProductPage(props) {
     const { id } = useParams();
     const [event, setEvent] = useState({});
     const [organiser, setOrganiser] = useState("");
+    const [attendees, setAttendees] = useState([]);
 
     useEffect(() => {
         fetch(`/api/getEvent?id=${id}`)
@@ -24,6 +25,10 @@ function ProductPage(props) {
                     .then(res => res.json())
                     .then(data => setOrganiser(data.username));
             });
+
+        fetch(`/api/getAttendees?id=${id}`)
+            .then(res => res.json())
+            .then(data => setAttendees(data));
     }, []);
 
     return (
@@ -60,9 +65,12 @@ function ProductPage(props) {
                         <Card.Text>
                             Who's coming:
                             <ListGroup as="ol" numbered>
-                                <ListGroup.Item as="li">Person 1</ListGroup.Item>
+                                {attendees.map(attendee => (
+                                    <ListGroup.Item as="li">{attendee.username}</ListGroup.Item>
+                                ))}
+                                {/* <ListGroup.Item as="li">Person 1</ListGroup.Item>
                                 <ListGroup.Item as="li">Person 2</ListGroup.Item>
-                                <ListGroup.Item as="li">Person 3</ListGroup.Item>
+                                <ListGroup.Item as="li">Person 3</ListGroup.Item> */}
                             </ListGroup>
                         </Card.Text>
                         Item previews:
