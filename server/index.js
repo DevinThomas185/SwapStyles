@@ -415,14 +415,14 @@ app.post('/api/addEvent', function (event, res) {
 app.get('/api/getEvents', async (req, res) => {
   console.log(`Getting events for: ${req.query.q}`);
   const query = req.query.q;
-  const events = await pool.query(`SELECT * FROM events WHERE LOWER(Name) LIKE '%${query}%'`);
+  const events = await pool.query(`SELECT * FROM events WHERE LOWER(Name) LIKE '%${query}%' AND Date > current_date`);
   res.json(events.rows);
 })
 
 // Get all events
 app.get('/api/getAllEvents', async (req, res) => {
   console.log("Getting all events");
-  const events = await pool.query(`SELECT * FROM events`);
+  const events = await pool.query(`SELECT * FROM events WHERE Date > current_date`);
   res.json(events.rows);
 })
 
@@ -430,7 +430,7 @@ app.get('/api/getAllEvents', async (req, res) => {
 app.get('/api/getEvent', async (req, res) => {
   console.log(`Getting event: ${req.query.id}`);
   const id = req.query.id;
-  const event = await pool.query(`SELECT * FROM events WHERE id = ${id}`);
+  const event = await pool.query(`SELECT * FROM events WHERE id = ${id} AND Date > current_date`);
   res.json(event.rows[0]);
 })
 
@@ -440,14 +440,28 @@ app.post('/api/getNearbyEvents', async (req, res) => {
   const lat = req.body.lat;
   const lng = req.body.lng;
   console.log(`Getting events nearby: Lat:${lat} Long:${lng}`);
-  const events = await pool.query(`SELECT * FROM events WHERE Latitude BETWEEN ${lat - radius} AND ${lat + radius} AND Longitude BETWEEN ${lng - radius} AND ${lng + radius} ORDER BY Date ASC`);
+  const events = await pool.query(`SELECT * 
+                                   FROM events 
+                                   WHERE Latitude BETWEEN ${lat - radius} AND ${lat + radius} 
+                                   AND Longitude BETWEEN ${lng - radius} AND ${lng + radius}
+                                   AND Date > current_date
+                                   ORDER BY Date ASC`);
 
+  // Pythagoras to determine closest events
   events.rows.sort((a, b) => {
     var aDistance = Math.sqrt(Math.pow(lat - a.latitude, 2) + Math.pow(lng - a.longitude, 2));
     var bDistance = Math.sqrt(Math.pow(lat - b.latitude, 2) + Math.pow(lng - b.longitude, 2));
     return (aDistance < bDistance) ? -1 : (aDistance > bDistance) ? 1 : 0;
   });
-  res.json(events.rows.slice(0, 5));
+  // Take top 5 nearest
+  const nearest = events.rows.slice(0, 5);
+  
+  // Sort by closest in date
+  nearest.sort((a, b) => {
+    return (a.date < b.date) ? -1 : (a.date > b.date) ? 1 : 0;
+  })
+  
+  res.json(nearest);
 })
 
 // Get recent items
