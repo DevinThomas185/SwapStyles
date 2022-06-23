@@ -116,14 +116,16 @@ function SearchBar(props) {
                                     <Form.Control name='maxAge' type="number" min="0" max="10" onChange={handleChange} />
                                 </Form.Group>
                             </Col>
+                        </Row>
+                        <Row>
                             <Col lg={6}>
                                 <Form.Group controlId="formControlsSelect" as={Col}>
                                     <Form.Label>Category</Form.Label>
-                                    <Row>
-                                    <Col id="general-category">
+                                    
+                                    <Col id="generalCategory">
                                             <Form.Control
                                                 as="select"
-                                                name="general-category"
+                                                name="generalCategory"
                                                 placeholder="Select a category"
                                                 value={generalcategory}
                                                 onChange={(e) => {
@@ -142,12 +144,13 @@ function SearchBar(props) {
                                                 <option value="Bottoms">Bottoms</option>
                                                 <option value="Overwear">Overwear</option>
                                                 <option value="Footwear">Footwear</option>
-                                                <option value="other">Other Items</option>
+                                                <option value="Other">Other Items</option>
                                             </Form.Control>
                                             <Form.Control.Feedback>Cool Category!</Form.Control.Feedback>
                                             <Form.Control.Feedback type="invalid">Please provide a Category.</Form.Control.Feedback>
                                         </Col>
                                         <Col>
+                                        <Form.Label> </Form.Label>
                                             <Form.Control
                                                 as="select"
                                                 name="category"
@@ -169,7 +172,8 @@ function SearchBar(props) {
                                             <Form.Control.Feedback>Cool Category!</Form.Control.Feedback>
                                             <Form.Control.Feedback type="invalid">Please provide a Category.</Form.Control.Feedback>
                                         </Col>
-                                        
+                                        <Row>
+                                        <Form.Label> </Form.Label>
                                         <Col>
                                             <Button
                                                 onClick={(e) => {
@@ -184,7 +188,7 @@ function SearchBar(props) {
                                                 }}
                                                 variant="danger"
                                             >
-                                                x
+                                                Clear Filters
                                             </Button>
                                         </Col>
                                         <Col>
@@ -196,7 +200,8 @@ function SearchBar(props) {
                                                     Apply
                                                 </Button>
                                         </Col>
-                                    </Row>
+                                        </Row>
+                                    
                                 </Form.Group>
                             </Col>
                         </Row>
