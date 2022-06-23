@@ -4,7 +4,6 @@ import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/esm/Container';
 import Row from 'react-bootstrap/Row';
 import SearchBar from '../Components/SearchBar';
-import Filters from '../Components/Filters';
 
 
 function Shop() {
@@ -44,8 +43,8 @@ function Shop() {
 
     return (
         <div>
-            <SearchBar getResults={getProducts} />
-            <Filters setFilters={setFilters} getFilters={getFilters} />
+            <SearchBar getResults={getProducts} setFilters={setFilters} getFilters={getFilters} />
+            {/* <Filters setFilters={setFilters} getFilters={getFilters} /> */}
             <Container>
                 <Row>
                     {products.map(item => (

@@ -105,6 +105,33 @@ app.get('/api/allProducts', async (req, res) => {
 // Get products from the search
 app.get('/api/getProducts', async (req, res) => {
   console.log(`Getting products for: ${req.query.q}`);
+  var categoryFilter = ''
+  if (req.query.hasOwnProperty('generalCategory') & !req.query.hasOwnProperty('category')) {
+    if (req.query.generalCategory == 'Tops') {
+      categoryFilter = `AND ((a.category = 't-shirt')
+      OR (a.category = 'shirt')
+      OR (a.category = 'dress')
+      OR (a.category = 'hoodie')
+      )`
+    } else if (req.query.generalCategory == 'Bottoms') {
+      categoryFilter = `AND ((a.category = 'shorts')
+      OR (a.category = 'jeans')
+      OR (a.category = 'trouser')
+      )`
+    } else if (req.query.generalCategory == 'Overwear') {
+      categoryFilter = `AND ((a.category = 'jacket')
+      OR (a.category = 'coat')
+      )`
+    } else if (req.query.generalCategory == 'Footwear') {
+      categoryFilter = `AND ((a.category = 'shoe')
+      )`
+    } else if (req.query.generalCategory == 'Other') {
+      categoryFilter = `AND ((a.category = 'other'))`
+    }
+  } else {
+      categoryFilter = (req.query.hasOwnProperty('category') ? `AND (a.category = '${req.query.category}')` : ``);
+  }
+  console.log("please work: " + req.query.hasOwnProperty('category'))
   const query = req.query.q;
   const sqlquery =
     `SELECT a.* 
@@ -117,11 +144,10 @@ app.get('/api/getProducts', async (req, res) => {
     AND LOWER(a.Title) 
     LIKE '%${query}%' ` +
     (req.query.hasOwnProperty('maxAge') ? `AND (a.Age < ${req.query.maxAge})` : ``) +
-    (req.query.hasOwnProperty('minCondition') ? `AND (a.Condition > ${req.query.minCondition})` : ``) +
+    (req.query.hasOwnProperty('minCondition') ? `AND (a.Condition >= ${req.query.minCondition})` : ``) +
     (req.query.hasOwnProperty('online') ? (req.query.online === 'true' ? `AND (a.online)` : ``) : ``) +
     (req.query.hasOwnProperty('event') ? (req.query.event === 'true' ? `AND NOT (a.online)` : ``) : ``) +
-    (req.query.hasOwnProperty('category') ? `AND (a.category = '${req.query.category}')` : ``) +
-    `ORDER BY a.submitted ASC`
+    categoryFilter + `ORDER BY a.submitted ASC`
   const products = await pool.query(sqlquery);
   res.json(products.rows);
 })

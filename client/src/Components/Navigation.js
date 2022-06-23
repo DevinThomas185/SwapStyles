@@ -3,6 +3,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Notifications from './Notifications';
 import Container from 'react-bootstrap/Container';
+import { FaHome } from "react-icons/fa";
 
 
 function Navigation() {
@@ -30,7 +31,7 @@ function Navigation() {
           <div >
               <Navbar variant='light' expand="lg">
                   <Container>
-                      <Navbar.Brand href="/">{window.Title}</Navbar.Brand>
+                      <Navbar.Brand href="/"><FaHome style={{color: '#90c2ae'}}/>SwapStyles</Navbar.Brand>
                       <Navbar.Toggle aria-controls="basic-navbar-nav" />
                       <Navbar.Collapse id="basic-navbar-nav">
                           <Nav className="me-auto">
