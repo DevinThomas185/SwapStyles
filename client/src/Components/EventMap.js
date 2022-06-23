@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import { useJsApiLoader, GoogleMap, Marker } from '@react-google-maps/api'
 import { Link } from "react-router-dom";
+import Alert from 'react-bootstrap/Alert'
 
 
 export default function EventMap(props) {
@@ -13,9 +14,10 @@ export default function EventMap(props) {
         googleMapsApiKey: "AIzaSyCV1xLSpdplVb0nDpJJl1KDkpgjN6rSQ7k"
     })
 
-    const [selected, setSelected] = React.useState(null);
-    const [lat, setLat] = React.useState(51.499603);
-    const [lng, setLng] = React.useState(-0.174610);
+    const [selected, setSelected] = useState(null);
+    const [closeAlert, setCloseAlert] = useState(false);
+    const [lat, setLat] = useState(0);
+    const [lng, setLng] = useState(0);
 
 
     function getTime(time) {
@@ -88,7 +90,25 @@ export default function EventMap(props) {
                                 </Link>
                             </Card.Body>
                         </Card>
-                    ) : null}
+                    ) : (
+                        (!closeAlert) ?
+                            <Alert variant="success" dismissible onClose={() => setCloseAlert(true)}>
+                                <Alert.Heading>Hello there!</Alert.Heading>
+                                <p>
+                                    Here you can view events that are taking place. You can click on a marker to see the event and view details about it. 
+                                </p>
+                                <hr />
+                                <p>
+                                    If you choose to find out more, you will be able to choose to attend the event, see who else is attending and what items will be brought to the event.
+                                </p>
+                                <hr />
+                                <p>
+                                    Have fun exploring!
+                                </p>
+                            </Alert>
+                        : 
+                            (<Button onClick={() => setCloseAlert(false)}>Click for Info!</Button>)
+                    )}
                 </Col>
             </Row>
         </div>
