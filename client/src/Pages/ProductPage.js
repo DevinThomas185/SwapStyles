@@ -75,14 +75,14 @@ function ProductPage(props) {
                                 </Card>
                             </Col>
                         </Row>
-                        <Row>
+                        {/* <Row>
                             <Col className="mt-2">
                                 <Card.Text>
                                     Sustainable Alternatives:
                                 </Card.Text>
                                 <SustainableAlternatives />
                             </Col>
-                        </Row>
+                        </Row> */}
                     </Col>
                 </Row>
             </Card.Body>
@@ -99,7 +99,9 @@ function ProductPage(props) {
                     <Col lg={2}>
                         {(product.sellerid === user.id ? 
                             <Button variant="primary" disabled >This is your listing</Button> :
-                            <Button variant="primary" align="center" href={"/tradein/" + product.id}>Trade In</Button>
+                            (product.online ? 
+                            <Button variant="primary" align="center" href={"/tradein/" + product.id}>Trade In</Button> :
+                            <Button variant="primary" disabled >Not available online</Button>)
                         )}
                     </Col>
                 </Row>
