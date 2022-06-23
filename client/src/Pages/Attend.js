@@ -66,7 +66,7 @@ function Attend() {
                     Error! Please try again
                 </h1>
                 <Button href={"/event/" + event.id}>
-                    Go to Event Search
+                    Return to Event Page
                 </Button>
             </Container>
         )
