@@ -31,6 +31,7 @@ class App extends React.Component {
       newProducts: true,
       newEvents: true,
     }
+    window.Title = "SwapStyles"
   }
 
   // componentWillMount() {
