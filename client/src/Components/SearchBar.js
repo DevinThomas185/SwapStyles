@@ -175,34 +175,33 @@ function SearchBar(props) {
                                             </Col>
                                             <Row>
                                             <Form.Label> </Form.Label>
-                                            <Col>
-                                                <Button
-                                                    onClick={(e) => {
-                                                        setCategory("none")
-                                                        var t = props.getFilters();
-                                                        delete t.category;
-                                                        props.setFilters(t);
-                                                        setGeneralCategory("none")
-                                                        t = props.getFilters();
-                                                        delete t.generalcategory;
-                                                        props.setFilters(t);
-                                                    }}
-                                                    variant="danger"
-                                                >
-                                                    Clear Filters
-                                                </Button>
-                                            </Col>
-                                            <Col>
-                                                <Button
-                                                    id="apply-btn"
-                                                    onClick={(e) => props.getResults(query)}
-                                                    variant="outline-info"
-                                                >
+                                                <Col>
+                                                    <Button
+                                                        id="apply-btn"
+                                                        onClick={(e) => props.getResults(query)}
+                                                        variant="info"
+                                                    >
                                                         Apply
                                                     </Button>
-                                            </Col>
+                                                </Col>
+                                                <Col>
+                                                    <Button
+                                                        onClick={(e) => {
+                                                            setCategory("none")
+                                                            var t = props.getFilters();
+                                                            delete t.category;
+                                                            props.setFilters(t);
+                                                            setGeneralCategory("none")
+                                                            t = props.getFilters();
+                                                            delete t.generalcategory;
+                                                            props.setFilters(t);
+                                                        }}
+                                                        variant="outline-danger"
+                                                    >
+                                                        Clear Filters
+                                                    </Button>
+                                                </Col>
                                             </Row>
-                                        
                                     </Form.Group>
                                 </Col>
                             </Row>
