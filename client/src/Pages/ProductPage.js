@@ -13,6 +13,7 @@ function ProductPage(props) {
     const [product, setProduct] = useState({});
     const [seller, setSeller] = useState("");
     const [user, setUser] = useState({});
+    const [faved, setFaved] = useState(false);
 
     useEffect(() => {
         fetch(`/api/getProduct?id=${id}`)
@@ -39,7 +40,7 @@ function ProductPage(props) {
             })
     }, []);
 
-    const addFavourite = async () => {
+    const addFavourite = () => {
         const request = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -47,8 +48,8 @@ function ProductPage(props) {
                 pId: id
             })
         };
-        await fetch(`/api/addFavourite`, request);
-        // popup of some sort
+        fetch(`/api/addFavourite`, request);
+        setFaved(true);
     }
 
     return (
@@ -110,7 +111,10 @@ function ProductPage(props) {
                     <Col lg={1}>
                         {(product.sellerid === user.id ?
                             <div></div> :
-                            <Button variant="primary" onClick={addFavourite} >Favourite</Button>
+                            (!faved ?
+                                <Button variant="primary" onClick={addFavourite} >Favourite</Button> :
+                                <Button variant="primary" disabled >saved</Button>
+                            )
                         )}
                     </Col>
                     <Col lg={2}>
