@@ -604,6 +604,25 @@ app.get('/api/getUsers', async (req, res) => {
   res.json(users.rows);
 })
 
+// Attend an event
+app.post('/api/attendEvent', async (req, res) => {
+  const id = getUserId(req);
+  const eventID = req.body.eventID;
+  console.log(id + " is attending event " + eventID);
+  pool.query(`INSERT INTO attendees(eventid, attendee) VALUES ($1, $2)`, 
+    [eventID, id], (err, r) => {
+      if (err) {
+        console.log("Error - Failed to add attendee")
+        console.log(err);
+        res.status(500).send("Error - Attendee not added");
+      } else {
+        console.log("Attendee added");
+        res.status(200).send("Success - Attendee added");
+      }
+  })
+})
+
+// Get attendees for an event
 app.get('/api/getAttendees', async (req, res) => {
   const eventID = req.query.id
   console.log("Getting attendees for event: " + eventID);

@@ -8,7 +8,7 @@ import ListGroup from 'react-bootstrap/ListGroup'
 import SustainableAlternatives from '../Components/SustainableAlternatives';
 import Map from '../Components/Map';
 
-function ProductPage(props) {
+function EventPage(props) {
 
     const { id } = useParams();
     const [event, setEvent] = useState({});
@@ -35,7 +35,7 @@ function ProductPage(props) {
         <Card>
             <Card.Header>
                 <Card.Title>
-                    Event Name: {event.name}
+                    {event.name}
                 </Card.Title>
             </Card.Header>
             <Card.Body>
@@ -66,11 +66,8 @@ function ProductPage(props) {
                             Who's coming:
                             <ListGroup as="ol" numbered>
                                 {attendees.map(attendee => (
-                                    <ListGroup.Item as="li">{attendee.username}</ListGroup.Item>
+                                    <ListGroup.Item as="li" key={attendee.id}>{attendee.username}</ListGroup.Item>
                                 ))}
-                                {/* <ListGroup.Item as="li">Person 1</ListGroup.Item>
-                                <ListGroup.Item as="li">Person 2</ListGroup.Item>
-                                <ListGroup.Item as="li">Person 3</ListGroup.Item> */}
                             </ListGroup>
                         </Card.Text>
                         Item previews:
@@ -86,7 +83,7 @@ function ProductPage(props) {
                         </Card.Text>
                     </Col>
                     <Col lg={2}>
-                        <Button variant="primary" align="center" href="/product/1">I'm Going!</Button>
+                        <Button variant="primary" align="center" href={"/event/attend/" + event.id }>I'm Going!</Button>
                     </Col>
                 </Row>
             </Card.Footer>
@@ -95,4 +92,4 @@ function ProductPage(props) {
 
 }
 
-export default ProductPage;
+export default EventPage;
