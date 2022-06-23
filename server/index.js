@@ -129,7 +129,7 @@ app.get('/api/getProducts', async (req, res) => {
       categoryFilter = `AND ((a.category = 'other'))`
     }
   } else {
-      categoryFilter = (req.query.hasOwnProperty('category') ? `AND (a.category = '${req.query.category}')` : ``);
+    categoryFilter = (req.query.hasOwnProperty('category') ? `AND (a.category = '${req.query.category}')` : ``);
   }
   console.log("please work: " + req.query.hasOwnProperty('category'))
   const query = req.query.q;
@@ -175,6 +175,52 @@ app.get('/api/getAvailableProductsFromSeller', async (req, res) => {
                                      AND a.Sellerid = ${id} 
                                      ORDER BY a.submitted DESC`);
   res.json(products.rows);
+})
+
+// get items favourited by user
+app.get('/api/getFavourites', async (req, res) => {
+  console.log(`Getting favourite products from seller: ${req.query.id}`);
+  const id = req.query.id;
+  const products = await pool.query(`SELECT a.* 
+                                     FROM 
+                                      products a
+                                     LEFT JOIN
+                                     favourites b
+                                     ON a.id = b.itemid
+                                     WHERE b.userid = ${id}
+                                     ORDER BY a.submitted DESC`);
+  res.json(products.rows);
+})
+
+// add item to users favourites
+app.post('/api/addFavourite', async (req, res) => {
+  const pId = req.body.pId;
+  const uId = getUserId(req);
+
+  pool.query(`INSERT INTO favourites(userid, itemid) VALUES($1,$2)`,
+    [uId, pId], (err, r) => {
+      if (err) {
+        console.log("Error - Failed to insert user into users");
+        console.log(err);
+      } else {
+        res.status(200).send("Item has been faved")
+      }
+    }
+  )
+})
+
+// delete fav from its id
+app.delete('/api/removeFavourite', async (req, res) => {
+  const uId = getUserId(req);
+  const pId = req.query.pId;
+  console.log(`removing favourite: ${pId} for user: ${uId}`);
+  pool.query(`DELETE FROM favourites WHERE userid = ${uId} AND itemid = ${pId}`, (err, result) => {
+    if (err) {
+      console.error('Error removing product', err.stack)
+    } else {
+      console.log("Product removed from favourites succesfully");
+    }
+  });
 })
 
 
@@ -488,7 +534,7 @@ app.post('/api/getNearbyEvents', async (req, res) => {
   });
   // Take top 5 nearest
   const nearest = events.rows.slice(0, 5);
-  
+
   // Sort by closest in date
   nearest.sort((a, b) => {
     return (a.date < b.date) ? -1 : (a.date > b.date) ? 1 : 0;
@@ -625,15 +671,15 @@ app.post('/api/sendMessage', async (req, res) => {
   const sent = new Date();
 
   pool.query(`INSERT INTO messages (Sender, Receiver, Sent, Message) VALUES($1,$2,$3,$4)`,
-      [sender, receiver, sent, message], (err, r) => {
-        if (err) {
-          console.log("Error - Failed to insert user into users");
-          console.log(err);
-        } else {
-          console.log("User Added");
-        }
+    [sender, receiver, sent, message], (err, r) => {
+      if (err) {
+        console.log("Error - Failed to insert user into users");
+        console.log(err);
+      } else {
+        console.log("User Added");
       }
-    )
+    }
+  )
 })
 
 // Get unmessaged users
@@ -657,7 +703,7 @@ app.post('/api/attendEvent', async (req, res) => {
   const id = getUserId(req);
   const eventID = req.body.eventID;
   console.log(id + " is attending event " + eventID);
-  pool.query(`INSERT INTO attendees(eventid, attendee) VALUES ($1, $2)`, 
+  pool.query(`INSERT INTO attendees(eventid, attendee) VALUES ($1, $2)`,
     [eventID, id], (err, r) => {
       if (err) {
         console.log("Error - Failed to add attendee")
@@ -667,7 +713,7 @@ app.post('/api/attendEvent', async (req, res) => {
         console.log("Attendee added");
         res.status(200).send("Success - Attendee added");
       }
-  })
+    })
 })
 
 // Get attendees for an event
