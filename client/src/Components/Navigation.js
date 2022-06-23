@@ -30,13 +30,13 @@ function Navigation() {
           <div >
               <Navbar variant='light' expand="lg">
                   <Container>
-                      <Navbar.Brand href="/">SwapStyles</Navbar.Brand>
+                      <Navbar.Brand href="/">{window.Title}</Navbar.Brand>
                       <Navbar.Toggle aria-controls="basic-navbar-nav" />
                       <Navbar.Collapse id="basic-navbar-nav">
                           <Nav className="me-auto">
                               <Nav.Link href="/tradein">Available Items</Nav.Link>
-                              <Nav.Link href="/tradeout">Swap Away</Nav.Link>
-                              <Nav.Link href="/createEvent">New Event</Nav.Link>
+                              <Nav.Link href="/tradeout">List an Item</Nav.Link>
+                              <Nav.Link href="/createEvent">Create an Event</Nav.Link>
                               <Nav.Link href="/searchEvents">Search Events</Nav.Link>
                           </Nav>
                       </Navbar.Collapse>
