@@ -6,7 +6,10 @@ function Welcome() {
 
     if (showWelcome) {
         return (
-            <Alert dismissible onClose={() => setShowWelcome(false)}>
+            <Alert 
+            variant="info"
+            dismissible
+            onClose={() => setShowWelcome(false)}>
                 <Alert.Heading align="center">
                     Welcome to SwapStyles!
                 </Alert.Heading>

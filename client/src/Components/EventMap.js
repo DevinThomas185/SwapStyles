@@ -92,7 +92,10 @@ export default function EventMap(props) {
                         </Card>
                     ) : (
                         (!closeAlert) ?
-                            <Alert variant="success" dismissible onClose={() => setCloseAlert(true)}>
+                            <Alert 
+                            variant="info"
+                            dismissible 
+                            onClose={() => setCloseAlert(true)}>
                                 <Alert.Heading>Hello there!</Alert.Heading>
                                 <p>
                                     Here you can view events that are taking place. You can click on a marker to see the event and view details about it. 
