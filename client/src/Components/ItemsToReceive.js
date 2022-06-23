@@ -58,17 +58,17 @@ class ItemsToReceive extends React.Component {
                 <Row>
                     <h2>Items to Receive</h2>
                 </Row>
-                {this.state.toReceive.map(item => (
-                    <Row key={item.id}>
-                        <Col>
-                            <Product product={item} />
-                            {this.state.receivedStates[item.id] ?
-                                <Button variant="primary" disabled>Already Received</Button> :
-                                <Button variant="warning" onClick={() => this.confirmed(item.id)}>I've received this!</Button>
-                            }
-                        </Col>
-                    </Row>
-                ))}
+                <Row>
+                    {this.state.toReceive.map(item => (
+                            <Col key={item.id}>
+                                <Product product={item} />
+                                {this.state.receivedStates[item.id] ?
+                                    <Button variant="primary" disabled>Already Received</Button> :
+                                    <Button variant="warning" onClick={() => this.confirmed(item.id)}>I've received this!</Button>
+                                }
+                            </Col>
+                    ))}
+                </Row>
             </Container>
         );
     }

@@ -217,11 +217,18 @@ app.get('/api/getReceivedFor', async (req, res) => {
 app.get('/api/getToSendFrom', async (req, res) => {
   console.log(`Getting to send products from seller: ${req.query.id}`);
   const id = req.query.id;
-  const products = await pool.query(`SELECT a.* 
+  const products = await pool.query(`SELECT a.*, b.username, b.address, b.postcode
                                      FROM
                                       products a
                                      LEFT JOIN
-                                      transactions b
+                                      (SELECT *
+                                       FROM
+                                        transactions x 
+                                       LEFT JOIN
+                                        users y
+                                       ON x.Touserid = y.id
+                                       WHERE y.id IS NOT NULL
+                                      ) b
                                      ON a.id = b.Itemid
                                      WHERE b.Itemid IS NOT NULL
                                      AND a.Sellerid = ${id}
@@ -568,7 +575,8 @@ app.post('/api/signup', async (event, res) => {
   const email = details.email
   const password = details.password
   const username = details.username
-  const postcode = details.postcode
+  const postcode = details.postcode.toUpperCase()
+  const address = details.address
   const age = details.age
 
   const collisions = (await pool.query(`SELECT * FROM users WHERE Email = '${email}'`)).rows.length != 0
@@ -576,8 +584,8 @@ app.post('/api/signup', async (event, res) => {
   success = false
 
   if (!collisions) {
-    pool.query(`INSERT INTO users (Username, Password, Email, Postcode, Age, Balance, Swappedaway, Swappedfor) VALUES($1,$2,$3,$4,$5,$6,$7,$8)`,
-      [username, password, email, postcode, age, 0, 0, 0], (err, r) => {
+    pool.query(`INSERT INTO users (Username, Password, Email, Postcode, Address, Age, Balance, Swappedaway, Swappedfor) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9)`,
+      [username, password, email, postcode, address, age, 0, 0, 0], (err, r) => {
         if (err) {
           console.log("Error - Failed to insert user into users");
           console.log(err);

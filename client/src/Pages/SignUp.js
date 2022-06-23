@@ -30,6 +30,7 @@ function SignUp() {
                 email: details.email,
                 age: details.age,
                 postcode: details.postcode,
+                address: details.address,
                 password: details.password,
             })
         }
@@ -125,6 +126,41 @@ function SignUp() {
                         </FloatingLabel>
                     </Form.Group>
                 </Col>
+                <Col>
+                    <Form.Group controlId="validationCustom01" as={Col}>
+                        <FloatingLabel label="Age">
+                            <Form.Control
+                                required
+                                type="number"
+                                name="age"
+                                placeholder="Enter Age"
+                                onChange={handleChange}
+                            />
+                            <Form.Control.Feedback>Cool Age!</Form.Control.Feedback>
+                            <Form.Control.Feedback type="invalid">Please provide an Age.</Form.Control.Feedback>
+                        </FloatingLabel>
+                    </Form.Group>
+                </Col>
+            </Row>
+
+            <h4>Address:</h4>
+            
+            <Row className="mb-3">
+                <Col>
+                    <Form.Group controlId="validationCustom01" as={Col}>
+                        <FloatingLabel label="Address">
+                            <Form.Control
+                                required
+                                type="text"
+                                name="address"
+                                placeholder="Enter Address"
+                                onChange={handleChange}
+                            />
+                            <Form.Control.Feedback>Nice Address!</Form.Control.Feedback>
+                            <Form.Control.Feedback type="invalid">Please provide an Address.</Form.Control.Feedback>
+                        </FloatingLabel>
+                    </Form.Group>
+                </Col>
                 <Col sm={2}>
                     <Form.Group controlId="validationCustom01" as={Col}>
                         <FloatingLabel label="Postcode">
@@ -137,21 +173,6 @@ function SignUp() {
                             />
                             <Form.Control.Feedback>Cool Postcode!</Form.Control.Feedback>
                             <Form.Control.Feedback type="invalid">Please provide an Postcode.</Form.Control.Feedback>
-                        </FloatingLabel>
-                    </Form.Group>
-                </Col>
-                <Col sm={2}>
-                    <Form.Group controlId="validationCustom01" as={Col}>
-                        <FloatingLabel label="Age">
-                            <Form.Control
-                                required
-                                type="number"
-                                name="age"
-                                placeholder="Enter Age"
-                                onChange={handleChange}
-                            />
-                            <Form.Control.Feedback>Cool Age!</Form.Control.Feedback>
-                            <Form.Control.Feedback type="invalid">Please provide an Age.</Form.Control.Feedback>
                         </FloatingLabel>
                     </Form.Group>
                 </Col>
