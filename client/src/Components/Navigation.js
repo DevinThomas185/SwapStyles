@@ -42,7 +42,7 @@ function Navigation() {
                       </Navbar.Collapse>
                       {(loggedIn ? (
                             <Navbar.Collapse className="justify-content-end">
-                                <Navbar.Text>{balance} Trades</Navbar.Text>
+                                <Navbar.Text>You have {balance} {(balance === 1) ? "Swap Token" : "Swap Tokens"}</Navbar.Text>
                                 <Nav.Link href="/profile">Profile</Nav.Link>
                                 <Nav.Link href="/profile/messages">Messages</Nav.Link>
                                 <Notifications />
