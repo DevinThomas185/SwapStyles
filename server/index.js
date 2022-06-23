@@ -209,6 +209,20 @@ app.post('/api/addFavourite', async (req, res) => {
   )
 })
 
+// delete fav from its id
+app.delete('/api/removeFavourite', async (req, res) => {
+  const uId = getUserId(req);
+  const pId = req.query.pId;
+  console.log(`removing favourite: ${pId} for user: ${uId}`);
+  pool.query(`DELETE FROM favourites WHERE userid = ${uId} AND itemid = ${pId}`, (err, result) => {
+    if (err) {
+      console.error('Error removing product', err.stack)
+    } else {
+      console.log("Product removed from favourites succesfully");
+    }
+  });
+})
+
 
 // Get products to send from seller id
 app.get('/api/getToReceiveFor', async (req, res) => {

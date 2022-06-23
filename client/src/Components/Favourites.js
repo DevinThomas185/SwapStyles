@@ -11,7 +11,7 @@ class Favourites extends React.Component {
         this.state = {
             favourites: [],
         };
-        // this.deleteListing = this.deleteListing.bind(this);
+        this.removeFavourite = this.removeFavourite.bind(this);
     }
 
     componentDidMount() {
@@ -25,6 +25,15 @@ class Favourites extends React.Component {
             });
     };
 
+    removeFavourite(item) {
+        fetch(`/api/removeFavourite?pId=${item.id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
+    }
+
     render() {
         return (
             <Container>
@@ -37,7 +46,7 @@ class Favourites extends React.Component {
                             <Product product={item} />
                             <Button
                                 variant="warning"
-                                onClick={() => console.log("TODO: remove fav")}
+                                onClick={() => this.removeFavourite(item)}
                             >
                                 Remove Favourite
                             </Button>
