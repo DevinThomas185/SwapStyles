@@ -182,7 +182,7 @@ function SearchBar(props) {
                                                     delete t.category;
                                                     props.setFilters(t);
                                                     setGeneralCategory("none")
-                                                    var t = props.getFilters();
+                                                    t = props.getFilters();
                                                     delete t.generalcategory;
                                                     props.setFilters(t);
                                                 }}
