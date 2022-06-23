@@ -3,7 +3,7 @@ const path = require("path")
 const cookieParser = require("cookie-parser")
 
 const app = express()
-const port = process.env.PORT || 5000
+const port = process.env.PORT || 8000
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -415,14 +415,14 @@ app.post('/api/addEvent', function (event, res) {
 app.get('/api/getEvents', async (req, res) => {
   console.log(`Getting events for: ${req.query.q}`);
   const query = req.query.q;
-  const events = await pool.query(`SELECT * FROM events WHERE LOWER(Name) LIKE '%${query}%'`);
+  const events = await pool.query(`SELECT * FROM events WHERE LOWER(Name) LIKE '%${query}%' AND Date > current_date`);
   res.json(events.rows);
 })
 
 // Get all events
 app.get('/api/getAllEvents', async (req, res) => {
   console.log("Getting all events");
-  const events = await pool.query(`SELECT * FROM events`);
+  const events = await pool.query(`SELECT * FROM events WHERE Date > current_date`);
   res.json(events.rows);
 })
 
@@ -430,7 +430,7 @@ app.get('/api/getAllEvents', async (req, res) => {
 app.get('/api/getEvent', async (req, res) => {
   console.log(`Getting event: ${req.query.id}`);
   const id = req.query.id;
-  const event = await pool.query(`SELECT * FROM events WHERE id = ${id}`);
+  const event = await pool.query(`SELECT * FROM events WHERE id = ${id} AND Date > current_date`);
   res.json(event.rows[0]);
 })
 
@@ -440,14 +440,28 @@ app.post('/api/getNearbyEvents', async (req, res) => {
   const lat = req.body.lat;
   const lng = req.body.lng;
   console.log(`Getting events nearby: Lat:${lat} Long:${lng}`);
-  const events = await pool.query(`SELECT * FROM events WHERE Latitude BETWEEN ${lat - radius} AND ${lat + radius} AND Longitude BETWEEN ${lng - radius} AND ${lng + radius} ORDER BY Date ASC`);
+  const events = await pool.query(`SELECT * 
+                                   FROM events 
+                                   WHERE Latitude BETWEEN ${lat - radius} AND ${lat + radius} 
+                                   AND Longitude BETWEEN ${lng - radius} AND ${lng + radius}
+                                   AND Date > current_date
+                                   ORDER BY Date ASC`);
 
+  // Pythagoras to determine closest events
   events.rows.sort((a, b) => {
     var aDistance = Math.sqrt(Math.pow(lat - a.latitude, 2) + Math.pow(lng - a.longitude, 2));
     var bDistance = Math.sqrt(Math.pow(lat - b.latitude, 2) + Math.pow(lng - b.longitude, 2));
     return (aDistance < bDistance) ? -1 : (aDistance > bDistance) ? 1 : 0;
   });
-  res.json(events.rows.slice(0, 5));
+  // Take top 5 nearest
+  const nearest = events.rows.slice(0, 5);
+  
+  // Sort by closest in date
+  nearest.sort((a, b) => {
+    return (a.date < b.date) ? -1 : (a.date > b.date) ? 1 : 0;
+  })
+
+  res.json(nearest);
 })
 
 // Get recent items
@@ -602,6 +616,53 @@ app.get('/api/getUsers', async (req, res) => {
                                   WHERE b.id IS NULL
                                   AND a.id != ${id}`);
   res.json(users.rows);
+})
+
+// Attend an event
+app.post('/api/attendEvent', async (req, res) => {
+  const id = getUserId(req);
+  const eventID = req.body.eventID;
+  console.log(id + " is attending event " + eventID);
+  pool.query(`INSERT INTO attendees(eventid, attendee) VALUES ($1, $2)`, 
+    [eventID, id], (err, r) => {
+      if (err) {
+        console.log("Error - Failed to add attendee")
+        console.log(err);
+        res.status(500).send("Error - Attendee not added");
+      } else {
+        console.log("Attendee added");
+        res.status(200).send("Success - Attendee added");
+      }
+  })
+})
+
+// Get attendees for an event
+app.get('/api/getAttendees', async (req, res) => {
+  const eventID = req.query.id
+  console.log("Getting attendees for event: " + eventID);
+  const attendees = await pool.query(`SELECT a.*
+                                      FROM 
+                                        users a
+                                      LEFT JOIN 
+                                        attendees b
+                                      ON a.id = b.attendee
+                                      WHERE b.eventid = ${eventID}`)
+  res.json(attendees.rows);
+})
+
+
+// Get items for an event
+app.get('/api/getItemsForEvent', async (req, res) => {
+  const eventID = req.query.id
+  console.log("Getting items for event: " + eventID);
+  const items = await pool.query(`SELECT a.*
+                                      FROM 
+                                        products a
+                                      LEFT JOIN 
+                                        events b
+                                      ON a.Eventid = b.id
+                                      WHERE b.id = ${eventID}`)
+  res.json(items.rows);
 })
 
 

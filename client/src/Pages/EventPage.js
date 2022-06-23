@@ -5,14 +5,16 @@ import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import ListGroup from 'react-bootstrap/ListGroup'
-import SustainableAlternatives from '../Components/SustainableAlternatives';
+import ItemPreviews from '../Components/ItemPreviews';
 import Map from '../Components/Map';
 
-function ProductPage(props) {
+function EventPage(props) {
 
     const { id } = useParams();
     const [event, setEvent] = useState({});
     const [organiser, setOrganiser] = useState("");
+    const [attendees, setAttendees] = useState([]);
+    const [items, setItems] = useState([]);
 
     useEffect(() => {
         fetch(`/api/getEvent?id=${id}`)
@@ -24,13 +26,21 @@ function ProductPage(props) {
                     .then(res => res.json())
                     .then(data => setOrganiser(data.username));
             });
+
+        fetch(`/api/getAttendees?id=${id}`)
+            .then(res => res.json())
+            .then(data => setAttendees(data));
+
+        fetch(`/api/getItemsForEvent?id=${id}`)
+            .then(res => res.json())
+            .then(data => setItems(data));
     }, []);
 
     return (
         <Card>
             <Card.Header>
                 <Card.Title>
-                    Event Name: {event.name}
+                    {event.name}
                 </Card.Title>
             </Card.Header>
             <Card.Body>
@@ -50,9 +60,6 @@ function ProductPage(props) {
                                 <Card.Text>
                                     Address: {event.location}
                                 </Card.Text>
-                                <Card.Text>
-                                    Tags
-                                </Card.Text>
                             </Col>
                         </Row>
                     </Col>
@@ -60,13 +67,13 @@ function ProductPage(props) {
                         <Card.Text>
                             Who's coming:
                             <ListGroup as="ol" numbered>
-                                <ListGroup.Item as="li">Person 1</ListGroup.Item>
-                                <ListGroup.Item as="li">Person 2</ListGroup.Item>
-                                <ListGroup.Item as="li">Person 3</ListGroup.Item>
+                                {attendees.map(attendee => (
+                                    <ListGroup.Item as="li" key={attendee.id}>{attendee.username}</ListGroup.Item>
+                                ))}
                             </ListGroup>
                         </Card.Text>
                         Item previews:
-                        <SustainableAlternatives />
+                        <ItemPreviews items={items}/>
                     </Col>
                 </Row>
             </Card.Body>
@@ -78,7 +85,7 @@ function ProductPage(props) {
                         </Card.Text>
                     </Col>
                     <Col lg={2}>
-                        <Button variant="primary" align="center" href="/product/1">I'm Going!</Button>
+                        <Button variant="primary" align="center" href={"/event/attend/" + event.id }>I'm Going!</Button>
                     </Col>
                 </Row>
             </Card.Footer>
@@ -87,4 +94,4 @@ function ProductPage(props) {
 
 }
 
-export default ProductPage;
+export default EventPage;
