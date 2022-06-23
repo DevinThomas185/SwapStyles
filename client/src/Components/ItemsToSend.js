@@ -58,17 +58,17 @@ class ItemsToSend extends React.Component {
                 <Row>
                     <h2>Items to Send</h2>
                 </Row>
-                {this.state.toSend.map(item => (
-                    <Row key={item.id}>
-                        <Col>
-                            <Product product={item} />
-                            {this.state.sentStates[item.id] ?
-                                <Button variant="primary" disabled>Already Sent</Button> :
-                                <Button variant="warning" onClick={() => this.confirmed(item.id)}>I've sent this!</Button>
-                            }
-                        </Col>
-                    </Row>
-                ))}
+                <Row>
+                    {this.state.toSend.map(item => (
+                            <Col key={item.id}>
+                                <Product product={item} />
+                                {this.state.sentStates[item.id] ?
+                                    <Button variant="primary" disabled>Already Sent</Button> :
+                                    <Button variant="warning" onClick={() => this.confirmed(item.id)}>I've sent this!</Button>
+                                }
+                            </Col>
+                    ))}
+                </Row>
             </Container>
         );
     }
