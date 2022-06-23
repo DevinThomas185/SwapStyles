@@ -36,65 +36,6 @@ function SearchBar(props) {
     const [generalcategory, setGeneralCategory] = useState("none");
     const [category, setCategory] = useState("none");
 
-    
-    
-    var options = `
-        <option value="shoe">Shoe</option>
-        <option value="t-shirt">T-Shirts</option>
-        <option value="shirt">Shirts</option>
-        <option value="dress">Dress</option>
-        <option value="trouser">Trousers</option>
-        <option value="jeans">Jeans</option>
-        <option value="jacket">Jackets</option>
-        <option value="coat">Coats</option>
-        <option value="hoodie">Hoodies</option>
-        <option value="shorts">Shorts</option>
-        <option value="sports">Sports</option>
-        <option value="other">Other Items</option>
-    `;
-    
-
-    if (generalcategory === "Tops") {
-        options = `
-        <option value="t-shirt">T-Shirts</option>
-        <option value="shirt">Shirts</option>
-        <option value="dress">Dress</option>
-        <option value="hoodie">Hoodies</option>
-        `;
-    } else if (generalcategory === "Bottoms") {
-        options = `
-        <option value="trouser">Trousers</option>
-        <option value="jeans">Jeans</option>
-        <option value="shorts">Shorts</option>
-        `;
-    } else if (generalcategory === "Overwear") {
-        options = `
-        <option value="jacket">Jackets</option>
-        <option value="coat">Coats</option>
-        `;
-    } else if (generalcategory === "Footwear") {
-        options = `
-        <option value="shoe">Shoe</option>`;
-    } else if (generalcategory === "Other") {
-        options = `
-        <option value="other">Other Items</option>`;
-    } else {
-        options = `
-            <option value="shoe">Shoe</option>
-            <option value="t-shirt">T-Shirts</option>
-            <option value="shirt">Shirts</option>
-            <option value="dress">Dress</option>
-            <option value="trouser">Trousers</option>
-            <option value="jeans">Jeans</option>
-            <option value="jacket">Jackets</option>
-            <option value="coat">Coats</option>
-            <option value="hoodie">Hoodies</option>
-            <option value="shorts">Shorts</option>
-            <option value="sports">Sports</option>
-            <option value="other">Other Items</option>
-        `;
-    }
-
     return (
         <>
         <div>

@@ -1,10 +1,6 @@
 import React from 'react'
 
 function SubCategory(props) {
-    
-    
-    console.log("cheese: " + props.niche);
-
     var options = '';
 
     if (props.niche === "Tops") {
@@ -16,9 +12,9 @@ function SubCategory(props) {
         </>;
     } else if (props.niche === "Bottoms") {
         options = <>
-            <option value="trouser">Trousers</option>
-            <option value="jeans">Jeans</option>
             <option value="shorts">Shorts</option>
+            <option value="jeans">Jeans</option>
+            <option value="trouser">Trousers</option>
         </>;
     } else if (props.niche === "Overwear") {
         options = <>
@@ -35,18 +31,7 @@ function SubCategory(props) {
         </>;
     } else {
         options = <>
-            <option value="shoe">Shoe</option>
-            <option value="t-shirt">T-Shirts</option>
-            <option value="shirt">Shirts</option>
-            <option value="dress">Dress</option>
-            <option value="trouser">Trousers</option>
-            <option value="jeans">Jeans</option>
-            <option value="jacket">Jackets</option>
-            <option value="coat">Coats</option>
-            <option value="hoodie">Hoodies</option>
-            <option value="shorts">Shorts</option>
-            <option value="sports">Sports</option>
-            <option value="other">Other Items</option>
+            <option value="none">Sub-Category</option>
         </>;
     }
 
