@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import ListGroup from 'react-bootstrap/ListGroup'
-import SustainableAlternatives from '../Components/SustainableAlternatives';
+import ItemPreviews from '../Components/ItemPreviews';
 import Map from '../Components/Map';
 
 function EventPage(props) {
@@ -14,6 +14,7 @@ function EventPage(props) {
     const [event, setEvent] = useState({});
     const [organiser, setOrganiser] = useState("");
     const [attendees, setAttendees] = useState([]);
+    const [items, setItems] = useState([]);
 
     useEffect(() => {
         fetch(`/api/getEvent?id=${id}`)
@@ -29,6 +30,10 @@ function EventPage(props) {
         fetch(`/api/getAttendees?id=${id}`)
             .then(res => res.json())
             .then(data => setAttendees(data));
+
+        fetch(`/api/getItemsForEvent?id=${id}`)
+            .then(res => res.json())
+            .then(data => setItems(data));
     }, []);
 
     return (
@@ -55,9 +60,6 @@ function EventPage(props) {
                                 <Card.Text>
                                     Address: {event.location}
                                 </Card.Text>
-                                <Card.Text>
-                                    Tags
-                                </Card.Text>
                             </Col>
                         </Row>
                     </Col>
@@ -71,7 +73,7 @@ function EventPage(props) {
                             </ListGroup>
                         </Card.Text>
                         Item previews:
-                        <SustainableAlternatives />
+                        <ItemPreviews items={items}/>
                     </Col>
                 </Row>
             </Card.Body>

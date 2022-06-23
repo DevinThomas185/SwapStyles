@@ -460,7 +460,7 @@ app.post('/api/getNearbyEvents', async (req, res) => {
   nearest.sort((a, b) => {
     return (a.date < b.date) ? -1 : (a.date > b.date) ? 1 : 0;
   })
-  
+
   res.json(nearest);
 })
 
@@ -648,6 +648,21 @@ app.get('/api/getAttendees', async (req, res) => {
                                       ON a.id = b.attendee
                                       WHERE b.eventid = ${eventID}`)
   res.json(attendees.rows);
+})
+
+
+// Get items for an event
+app.get('/api/getItemsForEvent', async (req, res) => {
+  const eventID = req.query.id
+  console.log("Getting items for event: " + eventID);
+  const items = await pool.query(`SELECT a.*
+                                      FROM 
+                                        products a
+                                      LEFT JOIN 
+                                        events b
+                                      ON a.Eventid = b.id
+                                      WHERE b.id = ${eventID}`)
+  res.json(items.rows);
 })
 
 
