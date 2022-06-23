@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Card from 'react-bootstrap/Card';
 import TheirListings from "../Components/TheirListings";
 import { useParams } from "react-router-dom";
+import Container from "react-bootstrap/Container";
 
 function ProfilePage() {
 
@@ -21,7 +22,9 @@ function ProfilePage() {
             <div>
                 <Card className="mb-3">
                     <Card.Header>
-                        {user.username}
+                        <h2>
+                            {user.username}
+                        </h2>
                     </Card.Header>
                     <Card.Body>
                         <Card.Text>
@@ -32,7 +35,6 @@ function ProfilePage() {
                         </Card.Text>
                     </Card.Body>
                 </Card>
-
                 <h3>
                     {user.username + "'s Listings"}
                 </h3>
