@@ -43,7 +43,7 @@ function Shop() {
 
     return (
         <div>
-            <SearchBar getResults={getProducts} setFilters={setFilters} getFilters={getFilters} />
+            <SearchBar getResults={getProducts} setFilters={setFilters} getFilters={getFilters} type="items" />
             {/* <Filters setFilters={setFilters} getFilters={getFilters} /> */}
             <Container>
                 <Row>
