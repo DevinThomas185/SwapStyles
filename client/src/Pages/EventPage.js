@@ -7,6 +7,7 @@ import Col from 'react-bootstrap/Col';
 import ListGroup from 'react-bootstrap/ListGroup'
 import ItemPreviews from '../Components/ItemPreviews';
 import Map from '../Components/Map';
+import { Link } from "react-router-dom"
 
 function EventPage(props) {
 
@@ -68,7 +69,11 @@ function EventPage(props) {
                             Who's coming:
                             <ListGroup as="ol" numbered>
                                 {attendees.map(attendee => (
-                                    <ListGroup.Item as="li" key={attendee.id}>{attendee.username}</ListGroup.Item>
+                                    <ListGroup.Item key={attendee.id} as="li">
+                                        <Link to={"/profile/" + attendee.id} style={{textDecoration: 'none'}} >
+                                            {attendee.username}
+                                        </Link>
+                                    </ListGroup.Item>
                                 ))}
                             </ListGroup>
                         </Card.Text>

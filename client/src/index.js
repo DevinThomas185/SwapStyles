@@ -21,6 +21,7 @@ import Profile from "./Pages/Profile";
 import TradeIn from "./Pages/TradeIn";
 import Messages from "./Pages/Messages"
 import Attend from "./Pages/Attend";
+import ProfilePage from "./Pages/ProfilePage";
 // import { w3cwebsocket as W3CWebSocket } from "websocket";
 
 // const client = new W3CWebSocket(`ws://localhost:${port}`);
@@ -75,11 +76,12 @@ class App extends React.Component {
                   <Route path="/product/:id" element={<ProductPage />} />
                   <Route path="/event/:id" element={<EventPage />} />
                   <Route path="/event/attend/:id" element={<Attend />} />
-                  <Route path="/createEvent/" element={<CreateEvent />} />
-                  <Route path="/searchEvents/" element={<EventSearch />} />
-                  <Route path="/login/" element={<Login />} />
-                  <Route path="/signup/" element={<SignUp />} />
-                  <Route path="/profile/" element={<Profile key={this.state.newProducts} />} />
+                  <Route path="/createEvent" element={<CreateEvent />} />
+                  <Route path="/searchEvents" element={<EventSearch />} />
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/signup" element={<SignUp />} />
+                  <Route path="/profile" element={<Profile key={this.state.newProducts} />} />
+                  <Route path="/profile/:id" element={<ProfilePage />} />
                   <Route path="/profile/messages" element={<Messages />} />
                 </Routes>
               </Col>

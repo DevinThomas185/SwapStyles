@@ -45,6 +45,7 @@ export default function EventMap(props) {
 
                             {props.events.map(event => (
                                 <Marker
+                                    key={event.id}
                                     position={{ lat: event.latitude, lng: event.longitude, }}
                                     onClick={() => {
                                         setSelected(event);

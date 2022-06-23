@@ -36,7 +36,7 @@ function Product(props) {
                 </Card.Body>
                 <Card.Footer>
                     <Card.Text>
-                        From: {seller}
+                        From: <Link to={"/profile/" + props.product.sellerid} style={{textDecoration:"none"}}>{seller}</Link>
                     </Card.Text>
                     <Card.Text>
                         <small className="text-muted">Available { eventName }</small>

@@ -5,6 +5,7 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card'
 import { timeSince } from '../Components/RecentItems';
+import { Link } from 'react-router-dom';
 
 
 class ItemsToSend extends React.Component {
@@ -76,7 +77,7 @@ class ItemsToSend extends React.Component {
                                     <Col>
                                         <Row>
                                             <h4>
-                                                Send to {item.username} at
+                                                Send to <Link to={"/profile/" + item.userid}>{item.username}</Link> at
                                             </h4>
                                         </Row>
                                         <Row>
