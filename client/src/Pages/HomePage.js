@@ -6,6 +6,7 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import RecentItems from '../Components/RecentItems';
 import NearbyEvents from '../Components/NearbyEvents';
+import Welcome from '../Components/Welcome';
 
 class HomePage extends React.Component {
     constructor(props) {
@@ -53,6 +54,11 @@ class HomePage extends React.Component {
     render() {
         return (
             <Container>
+                <Row>
+                    <Col className="mb-3">
+                        <Welcome />
+                    </Col>
+                </Row>
                 <Row>
                     <Col className="mb-3">
                         <Row>
