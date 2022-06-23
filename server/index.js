@@ -177,6 +177,7 @@ app.get('/api/getAvailableProductsFromSeller', async (req, res) => {
   res.json(products.rows);
 })
 
+// get items favourited by user
 app.get('/api/getFavourites', async (req, res) => {
   console.log(`Getting favourite products from seller: ${req.query.id}`);
   const id = req.query.id;
@@ -189,6 +190,23 @@ app.get('/api/getFavourites', async (req, res) => {
                                      WHERE b.userid = ${id}
                                      ORDER BY a.submitted DESC`);
   res.json(products.rows);
+})
+
+// add item to users favourites
+app.post('/api/addFavourite', async (req, res) => {
+  const pId = req.body.pId;
+  const uId = getUserId(req);
+
+  pool.query(`INSERT INTO favourites(userid, itemid) VALUES($1,$2)`,
+    [uId, pId], (err, r) => {
+      if (err) {
+        console.log("Error - Failed to insert user into users");
+        console.log(err);
+      } else {
+        res.status(200).send("Item has been faved")
+      }
+    }
+  )
 })
 
 

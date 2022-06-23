@@ -31,15 +31,25 @@ function ProductPage(props) {
                 if (id.id !== undefined) {
                     console.log("ID ", id)
                     fetch(`/api/getUser?id=${id.id}`)
-                    .then(res => res.json())
-                    .then(data => {
+                        .then(res => res.json())
+                        .then(data => {
                             setUser(data);
-                    });
+                        });
                 }
             })
     }, []);
 
-
+    const addFavourite = async () => {
+        const request = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                pId: id
+            })
+        };
+        await fetch(`/api/addFavourite`, request);
+        // popup of some sort
+    }
 
     return (
         <Card>
@@ -97,12 +107,18 @@ function ProductPage(props) {
                             {timeSince(product.submitted)}
                         </Card.Text>
                     </Col>
+                    <Col lg={1}>
+                        {(product.sellerid === user.id ?
+                            <div></div> :
+                            <Button variant="primary" onClick={addFavourite} >Favourite</Button>
+                        )}
+                    </Col>
                     <Col lg={2}>
-                        {(product.sellerid === user.id ? 
+                        {(product.sellerid === user.id ?
                             <Button variant="primary" disabled >This is your listing</Button> :
-                            (product.online ? 
-                            <Button variant="primary" align="center" href={"/tradein/" + product.id}>Trade In</Button> :
-                            <Button variant="primary" disabled >Not available online</Button>)
+                            (product.online ?
+                                <Button variant="primary" align="center" href={"/tradein/" + product.id}>Trade In</Button> :
+                                <Button variant="primary" disabled >Not available online</Button>)
                         )}
                     </Col>
                 </Row>
