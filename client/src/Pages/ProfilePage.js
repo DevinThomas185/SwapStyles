@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Card from 'react-bootstrap/Card';
 import TheirListings from "../Components/TheirListings";
-import Tabs from 'react-bootstrap/Tabs';
-import Tab from 'react-bootstrap/Tab';
 import { useParams } from "react-router-dom";
 
 function ProfilePage() {
@@ -18,29 +16,30 @@ function ProfilePage() {
         }
     }, [])
 
-    return (
-        <div>
-            <Card className="mb-3">
-                <Card.Header>
-                    {user.username}
-                </Card.Header>
-                <Card.Body>
-                    <Card.Text>
-                        Items Swapped Away: {user.swappedaway}
-                    </Card.Text>
-                    <Card.Text>
-                        Items Swapped For: {user.swappedfor}
-                    </Card.Text>
-                </Card.Body>
-            </Card>
+    if (user) {
+        return (
+            <div>
+                <Card className="mb-3">
+                    <Card.Header>
+                        {user.username}
+                    </Card.Header>
+                    <Card.Body>
+                        <Card.Text>
+                            Items Swapped Away: {user.swappedaway}
+                        </Card.Text>
+                        <Card.Text>
+                            Items Swapped For: {user.swappedfor}
+                        </Card.Text>
+                    </Card.Body>
+                </Card>
 
-            <Tabs defaultActiveKey="listings">
-                <Tab eventKey="listings" title={user.username + "'s Listings"}>
-                    <TheirListings id={id}/>
-                </Tab>
-            </Tabs>
-        </div>
-    )
+                <h3>
+                    {user.username + "'s Listings"}
+                </h3>
+                <TheirListings id={id}/>
+            </div>
+        )
+    }
 }
 
 export default ProfilePage;
