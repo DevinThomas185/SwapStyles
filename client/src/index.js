@@ -58,11 +58,11 @@ class App extends React.Component {
       <React.StrictMode>
         <Router>
           <Container>
-            <Row>
+            {/* <Row>
               <Col>
                 <Title />
               </Col>
-            </Row>
+            </Row> */}
             <Row>
               <Navigation />
             </Row>
