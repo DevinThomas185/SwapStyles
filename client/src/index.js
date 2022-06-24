@@ -58,11 +58,14 @@ class App extends React.Component {
       <React.StrictMode>
         <Router>
           <Container>
-            {/* <Row>
+            <Row>
               <Col>
-                <Title />
+                {/* <Title /> */}
+                <center>
+                  <img src="/logo.png" height="100" href="/" />
+                </center>
               </Col>
-            </Row> */}
+            </Row>
             <Row>
               <Navigation />
             </Row>
