@@ -218,7 +218,7 @@ app.delete('/api/removeFavourite', async (req, res) => {
     if (err) {
       console.error('Error removing product', err.stack)
     } else {
-      console.log("Product removed from favourites succesfully");
+      res.status(200).send("Item has been removed from favourites");
     }
   });
 })
