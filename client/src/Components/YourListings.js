@@ -1,52 +1,52 @@
-import React from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Product from './Product';
 
-class YourListings extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            available: [],
-        };
-        this.deleteListing = this.deleteListing.bind(this);
+function YourListings(props) {
+
+    const [available, setAvailable] = useState([]);
+
+    const getProducts = async () => {
+        await fetch(`/api/getAvailableProductsFromSeller?id=${props.user.id}`)
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                setAvailable(data);
+            });
     }
 
-    componentDidMount() {
-        fetch(`/api/getAvailableProductsFromSeller?id=${this.props.user.id}`)
-        .then(res => res.json())
-        .then(data => {
-            console.log(data);
-            this.setState({
-                available: data,
-            });
-        });
-    };
+    useEffect(() => {
+        getProducts();
+    }, []);
 
-    deleteListing(item) {
-        fetch(`/api/deleteProduct?id=${item.id}`, {
+    const deleteListing = async (item) => {
+        await fetch(`/api/deleteProduct?id=${item.id}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
             },
         });
+        // setAvailable(available.filter(listing => listing.id !== item.id))
+        getProducts();
     }
 
-    render() {
-        return (
+
+    return (
+        <Fragment>
             <Container>
                 <Row>
                     <h2>Your Listings</h2>
                 </Row>
                 <Row>
-                    {this.state.available.map(item => (
+                    {available.map(item => (
                         <Col key={item.id}>
                             <Product product={item} />
                             <Button
                                 variant="warning"
-                                onClick={() => this.deleteListing(item)}
+                                onClick={() => deleteListing(item)}
                             >
                                 Delete Item
                             </Button>
@@ -54,8 +54,8 @@ class YourListings extends React.Component {
                     ))}
                 </Row>
             </Container>
-        );
-    }
+        </Fragment>
+    );
 }
 
 export default YourListings;

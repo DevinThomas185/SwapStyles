@@ -381,7 +381,7 @@ app.delete('/api/deleteProduct', async (req, res) => {
     if (err) {
       console.error('Error removing product', err.stack)
     } else {
-      console.log("Product removed succesfully");
+      res.status(200).send("Item has been deleted");
     }
   });
 
