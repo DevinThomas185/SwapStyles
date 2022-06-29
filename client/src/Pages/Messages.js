@@ -30,7 +30,7 @@ class Messages extends React.Component {
             .then(id => this.setState({ userID: id.id }));
         fetch('/api/getUsers')
             .then(res => res.json())
-            .then(users => this.setState({allUsers: users}));
+            .then(users => this.setState({ allUsers: users }));
         this.timer = setInterval(() => this.getMessages(), 500); // Change update time
     }
 
@@ -61,10 +61,10 @@ class Messages extends React.Component {
             }
         }
 
-        this.setState({messages: msgs})
+        this.setState({ messages: msgs })
 
         if (this.state.currentTabUser === 0) {
-            this.setState({currentTabUser: Object.keys(msgs)[0]})
+            this.setState({ currentTabUser: Object.keys(msgs)[0] })
         }
 
 
@@ -95,34 +95,35 @@ class Messages extends React.Component {
                 sender: this.state.userID,
                 receiver: this.state.currentTabUser,
                 message: this.state.messageToSend
-        })})
-        this.setState({messageToSend: "", newRecipient: {}})
+            })
+        })
+        this.setState({ messageToSend: "", newRecipient: {} })
 
     }
 
     handleSelect(key) {
-        this.setState({currentTabUser: key})
+        this.setState({ currentTabUser: key })
     }
-    
+
     render() {
-        return(
+        return (
             <div>
                 <Tabs onSelect={this.handleSelect}>
                     {Object.entries(this.state.recipients).map(([id, user]) => (
-                        <Tab 
-                        eventKey={id} 
-                        title={user.username} 
-                        key={id}
+                        <Tab
+                            eventKey={id}
+                            title={user.username}
+                            key={id}
                         >
-                            <Container className='overflow-auto' style={{maxHeight:"70vh", display: "flex", flexDirection: "column-reverse"}}>
-                                <MessageStream messages={this.state.messages[id]} userID={this.state.userID}/>
+                            <Container className='overflow-auto' style={{ maxHeight: "70vh", display: "flex", flexDirection: "column-reverse" }}>
+                                <MessageStream messages={this.state.messages[id]} userID={this.state.userID} />
                             </Container>
                         </Tab>
                     ))}
                     <Tab
-                    eventKey="new"
-                    className='justify-content-end'
-                    title="+"
+                        eventKey="new"
+                        className='justify-content-end'
+                        title="New Chat +"
                     >
                         <Dropdown>
                             <Dropdown.Toggle variant="success" id="dropdown-basic">
@@ -130,30 +131,30 @@ class Messages extends React.Component {
                             </Dropdown.Toggle>
 
                             <Dropdown.Menu>
-                               {this.state.allUsers.map((user) => (
-                                <Dropdown.Item 
-                                key={user.username}
-                                onClick={() => {this.setState({currentTabUser: user.id, newRecipient: user})}}
-                                >
-                                    {user.username}
-                                </Dropdown.Item>
-                               ))}
+                                {this.state.allUsers.map((user) => (
+                                    <Dropdown.Item
+                                        key={user.username}
+                                        onClick={() => { this.setState({ currentTabUser: user.id, newRecipient: user }) }}
+                                    >
+                                        {user.username}
+                                    </Dropdown.Item>
+                                ))}
                             </Dropdown.Menu>
                         </Dropdown>
                     </Tab>
                 </Tabs>
                 <InputGroup className="mb-3">
                     <Form.Control
-                    placeholder="Message to..."
-                    aria-describedby="basic-addon2"
-                    value={this.state.messageToSend}
-                    onChange={(e) => this.setState({messageToSend: e.target.value})}
-                    onKeyPress={(e) => { this.onKeyUp(e) }}
+                        placeholder="Message to..."
+                        aria-describedby="basic-addon2"
+                        value={this.state.messageToSend}
+                        onChange={(e) => this.setState({ messageToSend: e.target.value })}
+                        onKeyPress={(e) => { this.onKeyUp(e) }}
                     />
-                    <Button 
-                    variant="outline-secondary"
-                    id="button-addon2"
-                    onClick={() => this.handleSubmit()}
+                    <Button
+                        variant="outline-secondary"
+                        id="button-addon2"
+                        onClick={() => this.handleSubmit()}
                     >
                         Send
                     </Button>
