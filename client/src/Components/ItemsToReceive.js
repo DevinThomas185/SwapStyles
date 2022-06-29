@@ -1,77 +1,76 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Product from './Product';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 
-class ItemsToReceive extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            toReceive: [],
-            receivedStates: {},
-        };
-    }
+function ItemsToReceive(props) {
 
-    confirmReceived(id) {
+
+    const [toReceive, setToReceive] = useState([]);
+    const [receivedStates, setReceivedStates] = useState({});
+
+    const confirmReceived = (id) => {
         return fetch(`/api/isConfirmedReceived?id=${id}`)
-        .then(res => res.json())
-        .then(data => {
-            console.log(data);
-            return data;
-        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                return data;
+            })
     }
 
-    confirmed(id) {
+    const confirmed = (id) => {
         fetch(`/api/confirmReceived?id=${id}`)
-        .then(res => res.json())
-        .then(data => {
-            console.log(data);
-        });
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+            });
+        getToReceive();
     }
 
-    componentDidMount() {
-        fetch(`/api/getToReceiveFor?id=${this.props.user.id}`)
-        .then(res => res.json())
-        .then(data => {
-            console.log(data);
-            this.setState({
-                toReceive: data,
-            });
-            data.forEach(item => {
-                this.confirmReceived(item.id).then(received => {
-                    this.setState({
-                        receivedStates: {
-                            ...this.state.receivedStates,
+    const getToReceive = () => {
+        fetch(`/api/getToReceiveFor?id=${props.user.id}`)
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                setToReceive(data);
+                data.forEach(item => {
+                    confirmReceived(item.id).then(received => {
+                        setReceivedStates({
+                            ...receivedStates,
                             [item.id]: received,
-                        }
+                        })
                     });
                 });
             });
-        });
     }
 
-    render() {
-        return (
-            <Container>
-                <Row>
-                    <h2>Items to Receive</h2>
-                </Row>
-                <Row>
-                    {this.state.toReceive.map(item => (
-                            <Col key={item.id}>
-                                <Product product={item} />
-                                {this.state.receivedStates[item.id] ?
-                                    <Button variant="primary" disabled>Already Received</Button> :
-                                    <Button variant="warning" onClick={() => this.confirmed(item.id)}>I've received this!</Button>
-                                }
-                            </Col>
-                    ))}
-                </Row>
-            </Container>
-        );
-    }
+    useEffect(() => {
+        getToReceive();
+    }, []);
+
+    return (
+        <Container>
+            <Row>
+                <h2>Items to Receive</h2>
+            </Row>
+            <Row>
+                {toReceive.map(item => (
+                    <Col key={item.id} className="d-grid gap-1" lg={3}>
+                        <Product product={item} />
+                        {receivedStates[item.id] ?
+                            <Button variant="primary" block disabled>
+                                Already Received
+                                <p style={{ fontSize: 15 }}> Waiting for Sender confirmation</p>
+                            </Button> :
+                            <Button variant="warning" onClick={() => confirmed(item.id)}>I've received this!</Button>
+                        }
+                    </Col>
+                ))}
+            </Row>
+        </Container >
+    );
 }
 
 export default ItemsToReceive;

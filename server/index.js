@@ -320,7 +320,6 @@ app.get('/api/confirmSent', async (req, res) => {
   if (item.toconfirmreceived) { // Both sides have confirmed
     await pool.query(`UPDATE users SET Balance = Balance + 1 WHERE Id = ${item.fromuserid}`);
     await pool.query(`UPDATE users SET Swappedaway = Swappedaway + 1 WHERE Id = ${item.fromuserid}`);
-    await pool.query(`UPDATE users SET Balance = Balance - 1 WHERE Id = ${item.touserid}`);
     await pool.query(`UPDATE users SET Swappedfor = Swappedfor + 1 WHERE Id = ${item.touserid}`);
   }
 })
