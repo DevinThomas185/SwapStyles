@@ -121,7 +121,7 @@ function ProductPage(props) {
                         {(product.sellerid === user.id ?
                             <Button variant="primary" disabled >This is your listing</Button> :
                             (product.online ?
-                                <Button variant="primary" align="center" href={"/tradein/" + product.id}>Trade In</Button> :
+                                <Button variant="primary" align="center" href={"/tradein/" + product.id}>I want it!</Button> :
                                 <Button variant="primary" disabled >Not available online</Button>)
                         )}
                     </Col>
