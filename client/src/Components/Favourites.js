@@ -46,7 +46,7 @@ function Favourites(props) {
                             variant="warning"
                             onClick={() => removeFavourite(item)}
                         >
-                            Remove Favourite
+                            Remove From Favourites
                         </Button>
                     </Col>
                 ))}
