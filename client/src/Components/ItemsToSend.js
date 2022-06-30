@@ -46,7 +46,10 @@ function ItemsToSend(props) {
     };
 
     useEffect(() => {
-        getToSend();
+        const interval = setInterval(() => {
+            getToSend();
+        }, 1000);
+        return () => clearInterval(interval);
     }, []);
 
 

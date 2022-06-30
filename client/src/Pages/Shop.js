@@ -25,19 +25,6 @@ function Shop() {
         setProducts(data);
     }
 
-    async function available(product) {
-        if (product.online) {
-            return ("online")
-        } else {
-            return fetch(`/api/getEvent/?id=${product.eventid}`)
-                .then(res => res.json())
-                .then(data => {
-                    return ("at " + data.name)
-                })
-        }
-    }
-
-
     return (
         <div>
             <SearchBar getResults={getProducts} setFilters={setFilters} getFilters={getFilters} type="items" />
@@ -45,7 +32,7 @@ function Shop() {
                 <Row>
                     {products.map(item => (
                         <Col key={item.id}>
-                            <Product product={item} available={available(item)} />
+                            <Product product={item} />
                         </Col>
                     ))}
                 </Row>
