@@ -10,21 +10,12 @@ function Navigation(props) {
     const [balance, setBalance] = useState(0)
 
     useEffect(() => {
-        checkLoggedIn()
+        if (props.loggedIn) {
+            fetch('/api/getUserBalance')
+                        .then(resp => resp.json())
+                        .then(data => setBalance(data.balance))
+        }
     }, [])
-
-    function checkLoggedIn() {
-        fetch('/api/isLoggedIn')
-            .then(resp => resp.json())
-            .then(loggedIn => {
-                props.setLoggedIn(loggedIn)
-                fetch('/api/getUserBalance')
-                    .then(resp => resp.json())
-                    .then(data => {
-                        setBalance(data.balance)
-                    })
-            })
-    }
 
     return (
         <div key={props.loggedIn}>

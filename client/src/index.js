@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -25,11 +25,6 @@ import ProfilePage from "./Pages/ProfilePage";
 function App() {
 
   const [loggedIn, setLoggedIn] = useState(false)
-
-
-  useEffect(() => {
-    window.Title = "SwapStyles"
-  }, [])
   
   // USE KEY ATTRIBUTE TO FORCE COMPONENT TO RE-RENDER
   return (
@@ -63,7 +58,7 @@ function App() {
                 <Route path="/createEvent" element={<CreateEvent />} />
                 <Route path="/searchEvents" element={<EventSearch />} />
                 <Route path="/login" element={<Login setLoggedIn={setLoggedIn} />} />
-                <Route path="/signup" element={<SignUp />} />
+                <Route path="/signup" element={<SignUp setLoggedIn={setLoggedIn} />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/profile/:id" element={<ProfilePage />} />
                 <Route path="/profile/messages" element={<Messages />} />
