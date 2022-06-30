@@ -16,8 +16,23 @@ function EventPage(props) {
     const [organiser, setOrganiser] = useState("");
     const [attendees, setAttendees] = useState([]);
     const [items, setItems] = useState([]);
+    const [user, setUser] = useState({});
 
     useEffect(() => {
+
+        fetch('/api/getUserId')
+            .then(resp => resp.json())
+            .then(id => {
+                if (id.id !== undefined) {
+                    console.log("ID ", id)
+                    fetch(`/api/getUser?id=${id.id}`)
+                        .then(res => res.json())
+                        .then(data => {
+                            setUser(data);
+                        });
+                }
+            });
+
         fetch(`/api/getEvent?id=${id}`)
             .then(res => res.json())
             .then(data => {
@@ -70,7 +85,7 @@ function EventPage(props) {
                             <ListGroup as="ol" numbered>
                                 {attendees.map(attendee => (
                                     <ListGroup.Item key={attendee.id} as="li">
-                                        <Link to={"/profile/" + attendee.id} style={{textDecoration: 'none'}} >
+                                        <Link to={"/profile/" + attendee.id} style={{ textDecoration: 'none' }} >
                                             {attendee.username}
                                         </Link>
                                     </ListGroup.Item>
@@ -78,7 +93,7 @@ function EventPage(props) {
                             </ListGroup>
                         </Card.Text>
                         Item previews:
-                        <ItemPreviews items={items}/>
+                        <ItemPreviews items={items} />
                     </Col>
                 </Row>
             </Card.Body>
@@ -90,7 +105,10 @@ function EventPage(props) {
                         </Card.Text>
                     </Col>
                     <Col lg={2}>
-                        <Button variant="primary" align="center" href={"/event/attend/" + event.id }>I'm Going!</Button>
+                        {(attendees.some(a => a.id === user.id)) ?
+                            <Button variant="primary" align="center" disbaled>Already Attending</Button> :
+                            <Button variant="primary" align="center" href={"/event/attend/" + event.id}>I'm Going!</Button>
+                        }
                     </Col>
                 </Row>
             </Card.Footer>
