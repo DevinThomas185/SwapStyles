@@ -79,8 +79,8 @@ app.get('/api/getUser', async (req, res) => {
 
 // User balance display
 app.get('/api/getUserBalance', (req, res) => {
-  console.log(`Getting User Balance: ${req.query.id}`);
   const id = getUserId(req)
+  console.log(`Getting User Balance: ${id}`);
   if (id === undefined) {
     res.json({})
   } else {
