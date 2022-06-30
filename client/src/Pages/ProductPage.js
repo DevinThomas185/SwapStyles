@@ -112,12 +112,12 @@ function ProductPage(props) {
                             {timeSince(product.submitted)}
                         </Card.Text>
                     </Col>
-                    <Col lg={1}>
+                    <Col lg={3}>
                         {(product.sellerid === user.id ?
                             <div></div> :
                             (!faved ?
-                                <Button variant="primary" onClick={addFavourite} >Favourite</Button> :
-                                <Button variant="primary" disabled >saved</Button>
+                                <Button variant="primary" onClick={addFavourite} >Add item to favourites</Button> :
+                                <Button variant="primary" disabled >Saved</Button>
                             )
                         )}
                     </Col>
