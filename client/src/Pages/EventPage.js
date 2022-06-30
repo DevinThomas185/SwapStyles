@@ -14,6 +14,7 @@ function EventPage(props) {
     const { id } = useParams();
     const [event, setEvent] = useState({});
     const [going, setGoing] = useState(false);
+    const [user, setUser] = useState(0);
     const [organiser, setOrganiser] = useState("");
     const [attendees, setAttendees] = useState([]);
     const [items, setItems] = useState([]);
@@ -35,6 +36,7 @@ function EventPage(props) {
                 fetch('/api/getUserId')
                     .then(resp => resp.json())
                     .then(id => {
+                        setUser(id.id);
                         for (let i = 0; i < data.length; i+= 1) {
                             if (id.id === data[i].id.toString()) {
                                 setGoing(true);
@@ -104,6 +106,9 @@ function EventPage(props) {
                     </Col>
                     <Col lg={2}>
                         {
+                            (user === undefined) ?
+                            <Button disabled>Log in to attend this event</Button>
+                            :
                             (going) ?
                             <Button variant="primary" align="center" disabled>Already going!</Button> 
                             :
