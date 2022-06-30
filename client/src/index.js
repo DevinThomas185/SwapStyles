@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -25,16 +25,16 @@ import ProfilePage from "./Pages/ProfilePage";
 // import { w3cwebsocket as W3CWebSocket } from "websocket";
 
 // const client = new W3CWebSocket(`ws://localhost:${port}`);
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      newProducts: true,
-      newEvents: true,
-    }
-    window.Title = "SwapStyles"
-  }
+function App() {
 
+  const [loggedIn, setLoggedIn] = useState(false)
+  const [newProducts, setNewProducts] = useState(true)
+  const [newEvents, setNewEvents] = useState(true)
+
+
+  useEffect(() => {
+    window.Title = "SwapStyles"
+  }, [])
   // componentWillMount() {
   //   client.onopen = () => {
   //     console.log("Connected to server");
@@ -53,47 +53,48 @@ class App extends React.Component {
   // }
 
   // USE KEY ATTRIBUTE TO FORCE COMPONENT TO RE-RENDER
-  render() {
-    return (
-      <React.StrictMode>
-        <Router>
-          <Container>
-            <Row>
-              <Col>
-                {/* <Title /> */}
-                <center>
-                  <img src="/logo.png" height="100" href="/" />
-                </center>
-              </Col>
-            </Row>
-            <Row>
-              <Navigation />
-            </Row>
-            <Row>
-              <Col>
-                <Routes>
-                  <Route path="/" element={<HomePage />} />
-                  <Route path="/tradein" element={<Shop key={this.state.newProducts} />} /> 
-                  <Route path="/tradein/:id" element={<TradeIn />} />
-                  <Route path="/tradeout" element={<TradeOut />} />
-                  <Route path="/product/:id" element={<ProductPage />} />
-                  <Route path="/event/:id" element={<EventPage />} />
-                  <Route path="/event/attend/:id" element={<Attend />} />
-                  <Route path="/createEvent" element={<CreateEvent />} />
-                  <Route path="/searchEvents" element={<EventSearch />} />
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/signup" element={<SignUp />} />
-                  <Route path="/profile" element={<Profile key={this.state.newProducts} />} />
-                  <Route path="/profile/:id" element={<ProfilePage />} />
-                  <Route path="/profile/messages" element={<Messages />} />
-                </Routes>
-              </Col>
-            </Row>
-          </Container>
-        </Router>
-      </React.StrictMode>
-      );
-  }
+  return (
+    <React.StrictMode>
+      <Router>
+        <Container>
+          <Row>
+            <Col>
+              {/* <Title /> */}
+              <center>
+                <img src="/logo.png" height="100" href="/" />
+              </center>
+            </Col>
+          </Row>
+          <Row>
+            {(loggedIn) ?
+              <Navigation setLoggedIn={setLoggedIn} loggedIn={true} /> :
+              <Navigation setLoggedIn={setLoggedIn} loggedIn={false} />
+            }
+          </Row>
+          <Row>
+            <Col>
+              <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/tradein" element={<Shop key={newProducts} />} />
+                <Route path="/tradein/:id" element={<TradeIn />} />
+                <Route path="/tradeout" element={<TradeOut />} />
+                <Route path="/product/:id" element={<ProductPage />} />
+                <Route path="/event/:id" element={<EventPage />} />
+                <Route path="/event/attend/:id" element={<Attend />} />
+                <Route path="/createEvent" element={<CreateEvent />} />
+                <Route path="/searchEvents" element={<EventSearch />} />
+                <Route path="/login" element={<Login setLoggedIn={setLoggedIn} />} />
+                <Route path="/signup" element={<SignUp />} />
+                <Route path="/profile" element={<Profile key={newProducts} />} />
+                <Route path="/profile/:id" element={<ProfilePage />} />
+                <Route path="/profile/messages" element={<Messages />} />
+              </Routes>
+            </Col>
+          </Row>
+        </Container>
+      </Router>
+    </React.StrictMode>
+  );
 }
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
