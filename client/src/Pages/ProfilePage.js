@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import Card from 'react-bootstrap/Card';
 import TheirListings from "../Components/TheirListings";
 import { useParams } from "react-router-dom";
-import Container from "react-bootstrap/Container";
 
 function ProfilePage() {
 
