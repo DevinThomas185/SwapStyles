@@ -101,7 +101,10 @@ function EventPage(props) {
                 <Row>
                     <Col>
                         <Card.Text>
-                            Organiser: {organiser}
+                            Organiser:
+                            <Link to={"/profile/" + event.organiser} style={{ textDecoration: 'none' }} >
+                                {organiser}
+                            </Link>
                         </Card.Text>
                     </Col>
                     <Col lg={2}>
