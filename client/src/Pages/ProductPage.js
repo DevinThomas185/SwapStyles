@@ -109,7 +109,7 @@ function ProductPage(props) {
                         </Card.Text>
                     </Col>
                     <Col lg={1}>
-                        {(product.sellerid === user.id ?
+                        {(product.sellerid === user.id || user.id === undefined ?
                             <div></div> :
                             (!faved ?
                                 <Button variant="primary" onClick={addFavourite} >Favourite</Button> :
@@ -118,7 +118,9 @@ function ProductPage(props) {
                         )}
                     </Col>
                     <Col lg={2}>
-                        {(product.sellerid === user.id ?
+                        {user.id === undefined ?
+                        <Button disabled>Log in to get this item</Button> :
+                        (product.sellerid === user.id ?
                             <Button variant="primary" disabled >This is your listing</Button> :
                             (product.online ?
                                 <Button variant="primary" align="center" href={"/tradein/" + product.id}>I want it!</Button> :
