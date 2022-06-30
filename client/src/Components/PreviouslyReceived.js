@@ -17,7 +17,6 @@ class PreviouslyReceived extends React.Component {
         fetch(`/api/getReceivedFor?id=${this.props.user.id}`)
         .then(res => res.json())
         .then(data => {
-            console.log(data);
             this.setState({
                 received: data,
             });

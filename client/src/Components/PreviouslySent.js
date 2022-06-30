@@ -18,7 +18,6 @@ class PreviouslySent extends React.Component {
         fetch(`/api/getSentFrom?id=${this.props.user.id}`)
         .then(res => res.json())
         .then(data => {
-            console.log(data);
             this.setState({
                 sent: data,
             });

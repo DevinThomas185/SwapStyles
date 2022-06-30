@@ -18,13 +18,11 @@ export default function Profile() {
         fetch('/api/getUserId')
             .then(resp => resp.json())
             .then(id => {
-                console.log(id)
                 if (id.id !== undefined) {
                     fetch(`/api/getUser?id=${id.id}`)
                         .then(res => res.json())
                         .then(data => {
                             setLoggedIn(true);
-                            console.log(data);
                             setUser(data);
                         });
                 }

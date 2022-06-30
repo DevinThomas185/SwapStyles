@@ -19,12 +19,9 @@ function Shop() {
     async function getProducts(query) {
         const queryString = Object.keys(filters).map(key => key + '=' + filters[key]).join('&')
         // const res = await fetch(`/api/getProducts?q=${query}`);
-        console.log(queryString);
         const res = await fetch(`/api/getProducts?q=${query}&${queryString}`);
-        console.log(res);
         const data = await res.json();
         data.reverse()
-        console.log(data);
         setProducts(data);
     }
 

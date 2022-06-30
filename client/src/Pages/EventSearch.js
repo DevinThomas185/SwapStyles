@@ -15,9 +15,7 @@ class EventSearch extends React.Component {
 
     async getEvents(query) {
         const res = await fetch(`/api/getEvents?q=${query}`);
-        console.log(res);
         const data = await res.json();
-        console.log(data);
         this.setState({
             events: data
         });

@@ -15,7 +15,6 @@ class RecentItems extends React.Component {
         fetch('/api/getRecentItems')
             .then(res => res.json())
             .then(data => {
-                console.log(data);
                 this.setState({
                     recentItems: data
                 });
