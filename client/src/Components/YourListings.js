@@ -42,9 +42,11 @@ function YourListings(props) {
                 </Row>
                 <Row>
                     {available.map(item => (
-                        <Col key={item.id}>
+                        <Col key={item.id} className="d-grid gap-1" lg={3}>
                             <Product product={item} />
                             <Button
+                                block
+                                style={{ height: 40 }}
                                 variant="warning"
                                 onClick={() => deleteListing(item)}
                             >

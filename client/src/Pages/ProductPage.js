@@ -38,7 +38,7 @@ function ProductPage(props) {
                             setUser(data);
                         });
                 }
-            })
+            });
     }, []);
 
     const addFavourite = () => {

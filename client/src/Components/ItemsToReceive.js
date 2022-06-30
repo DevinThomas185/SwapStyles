@@ -60,11 +60,11 @@ function ItemsToReceive(props) {
                     <Col key={item.id} className="d-grid gap-1" lg={3}>
                         <Product product={item} />
                         {receivedStates[item.id] ?
-                            <Button variant="primary" block disabled>
+                            <Button variant="primary" block disabled style={{ height: 40 }}>
                                 Already Received
                                 <p style={{ fontSize: 15 }}> Waiting for Sender confirmation</p>
                             </Button> :
-                            <Button variant="warning" onClick={() => confirmed(item.id)}>I've received this!</Button>
+                            <Button style={{ height: 40 }} block variant="warning" onClick={() => confirmed(item.id)}>I've received this!</Button>
                         }
                     </Col>
                 ))}

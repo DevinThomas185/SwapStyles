@@ -40,9 +40,11 @@ function Favourites(props) {
             </Row>
             <Row>
                 {favourites.map(item => (
-                    <Col key={item.id}>
+                    <Col key={item.id} className="d-grid gap-1" lg={3}>
                         <Product product={item} />
                         <Button
+                            style={{ height: 40 }}
+                            block
                             variant="warning"
                             onClick={() => removeFavourite(item)}
                         >
