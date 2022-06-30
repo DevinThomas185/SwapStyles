@@ -17,7 +17,6 @@ function ItemsToSend(props) {
         return fetch(`/api/isConfirmedSent?id=${id}`)
             .then(res => res.json())
             .then(data => {
-                console.log(data);
                 return data;
             })
     }
@@ -26,7 +25,6 @@ function ItemsToSend(props) {
         fetch(`/api/confirmSent?id=${id}`)
             .then(res => res.json())
             .then(data => {
-                console.log(data);
             });
         getToSend();
     }
@@ -35,7 +33,6 @@ function ItemsToSend(props) {
         fetch(`/api/getToSendFrom?id=${props.user.id}`)
             .then(res => res.json())
             .then(data => {
-                console.log(data);
                 setToSend(data);
                 data.forEach(item => {
                     confirmSent(item.id).then(sent => {

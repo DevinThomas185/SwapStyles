@@ -11,7 +11,6 @@ function ProductListEvent(props) {
             .then(res => res.json())
             .then(data => {
                 setEvents(data);
-                console.log(data);
             })
     }
 

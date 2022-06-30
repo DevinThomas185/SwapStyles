@@ -40,7 +40,6 @@ function EventPage(props) {
                         for (let i = 0; i < data.length; i+= 1) {
                             if (id.id === data[i].id.toString()) {
                                 setGoing(true);
-                                console.log(data[i].id);
                                 break;
                             }
                         }

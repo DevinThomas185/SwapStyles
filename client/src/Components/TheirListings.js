@@ -8,11 +8,9 @@ function TheirListings(props) {
     const [available, setAvailable] = useState([]);
 
     useEffect(() => {
-        console.log(props.user)
         fetch(`/api/getAvailableProductsFromSeller?id=${props.id}`)
         .then(res => res.json())
         .then(data => {
-            console.log(data);
             setAvailable(data);
         });
     }, []);

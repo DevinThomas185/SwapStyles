@@ -13,7 +13,6 @@ function Favourites(props) {
         await fetch(`/api/getFavourites?id=${props.user.id}`)
             .then(res => res.json())
             .then(data => {
-                console.log(data);
                 setFavourites(data);
             });
     }

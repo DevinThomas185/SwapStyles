@@ -49,8 +49,6 @@ function CreateEvent() {
             e.stopPropagation();
         } else {
             await setLatLong(event.postcode);
-            console.log(event.long);
-            console.log(event.lat);
     
             const request = {
                 method: 'POST',

@@ -30,7 +30,6 @@ function SearchBar(props) {
             ...(props.getFilters()),
             [name]: value
         });
-        console.log(props.getFilters())
     }
 
     const [generalcategory, setGeneralCategory] = useState("none");

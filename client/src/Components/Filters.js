@@ -16,7 +16,6 @@ function Filters(props) {
             ...(props.getFilters()),
             [name]: value
         });
-        console.log(props.getFilters())
     }
 
     const [category, setCategory] = useState("none");
