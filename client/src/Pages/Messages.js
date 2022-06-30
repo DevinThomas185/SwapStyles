@@ -18,7 +18,8 @@ class Messages extends React.Component {
             recipients: {},
             allUsers: [],
             messages: {},
-            messageToSend: ""
+            messageToSend: "",
+            notLoggedIn: true,
         }
         this.setMessages = this.setMessages.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
@@ -27,11 +28,20 @@ class Messages extends React.Component {
     componentDidMount() {
         fetch('/api/getUserId')
             .then(res => res.json())
-            .then(id => this.setState({ userID: id.id }));
-        fetch('/api/getUsers')
-            .then(res => res.json())
-            .then(users => this.setState({ allUsers: users }));
-        this.timer = setInterval(() => this.getMessages(), 500); // Change update time
+            .then(id => {
+                if (id.id !== undefined) {
+                    this.setState({ userID: id.id })
+                    this.setState({ notLoggedIn: false })
+                    fetch('/api/getUsers')
+                        .then(res => res.json())
+                        .then(users => {
+                            this.setState({ allUsers: users })
+                            this.timer = setInterval(() => this.getMessages(), 500); // Change update time
+                        });
+                } else {
+                    this.setState({notLoggedIn: true})
+                }
+            })        
     }
 
     componentWillUnmount() {
@@ -106,61 +116,67 @@ class Messages extends React.Component {
     }
 
     render() {
-        return (
-            <div>
-                <Tabs onSelect={this.handleSelect}>
-                    {Object.entries(this.state.recipients).map(([id, user]) => (
+        if (this.state.notLoggedIn) {
+            return(
+                <h2 align="center" className="mt-5">You are not logged in. Log in to view messages</h2>
+            )
+        } else {
+            return (
+                <div>
+                    <Tabs onSelect={this.handleSelect}>
+                        {Object.entries(this.state.recipients).map(([id, user]) => (
+                            <Tab
+                                eventKey={id}
+                                title={user.username}
+                                key={id}
+                            >
+                                <Container className='overflow-auto' style={{ maxHeight: "70vh", display: "flex", flexDirection: "column-reverse" }}>
+                                    <MessageStream messages={this.state.messages[id]} userID={this.state.userID} />
+                                </Container>
+                            </Tab>
+                        ))}
                         <Tab
-                            eventKey={id}
-                            title={user.username}
-                            key={id}
+                            eventKey="new"
+                            className='justify-content-end'
+                            title="New Chat +"
                         >
-                            <Container className='overflow-auto' style={{ maxHeight: "70vh", display: "flex", flexDirection: "column-reverse" }}>
-                                <MessageStream messages={this.state.messages[id]} userID={this.state.userID} />
-                            </Container>
+                            <Dropdown>
+                                <Dropdown.Toggle variant="success" id="dropdown-basic">
+                                    New Chat with: {this.state.newRecipient.username}
+                                </Dropdown.Toggle>
+    
+                                <Dropdown.Menu>
+                                    {this.state.allUsers.map((user) => (
+                                        <Dropdown.Item
+                                            key={user.username}
+                                            onClick={() => { this.setState({ currentTabUser: user.id, newRecipient: user }) }}
+                                        >
+                                            {user.username}
+                                        </Dropdown.Item>
+                                    ))}
+                                </Dropdown.Menu>
+                            </Dropdown>
                         </Tab>
-                    ))}
-                    <Tab
-                        eventKey="new"
-                        className='justify-content-end'
-                        title="New Chat +"
-                    >
-                        <Dropdown>
-                            <Dropdown.Toggle variant="success" id="dropdown-basic">
-                                New Chat with: {this.state.newRecipient.username}
-                            </Dropdown.Toggle>
-
-                            <Dropdown.Menu>
-                                {this.state.allUsers.map((user) => (
-                                    <Dropdown.Item
-                                        key={user.username}
-                                        onClick={() => { this.setState({ currentTabUser: user.id, newRecipient: user }) }}
-                                    >
-                                        {user.username}
-                                    </Dropdown.Item>
-                                ))}
-                            </Dropdown.Menu>
-                        </Dropdown>
-                    </Tab>
-                </Tabs>
-                <InputGroup className="mb-3">
-                    <Form.Control
-                        placeholder="Message to..."
-                        aria-describedby="basic-addon2"
-                        value={this.state.messageToSend}
-                        onChange={(e) => this.setState({ messageToSend: e.target.value })}
-                        onKeyPress={(e) => { this.onKeyUp(e) }}
-                    />
-                    <Button
-                        variant="outline-secondary"
-                        id="button-addon2"
-                        onClick={() => this.handleSubmit()}
-                    >
-                        Send
-                    </Button>
-                </InputGroup>
-            </div>
-        );
+                    </Tabs>
+                    <InputGroup className="mb-3">
+                        <Form.Control
+                            placeholder="Message to..."
+                            aria-describedby="basic-addon2"
+                            value={this.state.messageToSend}
+                            onChange={(e) => this.setState({ messageToSend: e.target.value })}
+                            onKeyPress={(e) => { this.onKeyUp(e) }}
+                        />
+                        <Button
+                            variant="outline-secondary"
+                            id="button-addon2"
+                            onClick={() => this.handleSubmit()}
+                        >
+                            Send
+                        </Button>
+                    </InputGroup>
+                </div>
+            );
+        }
     }
 }
 
