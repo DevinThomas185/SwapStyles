@@ -508,7 +508,7 @@ app.get('/api/getAllEvents', async (req, res) => {
 app.get('/api/getEvent', async (req, res) => {
   console.log(`Getting event: ${req.query.id}`);
   const id = req.query.id;
-  const event = await pool.query(`SELECT * FROM events WHERE id = ${id} AND Date > current_date`);
+  const event = await pool.query(`SELECT * FROM events WHERE id = ${id}`);
   res.json(event.rows[0]);
 })
 
