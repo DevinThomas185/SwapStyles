@@ -44,7 +44,10 @@ function ItemsToReceive(props) {
     }
 
     useEffect(() => {
-        getToReceive();
+        const interval = setInterval(() => {
+            getToReceive();
+          }, 1000);
+          return () => clearInterval(interval);
     }, []);
 
     return (
