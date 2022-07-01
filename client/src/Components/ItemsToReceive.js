@@ -24,8 +24,8 @@ function ItemsToReceive(props) {
     useEffect(() => {
         const interval = setInterval(() => {
             getToReceive();
-          }, 1000);
-          return () => clearInterval(interval);
+        }, 1000);
+        return () => clearInterval(interval);
     }, []);
 
     return (
@@ -38,7 +38,7 @@ function ItemsToReceive(props) {
                     <Col key={item.id} className="d-grid gap-1" lg={3}>
                         <Product product={item} />
                         {item.toconfirmreceived ?
-                            <Button variant="primary" block disabled style={{ height: 40 }}>
+                            <Button variant="primary" block disabled style={{ height: 60 }}>
                                 Already Received
                                 <p style={{ fontSize: 15 }}> Waiting for Sender confirmation</p>
                             </Button> :
