@@ -228,7 +228,7 @@ app.delete('/api/removeFavourite', async (req, res) => {
 app.get('/api/getToReceiveFor', async (req, res) => {
   console.log(`Getting to receive products for: ${req.query.id}`);
   const id = req.query.id;
-  const products = await pool.query(`SELECT a.* 
+  const products = await pool.query(`SELECT a.*, b.Toconfirmreceived
                                      FROM
                                       products a
                                      LEFT JOIN
@@ -263,7 +263,7 @@ app.get('/api/getReceivedFor', async (req, res) => {
 app.get('/api/getToSendFrom', async (req, res) => {
   console.log(`Getting to send products from seller: ${req.query.id}`);
   const id = req.query.id;
-  const products = await pool.query(`SELECT a.*, b.Touserid AS userid, b.username, b.address, b.postcode
+  const products = await pool.query(`SELECT a.*, b.Touserid AS userid, b.username, b.address, b.postcode, b.Fromconfirmsent
                                      FROM
                                       products a
                                      LEFT JOIN

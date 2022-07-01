@@ -11,38 +11,16 @@ import { Link } from 'react-router-dom';
 function ItemsToSend(props) {
 
     const [toSend, setToSend] = useState([]);
-    const [sentStates, setSentStates] = useState({});
-
-    const confirmSent = (id) => {
-        return fetch(`/api/isConfirmedSent?id=${id}`)
-            .then(res => res.json())
-            .then(data => {
-                return data;
-            })
-    }
 
     const confirmed = (id) => {
         fetch(`/api/confirmSent?id=${id}`)
-            .then(res => res.json())
-            .then(data => {
-            });
         getToSend();
     }
 
     const getToSend = () => {
         fetch(`/api/getToSendFrom?id=${props.user.id}`)
             .then(res => res.json())
-            .then(data => {
-                setToSend(data);
-                data.forEach(item => {
-                    confirmSent(item.id).then(sent => {
-                        setSentStates({
-                            ...sentStates,
-                            [item.id]: sent,
-                        })
-                    });
-                });
-            });
+            .then(data => setToSend(data));
     };
 
     useEffect(() => {
@@ -94,7 +72,7 @@ function ItemsToSend(props) {
                                     </Card.Text>
                                 </Col>
                                 <Col lg={2}>
-                                    {sentStates[item.id] ?
+                                    {item.fromconfirmsent ?
                                         <Button variant="primary" disabled>Already Sent</Button> :
                                         <Button variant="warning" onClick={() => confirmed(item.id)}>I've sent this!</Button>
                                     }
