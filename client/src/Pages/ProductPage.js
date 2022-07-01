@@ -7,6 +7,7 @@ import Form from 'react-bootstrap/Form';
 // import SustainableAlternatives from '../Components/SustainableAlternatives';
 import { useParams } from 'react-router-dom';
 import { timeSince } from '../Components/RecentItems';
+import { Link } from "react-router-dom"
 
 function ProductPage(props) {
     const { id } = useParams();
@@ -37,7 +38,7 @@ function ProductPage(props) {
                             setUser(data);
                         });
                 }
-            })
+            });
     }, []);
 
     const addFavourite = () => {
@@ -102,18 +103,21 @@ function ProductPage(props) {
                 <Row>
                     <Col>
                         <Card.Text>
-                            From: {seller}
+                            From:
+                            <Link to={"/profile/" + product.sellerid} style={{ textDecoration: 'none' }} >
+                                {" " + seller}
+                            </Link>
                         </Card.Text>
                         <Card.Text>
                             {timeSince(product.submitted)}
                         </Card.Text>
                     </Col>
-                    <Col lg={1}>
+                    <Col lg={3}>
                         {(product.sellerid === user.id ?
                             <div></div> :
                             (!faved ?
-                                <Button variant="primary" onClick={addFavourite} >Favourite</Button> :
-                                <Button variant="primary" disabled >saved</Button>
+                                <Button variant="primary" onClick={addFavourite} >Add item to favourites</Button> :
+                                <Button variant="primary" disabled >Saved</Button>
                             )
                         )}
                     </Col>
