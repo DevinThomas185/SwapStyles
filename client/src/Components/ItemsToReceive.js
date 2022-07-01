@@ -9,38 +9,16 @@ function ItemsToReceive(props) {
 
 
     const [toReceive, setToReceive] = useState([]);
-    const [receivedStates, setReceivedStates] = useState({});
-
-    const confirmReceived = (id) => {
-        return fetch(`/api/isConfirmedReceived?id=${id}`)
-            .then(res => res.json())
-            .then(data => {
-                return data;
-            })
-    }
 
     const confirmed = (id) => {
         fetch(`/api/confirmReceived?id=${id}`)
-            .then(res => res.json())
-            .then(data => {
-            });
         getToReceive();
     }
 
     const getToReceive = () => {
         fetch(`/api/getToReceiveFor?id=${props.user.id}`)
             .then(res => res.json())
-            .then(data => {
-                setToReceive(data);
-                data.forEach(item => {
-                    confirmReceived(item.id).then(received => {
-                        setReceivedStates({
-                            ...receivedStates,
-                            [item.id]: received,
-                        })
-                    });
-                });
-            });
+            .then(data => setToReceive(data));
     }
 
     useEffect(() => {
@@ -59,7 +37,7 @@ function ItemsToReceive(props) {
                 {toReceive.map(item => (
                     <Col key={item.id} className="d-grid gap-1" lg={3}>
                         <Product product={item} />
-                        {receivedStates[item.id] ?
+                        {item.toconfirmreceived ?
                             <Button variant="primary" block disabled style={{ height: 40 }}>
                                 Already Received
                                 <p style={{ fontSize: 15 }}> Waiting for Sender confirmation</p>
