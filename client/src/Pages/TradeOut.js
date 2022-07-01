@@ -61,7 +61,6 @@ function TradeOut() {
             event.preventDefault();
             event.stopPropagation();
         } else {
-            console.log(item.title);
             const request = {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },

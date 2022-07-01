@@ -79,8 +79,8 @@ app.get('/api/getUser', async (req, res) => {
 
 // User balance display
 app.get('/api/getUserBalance', (req, res) => {
-  console.log(`Getting User Balance: ${req.query.id}`);
   const id = getUserId(req)
+  console.log(`Getting User Balance: ${id}`);
   if (id === undefined) {
     res.json({})
   } else {
@@ -508,7 +508,7 @@ app.get('/api/getAllEvents', async (req, res) => {
 app.get('/api/getEvent', async (req, res) => {
   console.log(`Getting event: ${req.query.id}`);
   const id = req.query.id;
-  const event = await pool.query(`SELECT * FROM events WHERE id = ${id} AND Date > current_date`);
+  const event = await pool.query(`SELECT * FROM events WHERE id = ${id}`);
   res.json(event.rows[0]);
 })
 

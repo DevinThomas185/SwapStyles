@@ -13,7 +13,6 @@ function YourListings(props) {
         await fetch(`/api/getAvailableProductsFromSeller?id=${props.user.id}`)
             .then(res => res.json())
             .then(data => {
-                console.log(data);
                 setAvailable(data);
             });
     }

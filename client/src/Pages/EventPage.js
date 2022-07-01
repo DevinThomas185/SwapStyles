@@ -13,6 +13,8 @@ function EventPage(props) {
 
     const { id } = useParams();
     const [event, setEvent] = useState({});
+    const [going, setGoing] = useState(false);
+    const [user, setUser] = useState(0);
     const [organiser, setOrganiser] = useState("");
     const [attendees, setAttendees] = useState([]);
     const [items, setItems] = useState([]);
@@ -37,7 +39,6 @@ function EventPage(props) {
             .then(res => res.json())
             .then(data => {
                 setEvent(data);
-                console.log(data);
                 fetch(`/api/getUser?id=${data.organiser}`)
                     .then(res => res.json())
                     .then(data => setOrganiser(data.username));
@@ -45,7 +46,20 @@ function EventPage(props) {
 
         fetch(`/api/getAttendees?id=${id}`)
             .then(res => res.json())
-            .then(data => setAttendees(data));
+            .then(data => {
+                setAttendees(data)
+                fetch('/api/getUserId')
+                    .then(resp => resp.json())
+                    .then(id => {
+                        setUser(id.id);
+                        for (let i = 0; i < data.length; i += 1) {
+                            if (id.id === data[i].id.toString()) {
+                                setGoing(true);
+                                break;
+                            }
+                        }
+                    })
+            });
 
         fetch(`/api/getItemsForEvent?id=${id}`)
             .then(res => res.json())
@@ -108,9 +122,14 @@ function EventPage(props) {
                         </Card.Text>
                     </Col>
                     <Col lg={2}>
-                        {(attendees.some(a => a.id === user.id)) ?
-                            <Button variant="primary" align="center" disbaled>Already Attending</Button> :
-                            <Button variant="primary" align="center" href={"/event/attend/" + event.id}>I'm Going!</Button>
+                        {
+                            (user === undefined) ?
+                                <Button disabled>Log in to attend this event</Button>
+                                :
+                                (going) ?
+                                    <Button variant="primary" align="center" disabled>Already going!</Button>
+                                    :
+                                    <Button variant="primary" align="center" href={"/event/attend/" + event.id}>I'm Going!</Button>
                         }
                     </Col>
                 </Row>

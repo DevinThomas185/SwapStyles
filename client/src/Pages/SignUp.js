@@ -6,7 +6,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 
-function SignUp() {
+function SignUp(props) {
     const [details, setDetails] = React.useState({});
     const [validated, setValidated] = React.useState(false);
     const navigate = useNavigate();
@@ -54,6 +54,7 @@ function SignUp() {
           .then(data => {
             if (data.success) {
               // redirect on success
+              props.setLoggedIn(true)
               navigate('/')
             }
           })

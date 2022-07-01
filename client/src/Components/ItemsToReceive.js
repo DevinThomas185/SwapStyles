@@ -15,7 +15,6 @@ function ItemsToReceive(props) {
         return fetch(`/api/isConfirmedReceived?id=${id}`)
             .then(res => res.json())
             .then(data => {
-                console.log(data);
                 return data;
             })
     }
@@ -24,7 +23,6 @@ function ItemsToReceive(props) {
         fetch(`/api/confirmReceived?id=${id}`)
             .then(res => res.json())
             .then(data => {
-                console.log(data);
             });
         getToReceive();
     }
@@ -33,7 +31,6 @@ function ItemsToReceive(props) {
         fetch(`/api/getToReceiveFor?id=${props.user.id}`)
             .then(res => res.json())
             .then(data => {
-                console.log(data);
                 setToReceive(data);
                 data.forEach(item => {
                     confirmReceived(item.id).then(received => {
@@ -47,7 +44,10 @@ function ItemsToReceive(props) {
     }
 
     useEffect(() => {
-        getToReceive();
+        const interval = setInterval(() => {
+            getToReceive();
+          }, 1000);
+          return () => clearInterval(interval);
     }, []);
 
     return (

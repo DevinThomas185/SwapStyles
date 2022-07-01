@@ -11,10 +11,10 @@ function Welcome() {
             dismissible
             onClose={() => setShowWelcome(false)}>
                 <Alert.Heading align="center">
-                    Welcome to {window.Title}!
+                    Welcome to SwapStyles!
                 </Alert.Heading>
                 <p>
-                    {window.Title} aims to improve the end-of-lifecycle process for clothes by promoting trading them with others. Events promote in-person 
+                    SwapStyles aims to improve the end-of-lifecycle process for clothes by promoting trading them with others. Events promote in-person 
                     swaps whilst allowing the opportunity to list items online for others to trade for. You are able to browse items to swap in, list 
                     items to be swapped away, create events and search for events using the navigation bar at the top.
                 </p>
@@ -26,7 +26,7 @@ function Welcome() {
                 <hr />
                 <p align="center">
                     <small>
-                        Thank you for using {window.Title} from Adam, Devin, Josh and Raaif
+                        Thank you for using SwapStyles from Adam, Devin, Josh and Raaif
                     </small>
                 </p>
             </Alert>

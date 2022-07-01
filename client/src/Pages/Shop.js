@@ -19,27 +19,11 @@ function Shop() {
     async function getProducts(query) {
         const queryString = Object.keys(filters).map(key => key + '=' + filters[key]).join('&')
         // const res = await fetch(`/api/getProducts?q=${query}`);
-        console.log(queryString);
         const res = await fetch(`/api/getProducts?q=${query}&${queryString}`);
-        console.log(res);
         const data = await res.json();
         data.reverse()
-        console.log(data);
         setProducts(data);
     }
-
-    async function available(product) {
-        if (product.online) {
-            return ("online")
-        } else {
-            return fetch(`/api/getEvent/?id=${product.eventid}`)
-                .then(res => res.json())
-                .then(data => {
-                    return ("at " + data.name)
-                })
-        }
-    }
-
 
     return (
         <div>
@@ -48,7 +32,7 @@ function Shop() {
                 <Row>
                     {products.map(item => (
                         <Col key={item.id}>
-                            <Product product={item} available={available(item)} />
+                            <Product product={item} />
                         </Col>
                     ))}
                 </Row>
